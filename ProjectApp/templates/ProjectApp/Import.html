@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+
+{% block content %} 
+<div style='position: absolute; top: 35%; left: 48%; right: 25%; text-align: center;'>
+    <h1>Import XES or CSV file:</h1>
+    <form action="upload/" method="POST" class="dropzone" id="my-dropzone" style='border: dashed;'>
+        {% csrf_token %}
+        <div class="fallback">
+            <input name="file" type="file" multiple />
+        </div>
+    </form>
+</div>
+<script>
+    Dropzone.autoDiscover = false;
+    const myDropzone = new Dropzone("#my-dropzone", {
+        url:"upload/",
+        maxFiles:1,
+        acceptedFiles: '.xes, .csv',
+    })
+</script>
+{% endblock %}

@@ -1,0 +1,224 @@
+{% extends 'main.html' %}
+
+{% block content %} 
+
+<div style='position: absolute; top: 20%; left: 30%; right: 45%; text-align: center;'>
+    <h1>Chose which attributes you want to derive:</h1>
+    <div class="sidenav">
+
+        <button class="dropdown-btn">Time 
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-container">
+            <a id='time1' onclick='check_dropdown1()'>Activity duration of completed activities</a>
+            <a id='time2' onclick='check_dropdown2()'>Time since start of case</a>
+            <a id='time3' onclick='check_dropdown3()'>Time to end of case</a>
+            <a id='time4' onclick='check_dropdown4()'>Case duration</a>
+          </div>
+    
+        <button class="dropdown-btn" >Workload 
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-container">
+            <a id='workload1' onclick='check_dropdown5()'>Total Workload</a>
+            <a id='workload2' onclick='check_dropdown6()'>Workload of event resource at time of event</a>
+          </div>
+    
+        <button class="dropdown-btn">Data-Flow
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-container">
+
+            <a id='data-flow1' onclick='check_dropdown7()'>Sum value of a certain attribute after current event</a>
+            <a id='data-flow2' onclick='check_dropdown8()'>Min value of a certain attribute after current event</a>
+            <a id='data-flow3' onclick='check_dropdown9()'>Max value of a certain attribute after current event</a>
+            <a id='data-flow4' onclick='check_dropdown10()'>Average value of a certain attribute after current event</a>
+            <a id='data-flow5' onclick='check_dropdown11()'>Last assigned value of a certain attribute after current event</a>
+            <a id='data-flow6' onclick='check_dropdown12()'>Last assigned value of a certain attribute prior to event</a>
+          </div>
+    
+        <button class="dropdown-btn">Control-Flow
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-container">
+            <a id='control-flow1' onclick='check_dropdown13()'>Activity prior to event</a>
+            <a id='control-flow2' onclick='check_dropdown14()'>Next activity after event constrained by an activity set</a>
+            <a id='control-flow3' onclick='check_dropdown15()'>Number of times a certain activity is executed before an event</a>
+          </div>
+
+    </div>
+    
+</div>
+
+<div style='position: absolute; top: 27%; left: 65%; right: 5%; text-align: center;'>
+    <h1>Attributes to derive:</h1>
+    <div style='border: 1px solid black; width: 380px; height: 200px; overflow:auto;'>
+
+        <p id='time1-text' style='display:none'>Activity duration of completed activities</p>
+        <p id='time2-text' style='display:none'>Time since start of case</p>
+        <p id='time3-text' style='display:none'>Time to end of case</p>
+        <p id='time4-text' style='display:none'>Case duration</p>
+        <p id='workload1-text' style='display:none'>Total Workload</p>
+        <p id='workload2-text' style='display:none'>Workload of event resource at time of event</p>
+        <p id='data-flow1-text' style='display:none'>Sum value of a certain attribute after current event</p>
+        <p id='data-flow2-text' style='display:none'>Min value of a certain attribute after current event</p>
+        <p id='data-flow3-text' style='display:none'>Max value of a certain attribute after current event</p>
+        <p id='data-flow4-text' style='display:none'>Average value of a certain attribute after current event</p>
+        <p id='data-flow5-text' style='display:none'>Last assigned value of a certain attribute after current event</p>
+        <p id='data-flow6-text' style='display:none'>Last assigned value of a certain attribute prior to event</p>
+        <p id='control-flow1-text' style='display:none'>Activity prior to event</p>
+        <p id='control-flow2-text' style='display:none'>Next activity after event constrained by an activity set</p>
+        <p id='control-flow3-text' style='display:none'>Number of times a certain activity is executed before an event</p>
+    </div>
+    <button type='button' onclick='updateButton()' style='margin-top:10%; width: 380px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
+        Update Event Log
+    </button>
+
+    <button type='button' onclick="testinho()" style='margin-top:10%; width: 380px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
+        Download Updated Event Log
+    </button>
+
+</div>
+
+<script>
+     function check_dropdown1(){
+        var variavel_text = document.getElementById('time1-text')
+        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
+        else {variavel_text.style.display='none';}
+    }
+
+    function check_dropdown2(){
+        var variavel_text = document.getElementById('time2-text')
+        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
+        else {variavel_text.style.display='none';}
+    }
+    function check_dropdown3(){
+        var variavel_text = document.getElementById('time3-text')
+        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
+        else {variavel_text.style.display='none';}
+    }
+    function check_dropdown4(){
+        var variavel_text = document.getElementById('time4-text')
+        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
+        else {variavel_text.style.display='none';}
+    }
+    function check_dropdown5(){
+        var variavel_text = document.getElementById('workload1-text')
+        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
+        else {variavel_text.style.display='none';}
+    }
+    function check_dropdown6(){
+        var variavel_text = document.getElementById('workload2-text')
+        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
+        else {variavel_text.style.display='none';}
+    }
+    function check_dropdown7(){
+        var variavel_text = document.getElementById('data-flow1-text')
+        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
+        else {variavel_text.style.display='none';}
+    }
+    function check_dropdown8(){
+        var variavel_text = document.getElementById('data-flow2-text')
+        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
+        else {variavel_text.style.display='none';}
+    }
+    function check_dropdown9(){
+        var variavel_text = document.getElementById('data-flow3-text')
+        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
+        else {variavel_text.style.display='none';}
+    }
+    function check_dropdown10(){
+        var variavel_text = document.getElementById('data-flow4-text')
+        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
+        else {variavel_text.style.display='none';}
+    }
+    function check_dropdown11(){
+        var variavel_text = document.getElementById('data-flow5-text')
+        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
+        else {variavel_text.style.display='none';}
+    }
+    function check_dropdown12(){
+        var variavel_text = document.getElementById('data-flow6-text')
+        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
+        else {variavel_text.style.display='none';}
+    }
+    function check_dropdown13(){
+        var variavel_text = document.getElementById('control-flow1-text')
+        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
+        else {variavel_text.style.display='none';}
+    }
+    function check_dropdown14(){
+        var variavel_text = document.getElementById('control-flow2-text')
+        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
+        else {variavel_text.style.display='none';}
+    }
+    function check_dropdown15(){
+        var variavel_text = document.getElementById('control-flow3-text')
+        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
+        else {variavel_text.style.display='none';}
+    }
+
+
+    function updateButton() {      
+        const listattributes = []
+        if (document.getElementById('time1-text').style.display=='block'){
+            listattributes.push("Activity duration of completed activities")
+        }
+        if (document.getElementById('time2-text').style.display=='block'){
+            listattributes.push("Time since start of case")
+        }
+        if (document.getElementById('time3-text').style.display=='block'){
+            listattributes.push("Time to end of case")
+        }
+        if (document.getElementById('time4-text').style.display=='block'){
+            listattributes.push("Case duration")
+        }
+        if (document.getElementById('workload1-text').style.display=='block'){
+            listattributes.push("Total Workload")
+        }
+        if (document.getElementById('workload2-text').style.display=='block'){
+            listattributes.push("Workload of event resource at time of event")
+        }
+        if (document.getElementById('data-flow1-text').style.display=='block'){
+            listattributes.push("Sum value of a certain attribute after current event")
+        }
+        if (document.getElementById('data-flow2-text').style.display=='block'){
+            listattributes.push("Min value of a certain attribute after current event")
+        }
+        if (document.getElementById('data-flow3-text').style.display=='block'){
+            listattributes.push("Max value of a certain attribute after current event")
+        }
+        if (document.getElementById('data-flow4-text').style.display=='block'){
+            listattributes.push("Average value of a certain attribute after current event")
+        }
+        if (document.getElementById('data-flow5-text').style.display=='block'){
+            listattributes.push("Last assigned value of a certain attribute after current event")
+        }
+        if (document.getElementById('data-flow6-text').style.display=='block'){
+            listattributes.push("Last assigned value of a certain attribute prior to event")
+        }
+        if (document.getElementById('control-flow1-text').style.display=='block'){
+            listattributes.push("Activity prior to event")
+        }
+        if (document.getElementById('control-flow2-text').style.display=='block'){
+            listattributes.push("Next activity after event constrained by an activity set")
+        }
+        if (document.getElementById('control-flow3-text').style.display=='block'){
+            listattributes.push("Number of times a certain activity is executed before an event")
+        }
+
+        // AJAX UPLOAD TO SERVER
+        fetch("ListAttributes/", {
+        method: "POST",
+        body: listattributes
+        })
+        .then((res) => { return res.text(); })
+        .then((txt) => { console.log(txt); });
+    }
+
+
+    
+</script>
+
+{% endblock %}
+
