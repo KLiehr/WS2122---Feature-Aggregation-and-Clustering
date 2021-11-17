@@ -37,6 +37,8 @@ def file_upload_view(request):
 def updateeventlog(request):
     if request.method == 'POST':
         AttributesToDerive = request.body
+        AttributesToDerive = AttributesToDerive.decode('utf-8')
+        print(type(AttributesToDerive))
         print(AttributesToDerive)
     return JsonResponse({'post':'false'})
 
