@@ -34,7 +34,8 @@ def file_upload_view(request):
     return JsonResponse({'post':'false'})
 
 
-# gives the list of chosen attributes for augmentation
+# gives the list of chosen attributes for augmentation as a string from ajax request
+# TODO call addAttr.py
 @csrf_exempt
 def updateeventlog(request):
     if request.method == 'POST':

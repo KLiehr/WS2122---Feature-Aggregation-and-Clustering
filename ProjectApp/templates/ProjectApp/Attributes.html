@@ -158,53 +158,55 @@
         else {variavel_text.style.display='none';}
     }
 
-
+    // called upon clicking: Update event log
+    // turns the chosen attributes into javascript list of their abbreviation ID(R1, T3, etc.)
+    // finally does ajax upload
     function updateButton() {      
         const listattributes = []
         if (document.getElementById('time1-text').style.display=='block'){
-            listattributes.push("Activity duration of completed activities")
+            listattributes.push("T1")
         }
         if (document.getElementById('time2-text').style.display=='block'){
-            listattributes.push("Time since start of case")
+            listattributes.push("T2")
         }
         if (document.getElementById('time3-text').style.display=='block'){
-            listattributes.push("Time to end of case")
+            listattributes.push("T3")
         }
         if (document.getElementById('time4-text').style.display=='block'){
-            listattributes.push("Case duration")
+            listattributes.push("T4")
         }
         if (document.getElementById('workload1-text').style.display=='block'){
-            listattributes.push("Total Workload")
+            listattributes.push("R1")
         }
         if (document.getElementById('workload2-text').style.display=='block'){
-            listattributes.push("Workload of event resource at time of event")
+            listattributes.push("R2")
         }
         if (document.getElementById('data-flow1-text').style.display=='block'){
-            listattributes.push("Sum value of a certain attribute after current event")
+            listattributes.push("D1")
         }
         if (document.getElementById('data-flow2-text').style.display=='block'){
-            listattributes.push("Min value of a certain attribute after current event")
+            listattributes.push("D2")
         }
         if (document.getElementById('data-flow3-text').style.display=='block'){
-            listattributes.push("Max value of a certain attribute after current event")
+            listattributes.push("D3")
         }
         if (document.getElementById('data-flow4-text').style.display=='block'){
-            listattributes.push("Average value of a certain attribute after current event")
+            listattributes.push("D4")
         }
         if (document.getElementById('data-flow5-text').style.display=='block'){
-            listattributes.push("Last assigned value of a certain attribute after current event")
+            listattributes.push("D6")
         }
         if (document.getElementById('data-flow6-text').style.display=='block'){
-            listattributes.push("Last assigned value of a certain attribute prior to event")
+            listattributes.push("D6")
         }
         if (document.getElementById('control-flow1-text').style.display=='block'){
-            listattributes.push("Activity prior to event")
+            listattributes.push("C1")
         }
         if (document.getElementById('control-flow2-text').style.display=='block'){
-            listattributes.push("Next activity after event constrained by an activity set")
+            listattributes.push("C2")
         }
         if (document.getElementById('control-flow3-text').style.display=='block'){
-            listattributes.push("Number of times a certain activity is executed before an event")
+            listattributes.push("C3")
         }
 
     
