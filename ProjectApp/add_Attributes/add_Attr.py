@@ -25,17 +25,29 @@ import add_T3
 import add_T4
 
 # MAYBE as utility in views level for log updates
-def getPathOfLog():
+def getPathOfLogFile():
     # get log location
     dir_name_here = os.path.dirname(__file__)
     folder_of_log = os.path.dirname(os.path.dirname(dir_name_here))
     print(folder_of_log)
-    
+
     path_for_adding_attr = os.path.join(folder_of_log, 'media\\eventlog')
     our_filePath = os.path.join(path_for_adding_attr, 'our_file.xes')
     print(our_filePath)
+    return our_filePath
+
+def getPathOfLogDir():
+    # get dir location of log
+    dir_name_here = os.path.dirname(__file__)
+    folder_of_log = os.path.dirname(os.path.dirname(dir_name_here))
+    print(folder_of_log)
+
+    path_for_adding_attr = os.path.join(folder_of_log, 'media\\eventlog')
+    return path_for_adding_attr
 
 def isXES():
+    # there should only ever be one file, so just look at its ending
+    list_of_files = os.listdir('.')
     return True
 
 
@@ -49,14 +61,10 @@ def callAllAttr(chosen_attr):
     attr_list = chosen_attr.split(',')
 
 
-
-    
-
-
     # read in XES log via pm4py to event log
     variant = xes_importer.Variants.ITERPARSE
     parameters = {variant.value.Parameters.TIMESTAMP_SORT: True}
-    log = xes_importer.apply(getPathOfLog, variant=variant, parameters=parameters)
+    log = xes_importer.apply(getPathOfLogFile, variant=variant, parameters=parameters)
 
 
 
@@ -72,7 +80,7 @@ def callAllAttr(chosen_attr):
     
 
     # update actual XES file
-    xes_exporter.apply(log, getPathOfLog)
+    xes_exporter.apply(log, getPathOfLogFile)
     print("Updated actual file!")
         
 
