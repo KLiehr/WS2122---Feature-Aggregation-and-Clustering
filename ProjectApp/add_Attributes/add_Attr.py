@@ -25,6 +25,8 @@ import add_T3
 import add_T4
 
 # MAYBE as utility in views level for log updates
+
+# returns path to log file
 def getPathOfLogFile():
     # get log location
     dir_name_here = os.path.dirname(__file__)
@@ -36,6 +38,7 @@ def getPathOfLogFile():
     print(our_filePath)
     return our_filePath
 
+# returns dir of log file
 def getPathOfLogDir():
     # get dir location of log
     dir_name_here = os.path.dirname(__file__)
@@ -47,7 +50,8 @@ def getPathOfLogDir():
 
 def isXES():
     # there should only ever be one file, so just look at its ending
-    list_of_files = os.listdir('.')
+    list_of_files = os.listdir(getPathOfLogDir)
+    print(list_of_files)
     return True
 
 
@@ -65,7 +69,7 @@ def callAllAttr(chosen_attr):
     variant = xes_importer.Variants.ITERPARSE
     parameters = {variant.value.Parameters.TIMESTAMP_SORT: True}
     log = xes_importer.apply(getPathOfLogFile, variant=variant, parameters=parameters)
-
+    bool = isXES()
 
 
     # call each chosen function:

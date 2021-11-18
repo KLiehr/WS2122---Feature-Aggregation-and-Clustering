@@ -57,10 +57,10 @@ def file_upload_view(request):
 @csrf_exempt
 def updateeventlog(request):
     if request.method == 'POST':
-        AttributesToDerive = request.POST.get('ListAtr')
-        ExtraAttributes = request.POST.get('ExtraAtr')
-        print(AttributesToDerive)
-        print(ExtraAttributes)
+        AttributesToDerive = str(request.POST.get('ListAtr'))
+        ExtraAttributes = str(request.POST.get('ExtraAtr'))
+        print('Derive the following attributes: ' + AttributesToDerive)
+        print('Extra Info: ' + ExtraAttributes)
         
         # call function to add all atributes 
         print('calling add_Attributes')
