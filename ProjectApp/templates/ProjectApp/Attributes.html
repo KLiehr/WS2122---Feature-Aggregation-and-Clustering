@@ -29,12 +29,12 @@
           </button>
           <div class="dropdown-container">
 
-            <a id='data-flow1' onclick='check_dropdown7()'>Sum value of a certain attribute after current event</a>
-            <a id='data-flow2' onclick='check_dropdown8()'>Min value of a certain attribute after current event</a>
-            <a id='data-flow3' onclick='check_dropdown9()'>Max value of a certain attribute after current event</a>
-            <a id='data-flow4' onclick='check_dropdown10()'>Average value of a certain attribute after current event</a>
-            <a id='data-flow5' onclick='check_dropdown11()'>Last assigned value of a certain attribute after current event</a>
-            <a id='data-flow6' onclick='check_dropdown12()'>Last assigned value of a certain attribute prior to event</a>
+            <a id='data-flow1' onclick='check_dropdown7()'>Last assigned value of a certain attribute prior to event(D1)</a>
+            <a id='data-flow2' onclick='check_dropdown8()'>Last assigned value of a certain attribute after event(D2)</a>
+            <a id='data-flow3' onclick='check_dropdown9()'>Average value of a certain attribute after current event(D3)</a>
+            <a id='data-flow4' onclick='check_dropdown10()'>Max value of a certain attribute after current event(D4)</a>
+            <a id='data-flow5' onclick='check_dropdown11()'>Min value of a certain attribute after current event(D5)</a>
+            <a id='data-flow6' onclick='check_dropdown12()'>Sum value of a certain attribute after current event(D6)</a>
           </div>
     
         <button class="dropdown-btn">Control-Flow
@@ -183,6 +183,8 @@
         }
         if (document.getElementById('data-flow1-text').style.display=='block'){
             listattributes.push("D1")
+            let name=prompt("What is your name?");
+            console.log("Hi "+name)
         }
         if (document.getElementById('data-flow2-text').style.display=='block'){
             listattributes.push("D2")
