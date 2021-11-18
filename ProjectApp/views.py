@@ -68,3 +68,18 @@ def updateeventlog(request):
 
     return JsonResponse({'post':'false'})
 
+def download(request):
+    if os.path.exists('media\eventlog\our_file.csv'):
+        file = open('media\eventlog\our_file.csv', 'rb') #Open the specified file
+        response = HttpResponse(file)   #Give file handle to HttpResponse object
+        response['Content-Type'] = 'application/octet-stream' #Set the header to tell the browser that this is a file
+        response['Content-Disposition'] = 'attachment;filename="our_file.csv"' #This is a simple description of the file. Note that the writing is the fixed one
+        return response
+    if os.path.exists('media\eventlog\our_file.xes'):
+        file = open('media\eventlog\our_file.xes', 'rb') #Open the specified file 
+        response = HttpResponse(file)   #Give file handle to HttpResponse object
+        response['Content-Type'] = 'application/octet-stream' #Set the header to tell the browser that this is a file
+        response['Content-Disposition'] = 'attachment;filename="our_file.xes"' #This is a simple description of the file. Note that the writing is the fixed one
+        return response
+    return Http404
+
