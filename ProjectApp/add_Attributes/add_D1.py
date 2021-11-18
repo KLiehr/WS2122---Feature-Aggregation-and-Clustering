@@ -41,18 +41,3 @@ def prevValue(trace, event, attr):
 
 
 
-# FOR TESTING PURPOSES ONLY!!!
-
-variant = xes_importer.Variants.ITERPARSE
-parameters = {variant.value.Parameters.TIMESTAMP_SORT: True}
-log = xes_importer.apply('C:\\Users\\kaili\\Desktop\\running-example.xes', variant=variant, parameters=parameters)
-
-
-print(log[2])
-
-attr = 'Activity'
-
-log = add_D1(log, attr)
-
-print(log[2][2])
-print(log[2][6])

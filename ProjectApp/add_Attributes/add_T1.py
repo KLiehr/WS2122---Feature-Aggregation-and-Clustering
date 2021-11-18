@@ -45,7 +45,7 @@ def actTime(trace, event):
             before = False
 
     # compute activity duration and return it if start event has been found
-    if act_start is not 0:
+    if act_start != 0:
         act_dur = event['time:timestamp'] - act_start
         return act_dur
 
@@ -53,18 +53,3 @@ def actTime(trace, event):
 
 
 # TODO HAS NOT BEEN TESTED DUE TO LACK OF LOG WITH TRANSITION
-# FOR TESTING PURPOSES ONLY!!!
-
-variant = xes_importer.Variants.ITERPARSE
-parameters = {variant.value.Parameters.TIMESTAMP_SORT: True}
-log = xes_importer.apply('C:\\Users\\kaili\\Desktop\\running-example.xes', variant=variant, parameters=parameters)
-
-
-print(log[2])
-
-
-
-log = add_T1(log)
-
-print(log[2][2])
-print(log[2][6])

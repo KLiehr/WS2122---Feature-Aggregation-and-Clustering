@@ -56,18 +56,3 @@ def avgValue(trace, event, attr):
 
 
 
-# FOR TESTING PURPOSES ONLY!!!
-
-variant = xes_importer.Variants.ITERPARSE
-parameters = {variant.value.Parameters.TIMESTAMP_SORT: True}
-log = xes_importer.apply('C:\\Users\\kaili\\Desktop\\running-example.xes', variant=variant, parameters=parameters)
-
-
-print(log[2])
-
-attr = 'Costs'
-
-log = add_D3(log, attr)
-
-print(log[2][2])
-print(log[2][6])

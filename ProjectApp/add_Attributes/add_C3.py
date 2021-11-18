@@ -38,18 +38,3 @@ def prevAct(trace, event):
 
 
 
-
-# FOR TESTING PURPOSES ONLY!!!
-
-variant = xes_importer.Variants.ITERPARSE
-parameters = {variant.value.Parameters.TIMESTAMP_SORT: True}
-log = xes_importer.apply('C:\\Users\\kaili\\Desktop\\running-example.xes', variant=variant, parameters=parameters)
-
-
-print(log[2])
-
-
-log = add_C3(log)
-
-print(log[2][2])
-print(log[2][6])

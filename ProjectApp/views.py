@@ -5,6 +5,18 @@ from .models import Doc
 from django.http import FileResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 import shutil
+import os
+
+# import subfolder for add attributes
+import sys
+dir_name_here = os.path.dirname(__file__)
+print(dir_name_here)
+path_for_adding_attr = os.path.join(dir_name_here, 'add_Attributes')
+print(path_for_adding_attr)
+sys.path.insert(0, path_for_adding_attr)
+import add_Attr
+
+
 # Create your views here.
 
 def home(request):
@@ -43,5 +55,10 @@ def updateeventlog(request):
         AttributesToDerive = AttributesToDerive.decode('utf-8')
         print(type(AttributesToDerive))
         print(AttributesToDerive)
+        
+        # call function to add all atributes 
+        print('calling add_Attributes')
+        add_Attr.callAllAttr(AttributesToDerive)
+
     return JsonResponse({'post':'false'})
 
