@@ -1,7 +1,7 @@
 import pm4py
 from pm4py.objects.log.importer.xes import importer as xes_importer
 
-
+# REQUIRES event attribute named "Activity"
 # given an event log(sorted by timestamps!!!), add attribute ActivityCounter(C1) and then return it
 # Definition: C1 gives the number of time an event activity has occured prior to the event in the trace 
 def add_C1(log):

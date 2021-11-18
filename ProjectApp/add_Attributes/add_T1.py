@@ -3,7 +3,9 @@ from pm4py.objects.log.importer.xes import importer as xes_importer
 from datetime import datetime
 
 # TODO Maybe implement alternative definition without start and Complete transition
-# !!! Requires Complete and Start event values under lifecycle:transition AND No simultaneous same activities in same trace AND 'time:timestamp'
+# !!! Requires Complete and Start event values under lifecycle:transition AND No simultaneous same activities in same trace
+# REQUIRES event attribute named "time:timestamp"
+# REQUIRES event attribute named "Activity"
 # given an event log(sorted by timestamps!!!), add ActivityTime(T1) attribute to each Complete event and then return the log
 # Definition T1: computes the activity time of an event, undefined is the placeholder, if there were no prior Start of the attribute
 def add_T1(log):

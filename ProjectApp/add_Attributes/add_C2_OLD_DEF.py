@@ -3,6 +3,7 @@ from pm4py.objects.log.importer.xes import importer as xes_importer
 
 # OLDER DEFINITION OF C2 WItH AN ACTIVITY SET; NO LONGER IN USE
 
+# REQUIRES event attribute named "Activity"
 # given an event log(sorted by timestamps!!!) and a set of activities, add NextActivity(C2) attribute to each event and then return the log
 # Definition C2: for a given activity set, says which is the next activity of the set after the event, NoSetActNext is the placeholder, if there are no set activites executed subsequently
 def add_C2(log, act_set):

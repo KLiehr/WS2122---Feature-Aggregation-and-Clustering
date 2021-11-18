@@ -5,7 +5,7 @@ from pm4py.objects.log.importer.xes import importer as xes_importer
 
 
 
-
+# REQUIRES event attribute named "Activity"
 # given an event log(sorted by timestamps!!!), add PrevActivity(C3) attribute to each event and then return the log
 # Definition C3: says which was the previous activity in the trace, NoPrevAct is the placeholder, if there were no prior activities
 def add_C3(log):

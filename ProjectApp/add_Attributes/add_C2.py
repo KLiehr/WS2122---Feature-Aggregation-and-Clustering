@@ -1,7 +1,7 @@
 import pm4py
 from pm4py.objects.log.importer.xes import importer as xes_importer
 
-# Requires Activity
+# REQUIRES event attribute named "Activity"
 # given an event log(sorted by timestamps!!!), add NextActivity(C2) attribute to each event and then return the log
 # Definition C2: says which is the next activity after the event, NoNextAct is the placeholder, if there are no activites executed subsequently
 def add_C2(log):
