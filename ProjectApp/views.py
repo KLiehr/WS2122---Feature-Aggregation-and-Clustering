@@ -41,7 +41,9 @@ def userguide(request):
 
 def file_upload_view(request):
     if request.method == 'POST':
-        # shutil.rmtree("media\eventlog")
+        if os.path.exists("media\eventlog"):
+            shutil.rmtree("media\eventlog")
+
         my_file = request.FILES.get('file')
         my_file.name='our_file.'+ my_file.name[-3:]
         Doc.objects.create(upload=my_file)
