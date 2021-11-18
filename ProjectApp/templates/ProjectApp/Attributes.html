@@ -162,7 +162,10 @@
     // turns the chosen attributes into javascript list of their abbreviation ID(R1, T3, etc.)
     // IMPORTANT for functions with additional input, add after their list attribute push, see for example D1
     // finally does ajax upload
-    function updateButton() {      
+    function updateButton() {    
+        
+        document.getElementById('DUEL').style.display='block'
+        
         const listattributes = []
         const listExtraInput = []
         if (document.getElementById('time1-text').style.display=='block'){
