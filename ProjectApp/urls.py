@@ -8,4 +8,5 @@ urlpatterns=[
     path('Import/upload/', views.file_upload_view,name='upload-view'),
     path('UserGuide/', views.userguide, name='userguide'),
     path('Attributes/ListAttributes/', views.updateeventlog, name='updateeventlog'),
+    path('Attributes/download/', views.download,name='download'),
 ]
