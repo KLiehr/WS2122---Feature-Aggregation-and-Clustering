@@ -40,23 +40,23 @@ def callAllAttr(chosen_attr):
 
     # get log location
     dir_name_here = os.path.dirname(__file__)
-    print(dir_name_here)
-    path_for_adding_attr = os.path.join(dir_name_here, 'add_Attributes')
+    folder_of_log = os.path.dirname(os.path.dirname(dir_name_here))
+    print(folder_of_log)
+    path_for_adding_attr = os.path.join(folder_of_log, 'media\\eventlog')
     print(path_for_adding_attr)
-    sys.path.insert(0, path_for_adding_attr)
 
 
     # read in XES log via pm4py to event log
     variant = xes_importer.Variants.ITERPARSE
     parameters = {variant.value.Parameters.TIMESTAMP_SORT: True}
-    log = xes_importer.apply('C:\\Users\\kaili\\Desktop\\running-example.xes', variant=variant, parameters=parameters)
+    log = xes_importer.apply(os.path.join(path_for_adding_attr, 'our_file.xes'), variant=variant, parameters=parameters)
 
 
 
     # call each chosen function:
     for abbrv in attr_list:
         
-        # TODO Doesn't work for everything cause different parameters in addtion to log
+        # Call all functions, differentiate between those that need extra info
         name_of_method = "add_" + abbrv
         
         print("Adding attribute: " + abbrv)

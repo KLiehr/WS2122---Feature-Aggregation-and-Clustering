@@ -41,8 +41,9 @@ def userguide(request):
 
 def file_upload_view(request):
     if request.method == 'POST':
-        if os.path.exists("media\eventlog"):
-            shutil.rmtree("media\eventlog")
+        if os.path.exists("media\\eventlog"):
+            print("removing old file")
+            shutil.rmtree("media\\eventlog")
 
         my_file = request.FILES.get('file')
         my_file.name='our_file.'+ my_file.name[-3:]
