@@ -28,31 +28,34 @@ import add_T4
 
 # returns path to log file
 def getPathOfLogFile():
-    # get log location
+    # get log location dir
     dir_name_here = os.path.dirname(__file__)
     folder_of_log = os.path.dirname(os.path.dirname(dir_name_here))
-    print(folder_of_log)
-
     path_for_adding_attr = os.path.join(folder_of_log, 'media', 'eventlog')
+
+    # add filename
     our_filePath = os.path.join(path_for_adding_attr, 'our_file.xes')
-    print("Filepath: "+ our_filePath)
+
     return our_filePath
 
-# returns dir of log file
+# returns directory of log file
 def getPathOfLogDir():
     # get dir location of log
     dir_name_here = os.path.dirname(__file__)
     folder_of_log = os.path.dirname(os.path.dirname(dir_name_here))
-    print(folder_of_log)
+    path_for_adding_attr = os.path.join(folder_of_log, 'media', 'eventlog')
 
-    path_for_adding_attr = os.path.join(folder_of_log, 'media\\eventlog')
     return path_for_adding_attr
 
+# returns true if our file is an XES file
 def isXES():
-    # there should only ever be one file, so just look at its ending
-    list_of_files = os.listdir(getPathOfLogDir)
-    print(list_of_files)
-    return True
+    # there should only ever be one file, so just take first element of dir's list
+    list_of_files = os.listdir(getPathOfLogDir())
+    print(list_of_files[0])
+    if list_of_files[0] == 'our_file.xes':
+        return True
+    else:
+        return False 
 
 
 
@@ -64,11 +67,12 @@ def callAllAttr(chosen_attr):
     # create actual list from string via ,
     attr_list = chosen_attr.split(',')
 
-
+    print(isXES())
     # read in XES log via pm4py to event log
-    variant = xes_importer.Variants.ITERPARSE
-    parameter = {variant.value.Parameters.TIMESTAMP_SORT: True}
-    log = xes_importer.apply(getPathOfLogFile(), variant=variant, parameters=parameter)
+    if isXES():
+        variant = xes_importer.Variants.ITERPARSE
+        parameter = {variant.value.Parameters.TIMESTAMP_SORT: True}
+        log = xes_importer.apply(getPathOfLogFile(), variant=variant, parameters=parameter)
 
 
 
@@ -84,7 +88,10 @@ def callAllAttr(chosen_attr):
     
 
     # update actual XES file
-    xes_exporter.apply(log, getPathOfLogFile())
+    if isXES():
+        xes_exporter.apply(log, getPathOfLogFile())
+
+    
     print("Updated actual file!")
         
 
