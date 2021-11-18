@@ -64,7 +64,7 @@ def updateeventlog(request):
         
         # call function to add all atributes 
         print('calling add_Attributes')
-        add_Attr.callAllAttr(AttributesToDerive)
+        # add_Attr.callAllAttr(AttributesToDerive)
 
     return JsonResponse({'post':'false'})
 
