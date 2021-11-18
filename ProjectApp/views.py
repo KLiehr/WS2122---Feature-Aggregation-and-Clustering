@@ -33,6 +33,8 @@ def file_upload_view(request):
         return HttpResponse('')
     return JsonResponse({'post':'false'})
 
+
+# gives the list of chosen attributes for augmentation
 @csrf_exempt
 def updateeventlog(request):
     if request.method == 'POST':
