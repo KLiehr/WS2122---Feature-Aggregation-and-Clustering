@@ -41,6 +41,7 @@ def file_upload_view(request):
     if request.method == 'POST':
         shutil.rmtree("media\eventlog")
         my_file = request.FILES.get('file')
+        my_file.name='our_file.'+ my_file.name[-3:]
         Doc.objects.create(upload=my_file)
         return HttpResponse('')
     return JsonResponse({'post':'false'})
