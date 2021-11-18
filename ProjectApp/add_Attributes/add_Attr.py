@@ -3,6 +3,9 @@ from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.log.exporter.xes import exporter as xes_exporter
 import sys
 import os
+import pandas as pd
+from pm4py.objects.log.util import dataframe_utils
+from pm4py.objects.conversion.log import converter as log_converter
 
 # import all add attributes modules
 import add_C1
@@ -34,7 +37,10 @@ def getPathOfLogFile():
     path_for_adding_attr = os.path.join(folder_of_log, 'media', 'eventlog')
 
     # add filename
-    our_filePath = os.path.join(path_for_adding_attr, 'our_file.xes')
+    if isXES():
+        our_filePath = os.path.join(path_for_adding_attr, 'our_file.xes')
+    else:
+        our_filePath = os.path.join(path_for_adding_attr, 'our_file.csv')
 
     return our_filePath
 
@@ -47,11 +53,13 @@ def getPathOfLogDir():
 
     return path_for_adding_attr
 
+# IMPORTANT: We assume the file to be either csv and xes and for exactly one file to be there
 # returns true if our file is an XES file
+# else return false
 def isXES():
     # there should only ever be one file, so just take first element of dir's list
     list_of_files = os.listdir(getPathOfLogDir())
-    print(list_of_files[0])
+
     if list_of_files[0] == 'our_file.xes':
         return True
     else:
@@ -67,12 +75,18 @@ def callAllAttr(chosen_attr):
     # create actual list from string via ,
     attr_list = chosen_attr.split(',')
 
-    print(isXES())
+
     # read in XES log via pm4py to event log
     if isXES():
         variant = xes_importer.Variants.ITERPARSE
         parameter = {variant.value.Parameters.TIMESTAMP_SORT: True}
         log = xes_importer.apply(getPathOfLogFile(), variant=variant, parameters=parameter)
+    else:
+        # !!!!!! REQUIRES CSV TO HAVE timestamp and case:concept:name columns !!!!!!
+        log_csv = pd.read_csv(getPathOfLogFile, sep=',')
+        log_csv = dataframe_utils.convert_timestamp_columns_in_df(log_csv)
+        log_csv = log_csv.sort_values('<timestamp_column>')
+        log = log_converter.apply(log_csv)
 
 
 
@@ -90,6 +104,9 @@ def callAllAttr(chosen_attr):
     # update actual XES file
     if isXES():
         xes_exporter.apply(log, getPathOfLogFile())
+    else:
+        tmp_df = log_converter.apply(log, variant=log_converter.Variants.TO_DATA_FRAME)
+        tmp_df.to_csv(getPathOfLogFile())
 
     
     print("Updated actual file!")
