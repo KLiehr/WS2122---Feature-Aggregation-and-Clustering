@@ -6,6 +6,7 @@ import os
 import pandas as pd
 from pm4py.objects.log.util import dataframe_utils
 from pm4py.objects.conversion.log import converter as log_converter
+from pm4py.util import constants
 
 # import all add attributes modules
 import add_C1
@@ -67,13 +68,16 @@ def isXES():
 
 
 
-# TODO get  xes log, get csv log
-# gets a string with the attributes chosen for augmentation, example:  "T1,R2,C2"
-# then calls all individual attribute adding functions, updating the xes file in the end
-def callAllAttr(chosen_attr):
 
-    # create actual list from string via ,
+# gets a string with the attributes chosen for augmentation, example:  "T1,R2,C2" as well as optionally extra info as String such as [D2:Resource,D3:Activity]
+# then calls all individual attribute adding functions, updating the xes file in the end
+def callAllAttr(chosen_attr, extra_info):
+
+    # create actual list from attribute string via ,
     attr_list = chosen_attr.split(',')
+
+    # create actual list from info string via ,
+    extra_info_list = extra_info.split(',')
 
 
     # read in XES log via pm4py to event log
@@ -88,16 +92,28 @@ def callAllAttr(chosen_attr):
         log_csv = log_csv.sort_values('<timestamp_column>')
         log = log_converter.apply(log_csv)
 
-
+    # list of attribute abbreviations that require extra_info
+    extra_input_needed = ['D1','D2','D3','D4','D5','D6']
 
     # call each chosen function:
     for abbrv in attr_list:
         
-        # Call all functions, differentiate between those that need extra info
         name_of_method = "add_" + abbrv
         
         print("Adding attribute: " + abbrv)
-        log = getattr(getattr(sys.modules[__name__], name_of_method), name_of_method)(log)
+
+        # differentiate between those that need extra info
+        if abbrv in extra_input_needed:
+
+            # find fitting extra_info for an abbreviation
+            for info_element in extra_info_list:
+                # split along : for access
+                abbr_data = str(info_element).split(':')
+                if  abbr_data[0] == abbrv:
+                    print("Calling " + abbrv + " with extra data: " + abbr_data[1])
+                log = getattr(getattr(sys.modules[__name__], name_of_method), name_of_method)(log, abbr_data[1])
+        else:
+            log = getattr(getattr(sys.modules[__name__], name_of_method), name_of_method)(log)
 
     
 
@@ -109,6 +125,6 @@ def callAllAttr(chosen_attr):
         tmp_df.to_csv(getPathOfLogFile())
 
     
-    print("Updated actual file!")
+    print("Updated log file!")
         
 
