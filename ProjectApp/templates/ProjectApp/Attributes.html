@@ -160,9 +160,11 @@
 
     // called upon clicking: Update event log
     // turns the chosen attributes into javascript list of their abbreviation ID(R1, T3, etc.)
+    // IMPORTANT for functions with additional input, add after their list attribute push, see for example D1
     // finally does ajax upload
     function updateButton() {      
         const listattributes = []
+        const listExtraInput = []
         if (document.getElementById('time1-text').style.display=='block'){
             listattributes.push("T1")
         }
@@ -183,8 +185,9 @@
         }
         if (document.getElementById('data-flow1-text').style.display=='block'){
             listattributes.push("D1")
-            let name=prompt("What is your name?");
-            console.log("Hi "+name)
+            let additional_input = prompt("Attribute D1 requires an event attribute as input such as: Resource?");
+            console.log("Chosen attribute for D1 "+ additional_input)
+            listExtraInput.push(additional_input)
         }
         if (document.getElementById('data-flow2-text').style.display=='block'){
             listattributes.push("D2")
@@ -211,7 +214,7 @@
             listattributes.push("C3")
         }
 
-    
+        // TODO add listExtraInput
         // AJAX UPLOAD TO SERVER
         fetch("ListAttributes/", {
         method: "POST",

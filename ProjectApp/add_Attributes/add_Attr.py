@@ -2,7 +2,7 @@ import pm4py
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.log.exporter.xes import exporter as xes_exporter
 import sys
-
+import os
 
 # import all add attributes modules
 import add_C1
@@ -24,6 +24,10 @@ import add_T2
 import add_T3
 import add_T4
 
+
+
+
+
 # TODO get  xes log, get csv log
 # gets a string with the attributes chosen for augmentation, example:  "T1,R2,C2"
 # then calls all individual attribute adding functions, updating the xes file in the end
@@ -31,6 +35,16 @@ def callAllAttr(chosen_attr):
 
     # create actual list from string via ,
     attr_list = chosen_attr.split(',')
+
+
+
+    # get log location
+    dir_name_here = os.path.dirname(__file__)
+    print(dir_name_here)
+    path_for_adding_attr = os.path.join(dir_name_here, 'add_Attributes')
+    print(path_for_adding_attr)
+    sys.path.insert(0, path_for_adding_attr)
+
 
     # read in XES log via pm4py to event log
     variant = xes_importer.Variants.ITERPARSE

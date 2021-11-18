@@ -9,11 +9,13 @@ import os
 
 # import subfolder for add attributes
 import sys
+
 dir_name_here = os.path.dirname(__file__)
 print(dir_name_here)
 path_for_adding_attr = os.path.join(dir_name_here, 'add_Attributes')
 print(path_for_adding_attr)
 sys.path.insert(0, path_for_adding_attr)
+
 import add_Attr
 
 
@@ -39,7 +41,7 @@ def userguide(request):
 
 def file_upload_view(request):
     if request.method == 'POST':
-        shutil.rmtree("media\eventlog")
+        # shutil.rmtree("media\eventlog")
         my_file = request.FILES.get('file')
         my_file.name='our_file.'+ my_file.name[-3:]
         Doc.objects.create(upload=my_file)
