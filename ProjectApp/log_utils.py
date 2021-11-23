@@ -1,0 +1,81 @@
+import pm4py
+from pm4py.objects.log.importer.xes import importer as xes_importer
+from pm4py.objects.log.exporter.xes import exporter as xes_exporter
+import sys
+import os
+import pandas as pd
+from pm4py.objects.log.util import dataframe_utils
+from pm4py.objects.conversion.log import converter as log_converter
+from pm4py.util import constants
+
+
+
+
+# returns path to log file
+def getPathOfLogFile():
+    # get log location dir
+    dir_name_here = os.path.dirname(__file__)
+    folder_of_log = os.path.dirname(dir_name_here)
+    path_for_adding_attr = os.path.join(folder_of_log, 'media', 'eventlog')
+
+    # add filename
+    if isXES():
+        our_filePath = os.path.join(path_for_adding_attr, 'our_file.xes')
+    else:
+        our_filePath = os.path.join(path_for_adding_attr, 'our_file.csv')
+
+    return our_filePath
+
+# returns directory of log file
+def getPathOfLogDir():
+    # get dir location of log
+    dir_name_here = os.path.dirname(__file__)
+    folder_of_log = os.path.dirname(dir_name_here)
+    path_for_adding_attr = os.path.join(folder_of_log, 'media', 'eventlog')
+
+    return path_for_adding_attr
+
+
+
+
+# IMPORTANT: We assume the file to be either csv and xes and for exactly one file, named our_file to be there
+# returns true if our file is an XES file
+# else return false
+def isXES():
+    # there should only ever be one file, so just take first element of dir's list
+    list_of_files = os.listdir(getPathOfLogDir())
+
+    if list_of_files[0] == 'our_file.xes':
+        return True
+    else:
+        return False 
+
+
+#  returns a log created from the current file
+def get_log():
+
+    # read in XES log via pm4py to event log
+    if isXES():
+        variant = xes_importer.Variants.ITERPARSE
+        parameter = {variant.value.Parameters.TIMESTAMP_SORT: True}
+        log = xes_importer.apply(getPathOfLogFile(), variant=variant, parameters=parameter)
+    else:
+        # !!!!!! REQUIRES CSV TO HAVE timestamp and case:concept:name columns !!!!!!
+        log_csv = pd.read_csv(getPathOfLogFile, sep=',')
+        log_csv = dataframe_utils.convert_timestamp_columns_in_df(log_csv)
+        log_csv = log_csv.sort_values('<timestamp_column>')
+        log = log_converter.apply(log_csv)
+
+    return log
+
+# updates actual log file with a given event log
+def update_log(log):
+    # update actual XES file
+    if isXES():
+        xes_exporter.apply(log, getPathOfLogFile())
+    else:
+        tmp_df = log_converter.apply(log, variant=log_converter.Variants.TO_DATA_FRAME)
+        tmp_df.to_csv(getPathOfLogFile())
+
+    
+    print("Updated log file!")

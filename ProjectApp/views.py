@@ -6,6 +6,7 @@ from django.http import FileResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 import shutil
 import os
+from . import log_utils
 
 # import subfolder for add attributes
 import sys
@@ -52,8 +53,7 @@ def file_upload_view(request):
     return JsonResponse({'post':'false'})
 
 
-# gives the list of chosen attributes for augmentation as a string from ajax request
-# TODO call addAttr.py
+# gets called after update event log button is clicked, gets a request with a string for derivable attributes and extraInfos
 @csrf_exempt
 def updateeventlog(request):
     if request.method == 'POST':
@@ -62,9 +62,15 @@ def updateeventlog(request):
         print('Derive the following attributes: ' + AttributesToDerive)
         print('Extra Info: ' + ExtraAttributes)
         
+        # get log
+        log = log_utils.get_log()
+
         # call function to add all atributes 
         print('calling add_Attributes')
-        add_Attr.callAllAttr(AttributesToDerive, ExtraAttributes)
+        log = add_Attr.callAllAttr(log, AttributesToDerive, ExtraAttributes)
+
+        # update log
+        log_utils.update_log(log)
 
     return JsonResponse({'post':'false'})
 
