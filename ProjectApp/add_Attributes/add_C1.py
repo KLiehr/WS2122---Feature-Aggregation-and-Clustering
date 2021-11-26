@@ -1,5 +1,5 @@
 import pm4py
-from pm4py.objects.log.importer.xes import importer as xes_importer
+
 
 # REQUIRES event attribute named "Activity"
 # given an event log(sorted by timestamps!!!), add attribute ActivityCounter(C1) and then return it
