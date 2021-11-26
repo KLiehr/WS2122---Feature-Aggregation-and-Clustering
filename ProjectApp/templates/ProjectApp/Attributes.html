@@ -168,6 +168,27 @@
         
         const listattributes = []
         const listExtraInput = []
+
+        // gets user's log's names for attributes
+        const user_attr_names =  []
+        // activity
+        user_input = prompt("REQUIRES an attribute: Activity, type in name of activity attribute in log file:");
+        console.log("Chosen name for activity attribute"+ user_input)
+        user_attr_names.push('Activity:' + user_input)
+        // timestamp
+        user_input = prompt("REQUIRES an attribute: timestamp of object datetime, type in name of the timestamp attribute in your log file:");
+        console.log("Chosen name for timestamp attribute"+ user_input)
+        user_attr_names.push('Timestamp:' + user_input)
+        // resource
+        user_input = prompt("REQUIRES an attribute: resource, type in name of the resource attribute in your log file:");
+        console.log("Chosen name for resource attribute"+ user_input)
+        user_attr_names.push('Resource:' + user_input)
+        // lifecycle
+        user_input = prompt("OPTIONAL FOR T1 an attribute: lifecycle:transition, type in name of attribute, if not there, type NONE instead!!!:");
+        console.log("Chosen name for transtion attribute"+ user_input)
+        user_attr_names.push('Transition:' + user_input)
+
+
         if (document.getElementById('time1-text').style.display=='block'){
             listattributes.push("T1")
         }

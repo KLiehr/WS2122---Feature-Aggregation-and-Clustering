@@ -77,5 +77,4 @@ def update_log(log):
         tmp_df = log_converter.apply(log, variant=log_converter.Variants.TO_DATA_FRAME)
         tmp_df.to_csv(getPathOfLogFile())
 
-    
     print("Updated log file!")
