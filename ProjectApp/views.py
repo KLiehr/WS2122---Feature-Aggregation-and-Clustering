@@ -63,6 +63,10 @@ def updateeventlog(request):
         # get log
         log = log_utils.get_log()
 
+        # print event attributes !!Just of first event!!
+        print('Event attributes of log:')
+        print(log_utils.get_log_attributes(log))
+
         # call function to add all atributes 
         print('calling add_Attributes')
         log = add_Attr.callAllAttr(log, AttributesToDerive, ExtraAttributes)

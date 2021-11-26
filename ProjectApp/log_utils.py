@@ -7,12 +7,12 @@ import pandas as pd
 from pm4py.objects.log.util import dataframe_utils
 from pm4py.objects.conversion.log import converter as log_converter
 from pm4py.util import constants
+from xml.etree.ElementTree import ElementTree as ET
 
 
 
-
-# returns path to log file
 def getPathOfLogFile():
+    '''returns path to log file '''
     # get log location dir
     dir_name_here = os.path.dirname(__file__)
     folder_of_log = os.path.dirname(dir_name_here)
@@ -26,8 +26,9 @@ def getPathOfLogFile():
 
     return our_filePath
 
-# returns directory of log file
+
 def getPathOfLogDir():
+    ''' returns directory of log file'''
     # get dir location of log
     dir_name_here = os.path.dirname(__file__)
     folder_of_log = os.path.dirname(dir_name_here)
@@ -38,10 +39,11 @@ def getPathOfLogDir():
 
 
 
-# IMPORTANT: We assume the file to be either csv and xes and for exactly one file, named our_file to be there
-# returns true if our file is an XES file
-# else return false
+
 def isXES():
+    '''IMPORTANT: We assume the file to be either csv and xes and for exactly one file, named our_file to be there
+     returns true if our file is an XES file
+     else return false '''
     # there should only ever be one file, so just take first element of dir's list
     list_of_files = os.listdir(getPathOfLogDir())
 
@@ -51,8 +53,9 @@ def isXES():
         return False 
 
 
-#  returns a log created from the current file
+
 def get_log():
+    ''' returns a log created from the current file'''
 
     # read in XES log via pm4py to event log
     if isXES():
@@ -68,9 +71,10 @@ def get_log():
 
     return log
 
-# updates actual log file with a given event log
+
 def update_log(log):
-    # update actual XES file
+    '''updates actual log file with a given event log'''
+    # update actual XES file else csv
     if isXES():
         xes_exporter.apply(log, getPathOfLogFile())
     else:
@@ -78,3 +82,11 @@ def update_log(log):
         tmp_df.to_csv(getPathOfLogFile())
 
     print("Updated log file!")
+
+
+# TODO Properly read out log events rather than first event, for csv easy first line, but how for XES, treat it as XML?
+def get_log_attributes(log):
+    '''Returns event attributes of the given log(Just looks at first event!)'''
+
+    return list(log[0][0].keys())
+    
