@@ -8,16 +8,12 @@ import shutil
 import os
 from . import log_utils
 
-# import subfolder for add attributes
+from .add_Attributes import add_Attr
+
+
 import sys
 
-dir_name_here = os.path.dirname(__file__)
-print(dir_name_here)
-path_for_adding_attr = os.path.join(dir_name_here, 'add_Attributes')
-print(path_for_adding_attr)
-sys.path.insert(0, path_for_adding_attr)
 
-import add_Attr
 
 
 # Create your views here.

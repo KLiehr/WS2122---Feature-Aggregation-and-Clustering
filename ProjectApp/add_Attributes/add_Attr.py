@@ -9,26 +9,29 @@ from pm4py.objects.conversion.log import converter as log_converter
 from pm4py.util import constants
 
 # import all add attributes modules
-import add_C1
-import add_C2
-import add_C3
 
-import add_D1
-import add_D2
-import add_D3
-import add_D4
-import add_D5
-import add_D6
+from . import add_C1
+from . import add_C2
+from . import add_C3
 
-import add_R1
-import add_R2
+from . import add_D1
+from . import add_D2
+from . import add_D3
+from . import add_D4
+from . import add_D5
+from . import add_D6
 
-import add_T1
-import add_T2
-import add_T3
-import add_T4
+from . import add_R1
+from . import add_R2
 
-# MAYBE as utility in views level for log updates
+from . import add_T1
+from . import add_T2
+from . import add_T3
+from . import add_T4
+
+
+
+
 
 # returns path to log file
 def getPathOfLogFile():
