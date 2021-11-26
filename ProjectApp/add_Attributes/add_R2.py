@@ -2,7 +2,7 @@ import pm4py
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from datetime import datetime
 
-# !!! Requires 'time:timestamp'
+# !!! Requires 'time:timestamp' and 'Resource'
 # given an event log(sorted by timestamps!!!), add WorkloadTotalLeft(R2) attribute to each event and then return the log
 # Definition R2: computes the number of events left after the event timestamp across the entire log for ALL resources, undefined is the placeholder
 def add_R2(log):

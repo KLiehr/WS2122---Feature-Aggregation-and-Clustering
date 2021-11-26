@@ -59,8 +59,10 @@ def updateeventlog(request):
     if request.method == 'POST':
         AttributesToDerive = str(request.POST.get('ListAtr'))
         ExtraAttributes = str(request.POST.get('ExtraAtr'))
+        UserAttrNames = str(request.POST.get('AttrNames'))
         print('Derive the following attributes: ' + AttributesToDerive)
         print('Extra Info: ' + ExtraAttributes)
+        print('Relevant attribute names: ' + UserAttrNames)
         
         # get log
         log = log_utils.get_log()
