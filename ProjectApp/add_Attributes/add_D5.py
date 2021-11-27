@@ -6,7 +6,8 @@ from pm4py.objects.log.importer.xes import importer as xes_importer
 # given an event log(sorted by timestamps!!!), add min[attribute](D4) attribute to each event and then return the log
 # Definition D5: computes the min value at event time(including itself), undefined is the placeholder, if there were no prior assignments of the attribute
 def add_D5(log, attr):
-
+    '''given an event log(sorted by timestamps!!!), add min[attribute](D4) attribute to each event and then return the log
+         Definition D5: computes the min value at event time(including itself), undefined is the placeholder'''
     for trace in log:
         for event in trace:  
             event['min' + attr + '(D5)'] = minValue(trace, event, attr)
@@ -18,6 +19,7 @@ def add_D5(log, attr):
 
 # returns the min value of an attribute at time of a given event(inlcuding itself)
 def minValue(trace, event, attr):
+    '''returns the min value of an attribute at time of a given event(inlcuding itself)'''
 
     # denotes the min value of the attribute
     min_Value = 0.0

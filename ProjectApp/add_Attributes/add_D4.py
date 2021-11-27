@@ -6,7 +6,8 @@ from pm4py.objects.log.importer.xes import importer as xes_importer
 # given an event log(sorted by timestamps!!!), add max[attribute](D4) attribute to each event and then return the log
 # Definition D4: computes the max value at event time(including itself), undefined is the placeholder, if there were no prior assignments of the attribute
 def add_D4(log, attr):
-
+    '''given an event log(sorted by timestamps!!!), add max[attribute](D4) attribute to each event and then return the log,
+            Definition D4: computes the max value at event time(including itself), undefined is the placeholder'''
     for trace in log:
         for event in trace:  
             event['max' + attr + '(D4)'] = maxValue(trace, event, attr)
@@ -18,6 +19,7 @@ def add_D4(log, attr):
 
 # returns the max value of an attribute at time of a given event(inlcuding itself)
 def maxValue(trace, event, attr):
+    '''returns the max value of an attribute at time of a given event(inlcuding itself)'''
 
     # denotes the max value of the attribute
     max_Value = 0.0

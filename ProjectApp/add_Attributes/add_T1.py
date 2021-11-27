@@ -2,31 +2,63 @@ import pm4py
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from datetime import datetime
 
-# TODO Maybe implement alternative definition without start and Complete transition
-# !!! Requires Complete and Start event values under lifecycle:transition AND No simultaneous same activities in same trace
-# REQUIRES event attribute named "time:timestamp"
-# REQUIRES event attribute named "Activity"
-# given an event log(sorted by timestamps!!!), add ActivityTime(T1) attribute to each Complete event and then return the log
-# Definition T1: computes the activity time of an event, undefined is the placeholder, if there were no prior Start of the attribute
+from ProjectApp import log_utils
+
+
+
+
+
+# given an event log(sorted by timestamps!!!), add ActivityTime(T1) attribute, return new log
+# Definition T1: computes the activity time of an event through lifecycle:transition attribute, if not there or no Start event, compute timedifference between previous event
 def add_T1(log):
+    '''given an event log(sorted by timestamps!!!), add ActivityTime(T1) attribute, return new log
+            Definition T1: computes the activity time of an event through lifecycle:transition attribute, 
+                if not there or no Start event, compute timedifference between previous event'''
 
-    for trace in log:
-        for event in trace:  
-            # check if transition is there and if so whether its complete
-            if 'lifecycle:transition' in event:
-                if event['lifecycle:transition'] == 'Complete':
-                    event['ActivityTime(T1)'] = actTime(trace, event)
-            else:
-                event['ActivityTime(T1)'] = 'NoTransitionAttr'
-            
+    # if a lifecycle transition attribute has not been designated, just substract time of current minus previous
+    if not log_utils.lifecycle_transition_attr:
+        for trace in log:
+            pre_time = 0
+            for event in trace:
+                if pre_time != 0:
+                    event['ActivityTime(T1)'] = event[log_utils.timestamp_attr] - pre_time
+                # if start event of trace set duration to 0
+                else: 
+                    event['ActivityTime(T1)'] = 0
+                pre_time = event[log_utils.timestamp_attr]
 
 
+
+    # if there is a lifecycle transition attribute
+    else: 
+        for trace in log:
+            for event in trace:  
+                # check if transition is there(should be a given, since it has been designated) and if so whether its complete
+                if log_utils.lifecycle_transition_attr in event:
+                    if event[log_utils.lifecycle_transition_attr] == 'Complete' or event[log_utils.lifecycle_transition_attr] == 'complete':
+                        event['ActivityTime(T1)'] = actTime(trace, event)
+                # should never be reached, as a lifecycle attribute has been designated
+                else:
+                    event['ActivityTime(T1)'] = 'No lifecycle attribute DESPITE designation'
+                    print('!!!!!During adding of T1 there was an event without lifecycle transition despite its designation!!!!!')
+                    print(event)
+        
     return log
+
+
+
+
+
+
+
+
+
 
 
 
 # returns the activity time of a given Complete event
 def actTime(trace, event):
+    '''returns the activity time of a given Complete event'''
 
     # denotes the duration of activity
     act_dur = 'undefined'
@@ -39,8 +71,9 @@ def actTime(trace, event):
     for ev in trace:
         # check for same activity as event but with transition = Start
         if before:
-            if ev['Activity'] == event['Activity'] and ev['lifecycle:transition'] == 'Start':
-                act_start = ev['time:timestamp']
+            if ev[log_utils.activity_attr] == event[log_utils.activity_attr]:
+                if ev[log_utils.lifecycle_transition_attr] == 'Start' or ev[log_utils.lifecycle_transition_attr] == 'start':
+                    act_start = ev[log_utils.timestamp_attr]
 
         # update before
         if ev == event:
@@ -48,10 +81,35 @@ def actTime(trace, event):
 
     # compute activity duration and return it if start event has been found
     if act_start != 0:
-        act_dur = event['time:timestamp'] - act_start
+        act_dur = event[log_utils.timestamp_attr] - act_start
         return act_dur
+    # if no corresponding start event was found, use previous event timestamp to subtract with
+    else: 
+        previous_time = 0
+        before = True
 
-    return 'undefined'
+        for ev in trace:
+            # update before
+            if ev == event:
+                before = False
+            # update previous time
+            if before:
+                previous_time = ev[log_utils.timestamp_attr]
+
+        act_dur = event[log_utils.timestamp_attr] - previous_time
+        if previous_time != 0:
+            return act_dur
+        # if event without corresponding start event was the trace's first event, return 0
+        else:
+            return 0
 
 
-# TODO HAS NOT BEEN TESTED DUE TO LACK OF LOG WITH TRANSITION
+
+
+
+
+
+
+
+
+

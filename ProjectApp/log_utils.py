@@ -9,6 +9,11 @@ from pm4py.objects.conversion.log import converter as log_converter
 from pm4py.util import constants
 from xml.etree.ElementTree import ElementTree as ET
 
+# global variables for designating activity, resource, timestamp etc. with their default values
+activity_attr = 'Activity'
+resource_attr = 'Resource'
+timestamp_attr = 'time:timestamp'
+lifecycle_transition_attr = ''
 
 
 def getPathOfLogFile():

@@ -6,6 +6,8 @@ from pm4py.objects.log.importer.xes import importer as xes_importer
 # given an event log(sorted by timestamps!!!), add avg[attribute](D3) attribute to each event and then return the log
 # Definition D3: computes the average value at event time(including itself), undefined is the placeholder, if there were no prior assignments of the attribute
 def add_D3(log, attr):
+    '''given an event log(sorted by timestamps!!!), add avg[attribute](D3) attribute to each event and then return the log
+            Definition D3: computes the average value at event time(including itself), undefined is the placeholder'''
 
     for trace in log:
         for event in trace:  
@@ -18,6 +20,7 @@ def add_D3(log, attr):
 
 # returns the average value of an attribute at time of a given event(inlcuding itself)
 def avgValue(trace, event, attr):
+    '''returns the average value of an attribute at time of a given event(inlcuding itself)'''
 
     # denotes the sum value of the attribute
     attr_Value = 0.0
