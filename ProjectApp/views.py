@@ -93,12 +93,25 @@ def download(request):
 def filters(request):
     return render(request, 'ProjectApp/Filters.html')
 
-# gets called after update event log button is clicked, gets a request with a string for derivable attributes and extraInfos
+# gets called after Filter event log button is clicked, gets a request with a string for chosen filters and extra Input
 @csrf_exempt
 def filtereventlog(request):
     if request.method == 'POST':
         filters = str(request.POST.get('listFilters'))
+        extra_input = str(request.POST.get('ExtraInput'))
         print('Filters: ' + filters)
+        print('ExtraInput for filters: ' + extra_input)
+
+        # get log
+        log = log_utils.get_log()
+
+        # call function to apply all filters
+        print('calling apply_filters')
+        log = apply_filters.callAllFilters(log, filters, extra_input)
+
+        # update log
+        log_utils.update_log(log)
+
     return JsonResponse({'post':'false'})
 
 def downloadFilters(request):

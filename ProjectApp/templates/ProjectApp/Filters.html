@@ -6,13 +6,13 @@
 <div style='position: absolute; top: 25%; left: 46%; right: 20%; text-align: center;'>
     <h1>Chose how to filter your event log:</h1>
     <div class="sidenav" style='border: 1px solid black; width: 100%; height:50%; text-align: center'>
-        <a id='filter1' onclick='check_filter1()' style='padding:0px 0px 20px 0px; text-align: center;'>Keep All Events</a>
-        <a id='filter2' onclick='check_filter2()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep First Event Of A Case</a>
-        <a id='filter3' onclick='check_filter3()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep Last Event Of A Case</a>
-        <a id='filter4' onclick='check_filter4()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep ”Complete” Events</a>
-        <a id='filter5' onclick='check_filter5()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep ”Start” Events</a>
-        <a id='filter6' onclick='check_filter6()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep Events With A Certain Activity</a>
-        <a id='filter7' onclick='check_filter7()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep Events With A Certain Resource</a>
+        <a id='filter1' onclick='check_filter1()' style='padding:0px 0px 20px 0px; text-align: center;'>Keep All Events(F1)</a>
+        <a id='filter2' onclick='check_filter2()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep First Event Of A Case(F2)</a>
+        <a id='filter3' onclick='check_filter3()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep Last Event Of A Case(F3)</a>
+        <a id='filter4' onclick='check_filter4()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep ”Complete” Events(F4)</a>
+        <a id='filter5' onclick='check_filter5()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep ”Start” Events(F5)</a>
+        <a id='filter6' onclick='check_filter6()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep Events With A Certain Activity(F6)</a>
+        <a id='filter7' onclick='check_filter7()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep Events With A Certain Resource(F7)</a>
     </div>
 
     <button type='button' onclick='filterButton()' style='margin-top:10%; width: 380px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
@@ -127,11 +127,15 @@
     }
 
 
+    // upon clicking filter all previously selected filters are sent to views, if neccessary with extra input
     function filterButton() {    
         
         document.getElementById('DFEL').style.visibility ='visible'
         
+        // list all chosen filters
         const listFilters = []
+        // list for extra input
+        const listExtraInput = []
         
         if (filter1==1){
             listFilters.push("F1")
@@ -155,15 +159,22 @@
 
         if (filter6==1){
             listFilters.push("F6")
+            let additional_input = prompt("Filter F6 requires the name of an activity, which is to be filtered for");
+            console.log("Chosen activity for F6"+ additional_input)
+            listExtraInput.push('F6:' + additional_input)
         }
 
         if (filter7==1){
             listFilters.push("F7")
+            let additional_input = prompt("Filter F7 requires the name of a resource, which is to be filtered for");
+            console.log("Chosen resource for F7"+ additional_input)
+            listExtraInput.push('F7:' + additional_input)
         }
 
 
         let data =new FormData();
         data.append('listFilters',listFilters)
+        data.append('ExtraInput',listExtraInput)
 
         // TODO add listExtraInput
         // AJAX UPLOAD TO SERVER
