@@ -1,0 +1,183 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+<div style='position: absolute; top: 25%; left: 46%; right: 20%; text-align: center;'>
+    <h1>Chose how to filter your event log:</h1>
+    <div class="sidenav" style='border: 1px solid black; width: 100%; height:50%; text-align: center'>
+        <a id='filter1' onclick='check_filter1()' style='padding:0px 0px 20px 0px; text-align: center;'>Keep All Events</a>
+        <a id='filter2' onclick='check_filter2()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep First Event Of A Case</a>
+        <a id='filter3' onclick='check_filter3()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep Last Event Of A Case</a>
+        <a id='filter4' onclick='check_filter4()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep ”Complete” Events</a>
+        <a id='filter5' onclick='check_filter5()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep ”Start” Events</a>
+        <a id='filter6' onclick='check_filter6()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep Events With A Certain Activity</a>
+        <a id='filter7' onclick='check_filter7()' style='padding:0px 0px 20px 0px; text-align: center;'>Only Keep Events With A Certain Resource</a>
+    </div>
+
+    <button type='button' onclick='filterButton()' style='margin-top:10%; width: 380px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
+        Filter Event Log
+    </button>
+
+    <button type='button' id='DFEL' onclick="window.location.href='download/';" style='visibility: hidden; margin-top:10%; width: 380px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
+        Download Filtered Event Log
+    </button>
+
+</div>  
+
+<script>
+
+    var filter1 = 0
+    var filter2 = 0
+    var filter3 = 0
+    var filter4 = 0
+    var filter5 = 0
+    var filter6 = 0
+    var filter7 = 0
+
+    function check_filter1(){
+        if (filter1==0){
+            filter1 = 1
+            document.getElementById('filter1').style.color='white'
+            document.getElementById('filter1').style.backgroundColor='lightblue'
+        }
+        else {
+            filter1 = 0
+            document.getElementById('filter1').style.color='#818181'
+            document.getElementById('filter1').style.backgroundColor='white'
+        }
+    }
+
+    function check_filter2(){
+        if (filter2==0){
+            filter2 = 1
+            document.getElementById('filter2').style.color='white'
+            document.getElementById('filter2').style.backgroundColor='lightblue'
+        }
+        else {
+            filter2 = 0
+            document.getElementById('filter2').style.color='#818181'
+            document.getElementById('filter2').style.backgroundColor='white'
+        }
+    }
+
+    function check_filter3(){
+        if (filter3==0){
+            filter3 = 1
+            document.getElementById('filter3').style.color='white'
+            document.getElementById('filter3').style.backgroundColor='lightblue'
+        }
+        else {
+            filter3 = 0
+            document.getElementById('filter3').style.color='#818181'
+            document.getElementById('filter3').style.backgroundColor='white'
+        }
+    }
+
+    function check_filter4(){
+        if (filter4==0){
+            filter4 = 1
+            document.getElementById('filter4').style.color='white'
+            document.getElementById('filter4').style.backgroundColor='lightblue'
+        }
+        else {
+            filter4 = 0
+            document.getElementById('filter4').style.color='#818181'
+            document.getElementById('filter4').style.backgroundColor='white'
+        }
+    }
+
+    function check_filter5(){
+        if (filter5==0){
+            filter5 = 1
+            document.getElementById('filter5').style.color='white'
+            document.getElementById('filter5').style.backgroundColor='lightblue'
+        }
+        else {
+            filter5 = 0
+            document.getElementById('filter5').style.color='#818181'
+            document.getElementById('filter5').style.backgroundColor='white'
+        }
+    }
+
+    function check_filter6(){
+        if (filter6==0){
+            filter6 = 1
+            document.getElementById('filter6').style.color='white'
+            document.getElementById('filter6').style.backgroundColor='lightblue'
+        }
+        else {
+            filter6 = 0
+            document.getElementById('filter6').style.color='#818181'
+            document.getElementById('filter6').style.backgroundColor='white'
+        }
+    }
+
+    function check_filter7(){
+        if (filter7==0){
+            filter7 = 1
+            document.getElementById('filter7').style.color='white'
+            document.getElementById('filter7').style.backgroundColor='lightblue'
+        }
+        else {
+            filter7 = 0
+            document.getElementById('filter7').style.color='#818181'
+            document.getElementById('filter7').style.backgroundColor='white'
+        }
+    }
+
+
+    function filterButton() {    
+        
+        document.getElementById('DFEL').style.visibility ='visible'
+        
+        const listFilters = []
+        
+        if (filter1==1){
+            listFilters.push("F1")
+        }
+        
+        if (filter2==1){
+            listFilters.push("F2")
+        }
+
+        if (filter3==1){
+            listFilters.push("F3")
+        }
+
+        if (filter4==1){
+            listFilters.push("F4")
+        }
+
+        if (filter5==1){
+            listFilters.push("F5")
+        }
+
+        if (filter6==1){
+            listFilters.push("F6")
+        }
+
+        if (filter7==1){
+            listFilters.push("F7")
+        }
+
+
+        let data =new FormData();
+        data.append('listFilters',listFilters)
+
+        // TODO add listExtraInput
+        // AJAX UPLOAD TO SERVER
+        fetch("ListFilters/", {
+        method: "POST",
+        body: data
+        })
+        .then((res) => { return res.text(); })
+        .then((txt) => { console.log(txt); });
+
+
+    }
+
+</script>
+
+
+{% endblock %}

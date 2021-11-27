@@ -74,7 +74,7 @@
         Update Event Log
     </button>
 
-    <button type='button' id='DUEL' onclick="window.location.href='download/';" style='display:none; margin-top:10%; width: 380px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
+    <button type='button' id='DUEL' onclick="window.location.href='download/';" style='visibility: hidden; margin-top:10%; width: 380px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
         Download Updated Event Log
     </button>
 
@@ -164,7 +164,7 @@
     // finally does ajax upload
     function updateButton() {    
         
-        document.getElementById('DUEL').style.display='block'
+        document.getElementById('DUEL').style.visibility='visible'
         
         const listattributes = []
         const listExtraInput = []
