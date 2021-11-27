@@ -10,6 +10,7 @@ from . import log_utils
 
 from .add_Attributes import add_Attr
 from . import apply_filters
+from . import use_case_analysis
 
 import sys
 
@@ -111,6 +112,9 @@ def filtereventlog(request):
 
         # update log
         log_utils.update_log(log)
+
+        # TODO: DELETE TEST OF USE CASE ANALYSIS
+        # log = use_case_analysis.analyze_log(log, 'Resource', ['Activity','case:concept:name'])
 
     return JsonResponse({'post':'false'})
 

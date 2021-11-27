@@ -89,4 +89,12 @@ def get_log_attributes(log):
     '''Returns event attributes of the given log(Just looks at first event!)'''
 
     return list(log[0][0].keys())
-    
+
+
+
+def get_df_of_log(log):
+    '''Given a log return converted dataframe(pandas)'''
+    parameters = {log_converter.Variants.TO_DATA_FRAME.value.Parameters.DEEP_COPY: True}
+    df = log_converter.apply(log, parameters=parameters, variant=log_converter.Variants.TO_DATA_FRAME)
+
+    return df
