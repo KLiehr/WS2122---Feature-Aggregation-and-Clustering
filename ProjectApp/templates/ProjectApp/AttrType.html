@@ -2,5 +2,185 @@
 
 {% block content %} 
 
+<div style='position: absolute; top: 25%; left: 20%; right: 20%; bottom: 5%; text-align: center;'>
+    <h2>Choose the Case ID Attribute:</h2>
+    <div class="sidenav" id='caseID' style='border: 1px solid black; width: 100%; height: 200px; text-align: center; overflow:auto'>
+
+    </div>
+    
+</div>
+
+<div style='position: absolute; top: 80%; left: 10%; right: 55%; bottom: 80%; text-align: center;'>
+    <h2>Choose the Activity Attribute:</h2>
+    <div class="sidenav" id='activity' style='border: 1px solid black; width: 100%; height: 200px; text-align: center; overflow:auto'>
+
+    </div>
+    
+</div>
+
+<div style='position: absolute; top: 80%; left: 55%; right: 10%; bottom: 80%; text-align: center;'>
+    <h2>Choose the Resource Attribute:</h2>
+    <div class="sidenav" id='resource' style='border: 1px solid black; width: 100%; height: 200px; text-align: center; overflow:auto'>
+
+    </div>
+    
+</div>
+
+<div style='position: absolute; top: 135%; left: 10%; right: 55%; bottom: 5%; text-align: center;'>
+    <h2>Choose the Timestamp Attribute:</h2>
+    <div class="sidenav" id='timestamp' style='border: 1px solid black; width: 100%; height: 200px; text-align: center; overflow:auto'>
+
+    </div>
+    
+</div>
+
+<div style='position: absolute; top: 135%; left: 55%; right: 10%; bottom: 5%; text-align: center;'>
+    <h2>Choose the Lifecycle Attribute:</h2>
+    <div class="sidenav" id='lifecycle' style='border: 1px solid black; width: 100%; height: 200px; text-align: center; overflow:auto'>
+
+    </div>
+    
+</div>
+
+<div style='position: absolute; top: 180%; left: 15%; right: 15%; text-align: center;'>
+
+    <button id="saveButton" type='button' onclick='SaveAttrNames()' style='visibility:hidden; margin-top:10%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
+        Save
+    </button>
+</div>
+
+
+<script>
+    document.getElementById('sideMenu').style.display = "none";
+    // gets the list of attributes from the current event log
+    var attributesNames = {{attributesNames|safe}};
+    // presents the attributes for the user to choose
+    var strCaseID = ''
+    attributesNames.forEach(function(attr){
+        strCaseID += "<a id='caseID"+attr + "' onclick='selectCaseID(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('caseID').innerHTML = strCaseID;
+
+    var strActivity = "<a id='noActivity' onclick='selectActivity(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>NO ACTIVITY ATTRIBUTE IN LOG</a>"
+    attributesNames.forEach(function(attr){
+        strActivity += "<a id='activity"+attr + "' onclick='selectActivity(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('activity').innerHTML = strActivity;
+
+    var strResource = "<a id='noResource' onclick='selectResource(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'> NO RESOURCE ATTRIBUTE IN LOG</a>"
+    attributesNames.forEach(function(attr){
+        strResource += "<a id='resource"+attr + "' onclick='selectResource(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('resource').innerHTML = strResource;
+
+    var strTimestamp = ''
+    attributesNames.forEach(function(attr){
+        strTimestamp += "<a id='timestamp"+attr + "' onclick='selectTimestamp(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('timestamp').innerHTML = strTimestamp;
+
+    var strLifecycle = "<a id='noLifecycle' onclick='selectLifecycle(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>NO LIFECYCLE ATTRIBUTE IN LOG</a>"
+    attributesNames.forEach(function(attr){
+        strLifecycle += "<a id='lifecycle"+attr + "' onclick='selectLifecycle(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('lifecycle').innerHTML = strLifecycle;
+
+
+    //creates a string with the chosen attribute
+    var caseID=''
+    function selectCaseID(clicked_id){
+        strCaseID = ''
+        attributesNames.forEach(function(attr){
+            strCaseID += "<a id='caseID"+attr + "' onclick='selectCaseID(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+        });
+        document.getElementById('caseID').innerHTML = strCaseID;
+        caseID=document.getElementById(clicked_id).innerText
+        document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0){
+            document.getElementById('saveButton').style = 'visibility:visible; margin-top:10%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;';
+        }
+    }
+
+    var activity=''
+    function selectActivity(clicked_id){
+        strActivity = "<a id='noActivity' onclick='selectActivity(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>NO ACTIVITY ATTRIBUTE IN LOG</a>"
+        attributesNames.forEach(function(attr){
+            strActivity += "<a id='activity"+attr + "' onclick='selectActivity(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+        });
+        document.getElementById('activity').innerHTML = strActivity;
+        activity=document.getElementById(clicked_id).innerText
+        document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0){
+            document.getElementById('saveButton').style = 'visibility:visible; margin-top:10%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;';
+        }
+    }
+
+    var resource=''
+    function selectResource(clicked_id){
+        strResource = "<a id='noResource' onclick='selectResource(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'> NO RESOURCE ATTRIBUTE IN LOG</a>"
+        attributesNames.forEach(function(attr){
+            strResource += "<a id='resource"+attr + "' onclick='selectResource(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+        });
+        document.getElementById('resource').innerHTML = strResource;
+        resource=document.getElementById(clicked_id).innerText
+        document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0){
+            document.getElementById('saveButton').style = 'visibility:visible; margin-top:10%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;';
+        }
+    }
+
+    var timestamp=''
+    function selectTimestamp(clicked_id){
+        strTimestamp = ''
+        attributesNames.forEach(function(attr){
+            strTimestamp += "<a id='timestamp"+attr + "' onclick='selectTimestamp(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+        });
+        document.getElementById('timestamp').innerHTML = strTimestamp;
+        timestamp=document.getElementById(clicked_id).innerText
+        document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0){
+            document.getElementById('saveButton').style = 'visibility:visible; margin-top:10%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;';
+        }
+    }
+
+    var lifecycle=''
+    function selectLifecycle(clicked_id){
+        strLifecycle = "<a id='noLifecycle' onclick='selectLifecycle(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>NO LIFECYCLE ATTRIBUTE IN LOG</a>"
+        attributesNames.forEach(function(attr){
+            strLifecycle += "<a id='lifecycle"+attr + "' onclick='selectLifecycle(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+        });
+        document.getElementById('lifecycle').innerHTML = strLifecycle;
+        lifecycle=document.getElementById(clicked_id).innerText
+        document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0){
+            document.getElementById('saveButton').style = 'visibility:visible; margin-top:10%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;';
+        }
+    }
+
+
+
+    function SaveAttrNames(){
+
+        let data =new FormData();
+        data.append('caseID',caseID)
+        data.append('activity',activity)
+        data.append('resource',resource)
+        data.append('timestamp',timestamp)
+        data.append('lifecycle',lifecycle)
+
+        // AJAX UPLOAD TO SERVER
+        fetch("SaveAttrNames/", {
+        method: "POST",
+        body: data
+        })
+        .then((res) => { return res.text(); })
+        .then((txt) => { console.log(txt); });
+        alert('Your Event Log Is Saved!!!')
+        location.href="/Import"
+    }
+
+
+</script>
+
 
 {% endblock %}
