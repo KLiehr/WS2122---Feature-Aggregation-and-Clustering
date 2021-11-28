@@ -15,8 +15,9 @@ from . import use_case_analysis
 
 import sys
 
-
-
+import pandas as pd
+import pm4py
+import json
 
 # Create your views here.
 
@@ -44,6 +45,9 @@ def file_upload_view(request):
         Doc.objects.create(upload=my_file)
         return HttpResponse('')
     return JsonResponse({'post':'false'})
+
+def attrType(request):
+    return render(request, 'ProjectApp/AttrType.html')
 
 
 def attributes(request):
@@ -89,7 +93,7 @@ def download(request):
         response['Content-Type'] = 'application/octet-stream' #Set the header to tell the browser that this is a file
         response['Content-Disposition'] = 'attachment;filename="our_file.xes"' #This is a simple description of the file. Note that the writing is the fixed one
         return response
-    return Http404
+    return HttpResponse('No File')
 
 
 def filters(request):
@@ -134,4 +138,39 @@ def downloadFilters(request):
         response['Content-Type'] = 'application/octet-stream' #Set the header to tell the browser that this is a file
         response['Content-Disposition'] = 'attachment;filename="our_file.xes"' #This is a simple description of the file. Note that the writing is the fixed one
         return response
-    return Http404
+    return HttpResponse('No File')
+
+
+def useCase(request):
+    #create array with attribute names for CSV file
+    if os.path.exists('media\eventlog\our_file.csv'):
+        ourFile=pd.read_csv('media\eventlog\our_file.csv', header=0)
+        arrayAttrCSV=list(ourFile.columns)
+        print(arrayAttrCSV)
+        #add attribute names to UseCase.html
+        context={}
+        context['attributesNames']=json.dumps(arrayAttrCSV)
+        return render(request, 'ProjectApp/UseCase.html', context)
+    
+    #create array with attribute names for XES file
+    if os.path.exists('media\eventlog\our_file.xes'):
+        ourFile=pm4py.read_xes('media\eventlog\our_file.xes')
+        ourFile= pm4py.convert_to_dataframe(ourFile)
+        arrayAttrCSV=list(ourFile.columns)
+        print(arrayAttrCSV)
+        #add attribute names to UseCase.html
+        context={}
+        context['attributesNames']=json.dumps(arrayAttrCSV)
+        return render(request, 'ProjectApp/UseCase.html', context)
+
+    return render(request, 'ProjectApp/UseCase.html')
+
+@csrf_exempt
+def decisionTree(request):
+    if request.method == 'POST':
+        dependent = str(request.POST.get('dependent'))
+        independent = str(request.POST.get('independent'))
+        print('Dependent Attribute:' + dependent)
+        print('Independent Attributes:' + independent)
+
+    return JsonResponse({'post':'false'})

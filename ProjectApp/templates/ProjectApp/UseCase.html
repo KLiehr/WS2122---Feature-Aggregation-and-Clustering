@@ -1,0 +1,107 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div>
+    <div style='position: absolute; top: 25%; left: 30%; right: 40%; text-align: center;'>
+        <h2>Choose the Dependent Attribute:</h2>
+        <div class="sidenav" id='dependent' style='border: 1px solid black; width: 100%; height: 300px; text-align: center; overflow:auto'>
+
+        </div>
+        
+    </div>
+
+    <div style='position: absolute; top: 20%; left: 65%; right: 5%; text-align: center;'>
+        <h2>Choose any number of Independent Attributes:</h2>
+        <div class="sidenav" id='independent' style='border: 1px solid black; width: 100%; height: 300px; text-align: center; overflow:auto'>
+
+        </div>
+    </div>
+
+    <div style='position: absolute; top: 85%; left: 30%; right: 5%; text-align: center;'>
+
+        <button type='button' onclick='decisionTreeButton()' style='margin-top:10%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
+            Decision Tree
+        </button>
+
+        <!-- <button type='button' onclick='' style='margin-top:10%; margin-left: 7%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
+            Clustering
+        </button>
+
+        <button type='button' onclick='' style='margin-top:10%; margin-left: 7%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
+            Process Model
+        </button> -->
+    
+    </div>
+
+    
+
+</div>
+
+<script>
+
+    // gets the list of attributes from the current event log
+    var attributesNames = {{attributesNames|safe}};
+    // presents the attributes for the user to choose the dependent and independent attributes
+    var strDependent = ''
+    attributesNames.forEach(function(attr){
+        strDependent += "<a id='dependent"+attr + "' onclick='selectDependent(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('dependent').innerHTML = strDependent;
+
+    var strIndependent = ''
+    attributesNames.forEach(function(attr){
+        strIndependent += "<a id='independent"+attr + "' onclick='selectIndependent(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('independent').innerHTML = strIndependent;
+
+
+    //creates a string with the chosen depedent attribute
+    var dependent=''
+    function selectDependent(clicked_id){
+        strDependent = ''
+        attributesNames.forEach(function(attr){
+            strDependent += "<a id='dependent"+attr + "' onclick='selectDependent(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+        });
+        document.getElementById('dependent').innerHTML = strDependent;
+        dependent=document.getElementById(clicked_id).innerText
+        document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+    }
+    
+    //creates a string with the chosen indepedent attribute
+    var independent=[]
+    function selectIndependent(clicked_id){
+        var index = independent.indexOf(document.getElementById(clicked_id).innerText)
+        if(index>-1){
+            independent.splice(index,1);
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center;'
+        }
+        else{
+            independent.push(document.getElementById(clicked_id).innerText)
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+        }
+    }
+
+    function decisionTreeButton(){
+
+        let data =new FormData();
+        data.append('dependent',dependent)
+        data.append('independent',independent)
+
+        // TODO add listExtraInput
+        // AJAX UPLOAD TO SERVER
+        fetch("DecisionTree/", {
+        method: "POST",
+        body: data
+        })
+        .then((res) => { return res.text(); })
+        .then((txt) => { console.log(txt); });
+
+    }
+
+    
+    
+</script>
+
+
+{% endblock %}
+
