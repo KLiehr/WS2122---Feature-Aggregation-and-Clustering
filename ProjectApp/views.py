@@ -47,7 +47,31 @@ def file_upload_view(request):
     return JsonResponse({'post':'false'})
 
 def attrType(request):
-    return render(request, 'ProjectApp/AttrType.html')
+    arrayAttr = log_utils.get_log_attributes()
+    print(arrayAttr)
+    #add attribute names to UseCase.html
+    context={}
+    context['attributesNames']=json.dumps(arrayAttr)
+    return render(request, 'ProjectApp/AttrType.html', context)
+
+@csrf_exempt
+def saveAttrNames(request):
+    '''Gets called when clicking Save on AttrType page'''
+
+    if request.method == 'POST':
+        caseID_attr = str(request.POST.get('caseID'))
+        activity_attr = str(request.POST.get('activity'))
+        resource_attr = str(request.POST.get('resource'))
+        timestamp_attr = str(request.POST.get('timestamp'))
+        lifecycle_attr = str(request.POST.get('lifecycle'))
+
+        print('CaseID Attribute:' + caseID_attr)
+        print('Activity Attributes:' + activity_attr)
+        print('Resource Attributes:' + resource_attr)
+        print('Timestamp Attributes:' + timestamp_attr)
+        print('Lifecycle Attributes:' + lifecycle_attr)
+
+    return JsonResponse({'post':'false'})
 
 
 def attributes(request):
