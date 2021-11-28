@@ -89,11 +89,7 @@ def update_log(log):
     print("Updated log file!")
 
 
-# TODO Properly read out log events rather than first event, for csv easy first line, but how for XES, treat it as XML?
-def get_log_attributes(log):
-    '''Returns event attributes of the given log(Just looks at first event!)'''
 
-    return list(log[0][0].keys())
 
 
 
@@ -103,3 +99,12 @@ def get_df_of_log(log):
     df = log_converter.apply(log, parameters=parameters, variant=log_converter.Variants.TO_DATA_FRAME)
 
     return df
+
+
+# gets event attributes by columns, TODO ISSUE WITH TRACE ATTRIBUTES????
+def get_log_attributes(log):
+    '''Returns event attributes of the given log'''
+    log_df = get_df_of_log(log)
+    return str(log_df.columns)
+
+    return list(log[0][0].keys())

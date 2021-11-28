@@ -1,3 +1,4 @@
+from math import log10
 from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
@@ -112,6 +113,8 @@ def filtereventlog(request):
 
         # update log
         log_utils.update_log(log)
+
+        print(log_utils.get_log_attributes(log))
 
         # TODO: DELETE TEST OF USE CASE ANALYSIS
         # log = use_case_analysis.analyze_log(log, 'Resource', ['Activity','case:concept:name'])
