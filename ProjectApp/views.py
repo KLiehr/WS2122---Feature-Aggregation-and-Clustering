@@ -141,36 +141,37 @@ def downloadFilters(request):
     return HttpResponse('No File')
 
 
-def useCase(request):
-    #create array with attribute names for CSV file
-    if os.path.exists('media\eventlog\our_file.csv'):
-        ourFile=pd.read_csv('media\eventlog\our_file.csv', header=0)
-        arrayAttrCSV=list(ourFile.columns)
-        print(arrayAttrCSV)
-        #add attribute names to UseCase.html
-        context={}
-        context['attributesNames']=json.dumps(arrayAttrCSV)
-        return render(request, 'ProjectApp/UseCase.html', context)
-    
-    #create array with attribute names for XES file
-    if os.path.exists('media\eventlog\our_file.xes'):
-        ourFile=pm4py.read_xes('media\eventlog\our_file.xes')
-        ourFile= pm4py.convert_to_dataframe(ourFile)
-        arrayAttrCSV=list(ourFile.columns)
-        print(arrayAttrCSV)
-        #add attribute names to UseCase.html
-        context={}
-        context['attributesNames']=json.dumps(arrayAttrCSV)
-        return render(request, 'ProjectApp/UseCase.html', context)
 
-    return render(request, 'ProjectApp/UseCase.html')
+def useCase(request):
+    '''Gets called upon visiting UseCase, returns the attributes of the log per json'''
+    
+    log = log_utils.get_log()
+    all_log_attr = log_utils.get_log_attributes(log)
+
+    #add attribute names to UseCase.html
+    context={}
+    context['attributesNames']=json.dumps(all_log_attr)
+    return render(request, 'ProjectApp/UseCase.html', context)
+
 
 @csrf_exempt
 def decisionTree(request):
+    '''Gets called when clicking Decision Tree on UseCase page'''
+
     if request.method == 'POST':
-        dependent = str(request.POST.get('dependent'))
-        independent = str(request.POST.get('independent'))
-        print('Dependent Attribute:' + dependent)
-        print('Independent Attributes:' + independent)
+        dependent_attr = str(request.POST.get('dependent'))
+        independent_attr = str(request.POST.get('independent'))
+        print('Dependent Attribute:' + dependent_attr)
+        print('Independent Attributes:' + independent_attr)
+
+    # get log
+    log = log_utils.get_log()
+
+    # call function to apply all filters
+    print('Creating a Decision/Regression tree!')
+    log = use_case_analysis.analyze_log(log, dependent_attr, independent_attr.split(','))
+
+    # update log(NOT NECESSARY; LOG UNCHANGED)
+    # log_utils.update_log(log)
 
     return JsonResponse({'post':'false'})
