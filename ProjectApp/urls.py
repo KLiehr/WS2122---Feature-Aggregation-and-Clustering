@@ -12,6 +12,4 @@ urlpatterns=[
     path('Filters/', views.filters, name="filters"),
     path('Filters/ListFilters/', views.filtereventlog, name='filtereventlog'),
     path('Filters/download/', views.downloadFilters,name='downloadFilters'),
-    path('UseCase/', views.useCase, name="useCase"),
-    path('UseCase/DecisionTree/', views.decisionTree, name='decisionTree'),
 ]
