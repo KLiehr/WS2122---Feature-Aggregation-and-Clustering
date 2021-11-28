@@ -145,8 +145,8 @@ def downloadFilters(request):
 def useCase(request):
     '''Gets called upon visiting UseCase, returns the attributes of the log per json'''
     
-    log = log_utils.get_log()
-    all_log_attr = log_utils.get_log_attributes(log)
+
+    all_log_attr = log_utils.get_log_attributes()
 
     #add attribute names to UseCase.html
     context={}

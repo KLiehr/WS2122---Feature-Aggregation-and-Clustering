@@ -5,7 +5,7 @@ import sys
 import os
 import pandas as pd
 from pm4py.objects.log.util import dataframe_utils
-from pm4py.objects.conversion.log import converter as log_converter
+from pm4py.objects.conversion.log import converter as log_converter, variants
 from pm4py.util import constants
 from xml.etree.ElementTree import ElementTree as ET
 
@@ -72,7 +72,7 @@ def get_log():
         # !!!!!! REQUIRES CSV TO HAVE designated timestamp and case columns !!!!!! 
         if not case_id_attr:
             raise NameError("No Value assigned to case_id_attr, hence conversion of csv to log failed")
-        log_csv = pd.read_csv(getPathOfLogFile, sep=',')
+        log_csv = pd.read_csv(getPathOfLogFile(), sep=',')
         # denotes the case id attribute
         our_parameters = {log_converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY: case_id_attr}
         log_csv = dataframe_utils.convert_timestamp_columns_in_df(log_csv)
@@ -107,9 +107,15 @@ def get_df_of_log(log):
 
 
 # gets event attributes by columns
-def get_log_attributes(log):
+def get_log_attributes():
     '''Returns event attributes of the given log'''
-    log_df = get_df_of_log(log)
+    if isXES():
+        variant = xes_importer.Variants.ITERPARSE
+        log = xes_importer.apply(getPathOfLogFile(), variant=variant)
+        log_df = get_df_of_log(log)
+    else:
+        log_df = pd.read_csv(getPathOfLogFile(), sep=',')
+
     return list(log_df.columns)
 
     # return list(log[0][0].keys())
