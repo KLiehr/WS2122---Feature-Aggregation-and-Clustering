@@ -101,10 +101,20 @@ def get_df_of_log(log):
     return df
 
 
-# gets event attributes by columns, TODO POSSIBLE ISSUE WITH TRACE LEVEL ATTRIBUTES????
+# gets event attributes by columns
 def get_log_attributes(log):
     '''Returns event attributes of the given log'''
     log_df = get_df_of_log(log)
     return list(log_df.columns)
 
     # return list(log[0][0].keys())
+
+def isNumerical(log_df, col_name):
+    '''Given a pandas dataframe of a log and a column name, check for float castability'''
+    for col_val in log_df[col_name]:
+        try:
+            float(col_val)
+        except ValueError:
+            return False
+    return True
+
