@@ -6,8 +6,7 @@ from pm4py.objects.log.importer.xes import importer as xes_importer
 # given an event log(sorted by timestamps!!!), add CurAttrValue(D2) attribute to each event and then return the log
 # Definition D2: says which is the latest assigned value of a given attribute, NotAssigned is the placeholder, if there were no prior assignments of the attribute
 def add_D2(log, attr):
-    '''given an event log(sorted by timestamps!!!), add CurAttrValue(D2) attribute to each event and then return the log,
-             Definition D2: says which is the latest assigned value of a given attribute, NotAssigned is the placeholder'''
+
     for trace in log:
         for event in trace:  
             # shortcut to save time, if attribute is assigned in given event
@@ -23,7 +22,7 @@ def add_D2(log, attr):
 
 # returns the value of an attribute at time of a given event
 def curValue(trace, event, attr):
-    '''returns the value of an attribute at time of a given event'''
+
     # denotes the latest value of the attribute
     attr_Value = 'NotAssigned'
     # denotes if we are before the event

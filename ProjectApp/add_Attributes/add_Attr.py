@@ -29,12 +29,45 @@ from . import add_T2
 from . import add_T3
 from . import add_T4
 
-from ProjectApp import log_utils
 
 
 
 
+# returns path to log file
+def getPathOfLogFile():
+    # get log location dir
+    dir_name_here = os.path.dirname(__file__)
+    folder_of_log = os.path.dirname(os.path.dirname(dir_name_here))
+    path_for_adding_attr = os.path.join(folder_of_log, 'media', 'eventlog')
 
+    # add filename
+    if isXES():
+        our_filePath = os.path.join(path_for_adding_attr, 'our_file.xes')
+    else:
+        our_filePath = os.path.join(path_for_adding_attr, 'our_file.csv')
+
+    return our_filePath
+
+# returns directory of log file
+def getPathOfLogDir():
+    # get dir location of log
+    dir_name_here = os.path.dirname(__file__)
+    folder_of_log = os.path.dirname(os.path.dirname(dir_name_here))
+    path_for_adding_attr = os.path.join(folder_of_log, 'media', 'eventlog')
+
+    return path_for_adding_attr
+
+# IMPORTANT: We assume the file to be either csv and xes and for exactly one file to be there
+# returns true if our file is an XES file
+# else return false
+def isXES():
+    # there should only ever be one file, so just take first element of dir's list
+    list_of_files = os.listdir(getPathOfLogDir())
+
+    if list_of_files[0] == 'our_file.xes':
+        return True
+    else:
+        return False 
 
 
 
@@ -138,40 +171,4 @@ def callAllAttr_old(chosen_attr, extra_info):
 
     
     print("Updated log file!")
-    
-
-# returns path to log file
-def getPathOfLogFile():
-    # get log location dir
-    dir_name_here = os.path.dirname(__file__)
-    folder_of_log = os.path.dirname(os.path.dirname(dir_name_here))
-    path_for_adding_attr = os.path.join(folder_of_log, 'media', 'eventlog')
-
-    # add filename
-    if isXES():
-        our_filePath = os.path.join(path_for_adding_attr, 'our_file.xes')
-    else:
-        our_filePath = os.path.join(path_for_adding_attr, 'our_file.csv')
-
-    return our_filePath
-
-# returns directory of log file
-def getPathOfLogDir():
-    # get dir location of log
-    dir_name_here = os.path.dirname(__file__)
-    folder_of_log = os.path.dirname(os.path.dirname(dir_name_here))
-    path_for_adding_attr = os.path.join(folder_of_log, 'media', 'eventlog')
-
-    return path_for_adding_attr
-
-# IMPORTANT: We assume the file to be either csv and xes and for exactly one file to be there
-# returns true if our file is an XES file
-# else return false
-def isXES():
-    # there should only ever be one file, so just take first element of dir's list
-    list_of_files = os.listdir(getPathOfLogDir())
-
-    if list_of_files[0] == 'our_file.xes':
-        return True
-    else:
-        return False 
+        

@@ -6,8 +6,7 @@ from pm4py.objects.log.importer.xes import importer as xes_importer
 # given an event log(sorted by timestamps!!!), add sum[attribute](D3) attribute to each event and then return the log
 # Definition D6: computes the sum of an attributes assigned values at event time(including itself), undefined is the placeholder, if there were no prior assignments of the attribute
 def add_D6(log, attr):
-    '''given an event log(sorted by timestamps!!!), add sum[attribute](D3) attribute to each event and then return the log
-            Definition D6: computes the sum of an attributes assigned values at event time(including itself), undefined is the placeholder'''
+
     for trace in log:
         for event in trace:  
             event['sum' + attr + '(D6)'] = sumValue(trace, event, attr)
@@ -19,7 +18,6 @@ def add_D6(log, attr):
 
 # returns the sum value of an attribute at time of a given event(inlcuding itself)
 def sumValue(trace, event, attr):
-    '''returns the sum value of an attribute at time of a given event(inlcuding itself)'''
 
     # denotes the sum value of the attribute
     sum_Value = 0.0

@@ -1,9 +1,7 @@
 import pm4py
 
-from ProjectApp import log_utils
 
-
-
+# REQUIRES event attribute named "Activity"
 # given an event log(sorted by timestamps!!!), add attribute ActivityCounter(C1) and then return it
 # Definition: C1 gives the number of time an event activity has occured prior to the event in the trace 
 def add_C1(log):
@@ -31,7 +29,7 @@ def count_occ(trace, event):
         # if we are still in the prefix of the trace, check if the current event activity equals the given event's
         # if so increment the variable counter
         if before:
-            if ev[log_utils.activity_attr] == event[log_utils.activity_attr]:
+            if ev['Activity'] == event['Activity']:
                 counter += 1
         
     return counter

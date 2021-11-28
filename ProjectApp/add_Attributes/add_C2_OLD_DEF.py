@@ -1,6 +1,5 @@
 import pm4py
 from pm4py.objects.log.importer.xes import importer as xes_importer
-import log_utils
 
 # OLDER DEFINITION OF C2 WItH AN ACTIVITY SET; NO LONGER IN USE
 

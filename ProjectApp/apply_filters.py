@@ -1,6 +1,5 @@
 import pm4py
 import pm4py
-from pm4py.objects import log
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.log.exporter.xes import exporter as xes_exporter
 import sys
@@ -10,9 +9,9 @@ from pm4py.objects.log.util import dataframe_utils
 from pm4py.objects.conversion.log import converter as log_converter
 from pm4py.util import constants
 
-from . import log_utils
-
-
+#REQUIRES event attribute named 'lifecycle:transistion' for apply_F4 and apply_F5
+#REQUIRES event attribute named 'Activity' for apply_F6
+#REQUIRES event attribute named 'Resource' for apply_F7
 
 def callAllFilters(log, chosen_filters, extra_input):
     '''For a given log, filters and extra input for certain filters apply them all and return filtered log'''
@@ -78,25 +77,19 @@ def apply_F3(log):
 
 
 def apply_F4(log):
-    '''given a event log, apply filter F4: Only keep events marked as 'Complete', return filtered log'''
-    if not log_utils.lifecycle_transition_attr:
-        for i, trace in enumerate(log):
-            filtered_trace =  pm4py.filter_trace(lambda t: t[log_utils.lifecycle_transition_attr] == 'complete' or t[log_utils.lifecycle_transition_attr] == 'Complete', trace)
-            log[i] = filtered_trace
-    else:
-        print('!!!!!F4 not applied due to no designation of lifecycle attribute in log_util.py!!!!!')
+    '''given a event log, apply filter F4: Only keep events marked as 'Complete', return filtered log'''   
+    for i, trace in enumerate(log):
+        filtered_trace =  pm4py.filter_trace(lambda t: t['lifecycle:transition'] == 'complete' or t['lifecycle:transition'] == 'Complete', trace)
+        log[i] = filtered_trace
     return log
 
-log_utils.lifecycle_transition_attr
+
 
 def apply_F5(log):
-    '''given a event log, apply filter F5: Only keep events marked as 'Start', return filtered log'''
-    if not log_utils.lifecycle_transition_attr:    
-        for i, trace in enumerate(log):
-            filtered_trace =  pm4py.filter_trace(lambda t: t[log_utils.lifecycle_transition_attr] == 'start' or t[log_utils.lifecycle_transition_attr] == 'Start', trace)
-            log[i] = filtered_trace
-    else:
-        print('!!!!!F5 not applied due to no designation of lifecycle attribute in log_util.py!!!!!')
+    '''given a event log, apply filter F5: Only keep events marked as 'Start', return filtered log'''    
+    for i, trace in enumerate(log):
+        filtered_trace =  pm4py.filter_trace(lambda t: t['lifecycle:transition'] == 'start' or t['lifecycle:transition'] == 'Start', trace)
+        log[i] = filtered_trace
     return log
 
 
@@ -104,7 +97,7 @@ def apply_F5(log):
 def apply_F6(log, activity):
     '''given a event log and an activity, apply filter F6: Only keep events with the given activity, return filtered log'''
     for i, trace in enumerate(log):
-        filtered_trace =  pm4py.filter_trace(lambda t: t[log_utils.activity_attr] == activity, trace)
+        filtered_trace =  pm4py.filter_trace(lambda t: t['Activity'] == activity, trace)
         log[i] = filtered_trace
     return log
 
@@ -113,7 +106,7 @@ def apply_F6(log, activity):
 def apply_F7(log, resource):
     '''given a event log and a resource, apply filter F7: Only keep events with the given resource, return filtered log'''
     for i, trace in enumerate(log):
-        filtered_trace =  pm4py.filter_trace(lambda t: t[log_utils.resource_attr] == resource, trace)
+        filtered_trace =  pm4py.filter_trace(lambda t: t['Resource'] == resource, trace)
         log[i] = filtered_trace
     return log
 

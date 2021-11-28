@@ -4,10 +4,9 @@ from pm4py.objects.log.importer.xes import importer as xes_importer
 
 
 # given an event log(sorted by timestamps!!!), add PrevAttrValue(D1) attribute to each event and then return the log
-# Definition D1: says which is the latest assigned value of a given attribute excluding the current event, NotAssigned is the placeholder, if there were no prior assignments of the attribute
+# Definition D2: says which is the latest assigned value of a given attribute excluding the current event, NotAssigned is the placeholder, if there were no prior assignments of the attribute
 def add_D1(log, attr):
-    '''given an event log(sorted by timestamps!!!), add PrevAttrValue(D1) attribute to each event and then return the log,
-        Definition D1: says which is the latest assigned value of a given attribute excluding the current event, NotAssigned is the placeholder'''
+
     for trace in log:
         for event in trace:  
                 event['Prev'+ attr +'Value(D1)'] = prevValue(trace, event, attr)
@@ -18,7 +17,7 @@ def add_D1(log, attr):
 
 # returns the value of an attribute at time of a given event excluding itself
 def prevValue(trace, event, attr):
-    '''returns the value of an attribute at time of a given event excluding itself'''
+
     # denotes the latest value of the attribute
     attr_Value = 'NotAssigned'
     # denotes if we are before the event
