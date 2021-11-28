@@ -10,9 +10,10 @@ from pm4py.util import constants
 from xml.etree.ElementTree import ElementTree as ET
 
 # global variables for designating activity, resource, timestamp etc. with their default values
+case_id_attr = '' # needed for creating csv's log
 activity_attr = 'Activity'
 resource_attr = 'Resource'
-timestamp_attr = 'time:timestamp'
+timestamp_attr = 'time:timestamp' # needed even for creating log file
 lifecycle_transition_attr = ''
 
 
@@ -65,14 +66,18 @@ def get_log():
     # read in XES log via pm4py to event log
     if isXES():
         variant = xes_importer.Variants.ITERPARSE
-        parameter = {variant.value.Parameters.TIMESTAMP_SORT: True}
-        log = xes_importer.apply(getPathOfLogFile(), variant=variant, parameters=parameter)
+        our_parameters = {variant.value.Parameters.TIMESTAMP_SORT: True, variant.value.Parameters.TIMESTAMP_KEY: timestamp_attr}
+        log = xes_importer.apply(getPathOfLogFile(), variant=variant, parameters= our_parameters)
     else:
-        # !!!!!! REQUIRES CSV TO HAVE timestamp and case:concept:name columns !!!!!!
+        # !!!!!! REQUIRES CSV TO HAVE designated timestamp and case columns !!!!!! 
+        if not case_id_attr:
+            raise NameError("No Value assigned to case_id_attr, hence conversion of csv to log failed")
         log_csv = pd.read_csv(getPathOfLogFile, sep=',')
+        # denotes the case id attribute
+        our_parameters = {log_converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY: case_id_attr}
         log_csv = dataframe_utils.convert_timestamp_columns_in_df(log_csv)
-        log_csv = log_csv.sort_values('<timestamp_column>')
-        log = log_converter.apply(log_csv)
+        log_csv = log_csv.sort_values(timestamp_attr)
+        log = log_converter.apply(log_csv, parameters= our_parameters, variant= log_converter.Variants.TO_EVENT_LOG)
 
     return log
 

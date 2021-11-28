@@ -1,5 +1,25 @@
 digraph Tree {
 node [shape=box, fontname="helvetica"] ;
 edge [fontname="helvetica"] ;
-0 [label="squared_error = 0.0\nsamples = 6\nvalue = 200.0"] ;
+0 [label="NextActivity(C2)_NoNextAct <= 0.5\ngini = 0.847\nsamples = 42\nvalue = [9, 9, 6, 3, 3, 6, 3, 3]"] ;
+1 [label="NextActivity(C2)_decide <= 0.5\ngini = 0.806\nsamples = 36\nvalue = [9, 9, 6, 3, 0, 6, 3, 0]"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="NextActivity(C2)_check ticket <= 0.5\ngini = 0.787\nsamples = 27\nvalue = [3, 9, 4, 2, 0, 6, 3, 0]"] ;
+1 -> 2 ;
+3 [label="NextActivity(C2)_examine casually <= 0.5\ngini = 0.66\nsamples = 18\nvalue = [3, 9, 0, 0, 0, 4, 2, 0]"] ;
+2 -> 3 ;
+4 [label="NextActivity(C2)_examine thoroughly <= 0.5\ngini = 0.417\nsamples = 12\nvalue = [1, 9, 0, 0, 0, 1, 1, 0]"] ;
+3 -> 4 ;
+5 [label="gini = 0.0\nsamples = 9\nvalue = [0, 9, 0, 0, 0, 0, 0, 0]"] ;
+4 -> 5 ;
+6 [label="gini = 0.667\nsamples = 3\nvalue = [1, 0, 0, 0, 0, 1, 1, 0]"] ;
+4 -> 6 ;
+7 [label="gini = 0.611\nsamples = 6\nvalue = [2, 0, 0, 0, 0, 3, 1, 0]"] ;
+3 -> 7 ;
+8 [label="gini = 0.691\nsamples = 9\nvalue = [0, 0, 4, 2, 0, 2, 1, 0]"] ;
+2 -> 8 ;
+9 [label="gini = 0.494\nsamples = 9\nvalue = [6, 0, 2, 1, 0, 0, 0, 0]"] ;
+1 -> 9 ;
+10 [label="gini = 0.5\nsamples = 6\nvalue = [0, 0, 0, 0, 3, 0, 0, 3]"] ;
+0 -> 10 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
 }
