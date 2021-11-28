@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<log xes.version="1849-2016" xes.features="nested-attributes" xmlns="http://www.xes-standard.org/">
+	<extension name="Concept" prefix="concept" uri="http://code.deckfour.org/xes/concept.xesext" />
+	<extension name="Time" prefix="time" uri="http://code.deckfour.org/xes/time.xesext" />
+	<extension name="Organizational" prefix="org" uri="http://code.deckfour.org/xes/org.xesext" />
+	<classifier name="Activity" keys="Activity" />
+	<classifier name="activity classifier" keys="Activity" />
+	<string key="creator" value="Fluxicon Nitro" />
+	<global scope="trace">
+		<string key="concept:name" value="name" />
+	</global>
+	<global scope="event">
+		<string key="concept:name" value="name" />
+		<string key="org:resource" value="resource" />
+		<date key="time:timestamp" value="2011-04-13T14:02:31.199000+02:00" />
+		<string key="Activity" value="string" />
+		<string key="Resource" value="string" />
+		<string key="Costs" value="string" />
+	</global>
+	<trace>
+		<string key="concept:name" value="1" />
+		<string key="creator" value="Fluxicon Nitro" />
+		<event>
+			<string key="concept:name" value="reject request" />
+			<string key="org:resource" value="Pete" />
+			<date key="time:timestamp" value="2011-01-07T14:24:00+01:00" />
+			<string key="Activity" value="reject request" />
+			<string key="Resource" value="Pete" />
+			<string key="Costs" value="200" />
+			<string key="PrevActivity(C3)" value="decide" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="2" />
+		<string key="creator" value="Fluxicon Nitro" />
+		<event>
+			<string key="concept:name" value="pay compensation" />
+			<string key="org:resource" value="Ellen" />
+			<date key="time:timestamp" value="2011-01-08T12:05:00+01:00" />
+			<string key="Activity" value="pay compensation" />
+			<string key="Resource" value="Ellen" />
+			<string key="Costs" value="200" />
+			<string key="PrevActivity(C3)" value="decide" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="3" />
+		<string key="creator" value="Fluxicon Nitro" />
+		<event>
+			<string key="concept:name" value="pay compensation" />
+			<string key="org:resource" value="Ellen" />
+			<date key="time:timestamp" value="2011-01-15T10:45:00+01:00" />
+			<string key="Activity" value="pay compensation" />
+			<string key="Resource" value="Ellen" />
+			<string key="Costs" value="200" />
+			<string key="PrevActivity(C3)" value="decide" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="5" />
+		<string key="creator" value="Fluxicon Nitro" />
+		<event>
+			<string key="concept:name" value="reject request" />
+			<string key="org:resource" value="Mike" />
+			<date key="time:timestamp" value="2011-01-24T14:56:00+01:00" />
+			<string key="Activity" value="reject request" />
+			<string key="Resource" value="Mike" />
+			<string key="Costs" value="200" />
+			<string key="PrevActivity(C3)" value="decide" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="6" />
+		<string key="creator" value="Fluxicon Nitro" />
+		<event>
+			<string key="concept:name" value="pay compensation" />
+			<string key="org:resource" value="Mike" />
+			<date key="time:timestamp" value="2011-01-16T11:47:00+01:00" />
+			<string key="Activity" value="pay compensation" />
+			<string key="Resource" value="Mike" />
+			<string key="Costs" value="200" />
+			<string key="PrevActivity(C3)" value="decide" />
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="4" />
+		<string key="creator" value="Fluxicon Nitro" />
+		<event>
+			<string key="concept:name" value="reject request" />
+			<string key="org:resource" value="Ellen" />
+			<date key="time:timestamp" value="2011-01-12T15:44:00+01:00" />
+			<string key="Activity" value="reject request" />
+			<string key="Resource" value="Ellen" />
+			<string key="Costs" value="200" />
+			<string key="PrevActivity(C3)" value="decide" />
+		</event>
+	</trace>
+</log>
