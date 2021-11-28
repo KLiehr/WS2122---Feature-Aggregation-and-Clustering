@@ -18,5 +18,8 @@ urlpatterns=[
     path('UseCase/', views.useCase, name="useCase"),
     path('UseCase/DecisionTree/', views.decisionTree, name='decisionTree'),
     
+<<<<<<< HEAD
+>>>>>>> parent of 8d83130 (revert 2)
+=======
 >>>>>>> parent of 8d83130 (revert 2)
 ]
