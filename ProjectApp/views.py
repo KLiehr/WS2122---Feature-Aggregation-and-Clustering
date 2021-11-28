@@ -48,6 +48,10 @@ def file_upload_view(request):
     return JsonResponse({'post':'false'})
 
 
+def attrType(request):
+    return render(request, 'ProjectApp/AttrType.html')
+
+
 def attributes(request):
     return render(request, 'ProjectApp/Attributes.html')
 
@@ -168,7 +172,8 @@ def decisionTree(request):
         print(independent)
 
     return JsonResponse({'post':'false'})
-    
+
+
     
     
 
