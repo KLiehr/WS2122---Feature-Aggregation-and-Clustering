@@ -88,5 +88,9 @@ def update_log(log):
 def get_log_attributes(log):
     '''Returns event attributes of the given log(Just looks at first event!)'''
 
+
+    #create array with attribute names for CSV file
+    
+
     return list(log[0][0].keys())
     
