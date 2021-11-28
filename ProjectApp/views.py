@@ -59,17 +59,17 @@ def saveAttrNames(request):
     '''Gets called when clicking Save on AttrType page'''
 
     if request.method == 'POST':
-        caseID_attr = str(request.POST.get('caseID'))
-        activity_attr = str(request.POST.get('activity'))
-        resource_attr = str(request.POST.get('resource'))
-        timestamp_attr = str(request.POST.get('timestamp'))
-        lifecycle_attr = str(request.POST.get('lifecycle'))
+        log_utils.case_id_attr = str(request.POST.get('caseID'))
+        log_utils.activity_attr = str(request.POST.get('activity'))
+        log_utils.resource_attr = str(request.POST.get('resource'))
+        log_utils.timestamp_attr = str(request.POST.get('timestamp'))
+        log_utils.lifecycle_transition_attr = str(request.POST.get('lifecycle'))
 
-        print('CaseID Attribute:' + caseID_attr)
-        print('Activity Attributes:' + activity_attr)
-        print('Resource Attributes:' + resource_attr)
-        print('Timestamp Attributes:' + timestamp_attr)
-        print('Lifecycle Attributes:' + lifecycle_attr)
+        print('CaseID Attribute:' + log_utils.case_id_attr)
+        print('Activity Attributes:' + log_utils.activity_attr)
+        print('Resource Attributes:' + log_utils.resource_attr)
+        print('Timestamp Attributes:' + log_utils.timestamp_attr)
+        print('Lifecycle Attributes:' + log_utils.lifecycle_transition_attr)
 
     return JsonResponse({'post':'false'})
 
@@ -93,7 +93,7 @@ def updateeventlog(request):
 
         # print event attributes !!Just of first event!!
         print('Event attributes of log:')
-        print(log_utils.get_log_attributes(log))
+        print(log_utils.get_log_attributes())
 
         # call function to add all atributes 
         print('calling add_Attributes')
