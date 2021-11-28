@@ -23,5 +23,3 @@ ProjectApp/__pycache__/views.cpython-310.pyc
 *.pyc
 ProjectApp/__pycache__/views.cpython-310.pyc
 db.sqlite3
-*.pyc
-*.sqlite3
