@@ -114,7 +114,7 @@ def filtereventlog(request):
         # update log
         log_utils.update_log(log)
 
-        print(log_utils.get_log_attributes(log))
+        # print(log_utils.get_log_attributes(log))
 
         # TODO: DELETE TEST OF USE CASE ANALYSIS
         # log = use_case_analysis.analyze_log(log, 'Resource', ['Activity','case:concept:name'])

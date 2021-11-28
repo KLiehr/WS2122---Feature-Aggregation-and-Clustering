@@ -101,10 +101,10 @@ def get_df_of_log(log):
     return df
 
 
-# gets event attributes by columns, TODO ISSUE WITH TRACE ATTRIBUTES????
+# gets event attributes by columns, TODO POSSIBLE ISSUE WITH TRACE LEVEL ATTRIBUTES????
 def get_log_attributes(log):
     '''Returns event attributes of the given log'''
     log_df = get_df_of_log(log)
-    return str(log_df.columns)
+    return list(log_df.columns)
 
-    return list(log[0][0].keys())
+    # return list(log[0][0].keys())
