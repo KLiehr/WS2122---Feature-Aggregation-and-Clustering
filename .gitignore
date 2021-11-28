@@ -14,3 +14,6 @@ ProjectApp/__pycache__/views.cpython-310.pyc
 ProjectApp/migrations/__pycache__/0001_initial.cpython-310.pyc
 ProjectApp/migrations/__pycache__/__init__.cpython-310.pyc
 *.pyc
+*.csv
+*.sqlite3
+*.pdf
