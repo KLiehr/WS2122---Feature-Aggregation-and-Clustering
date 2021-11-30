@@ -199,3 +199,9 @@ def decisionTree(request):
     # log_utils.update_log(log)
 
     return JsonResponse({'post':'false'})
+
+def outputTree(request):
+    try:
+        return FileResponse(open('test_tree.pdf', 'rb'), content_type='application/pdf')
+    except FileNotFoundError:
+        raise Http404()
