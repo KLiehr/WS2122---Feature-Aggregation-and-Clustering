@@ -32,21 +32,46 @@ def userguide(request):
 
 
 def importCSVXES(request):
-    return render(request, 'ProjectApp/Import.html')
+    '''opens Import page and gets file names'''
+    from os import walk
+    #arrayFiles = next(walk('media\\eventlog'), (None, None, []))[2]
+    from os import listdir
+    from os.path import isfile, join
+    from wsgiref.util import FileWrapper
+    arrayFiles = [f for f in listdir("media\\eventlog") if isfile(join("media\\eventlog", f))]
+    print(arrayFiles)
+    context={}
+    context['fileNames']=arrayFiles #json.dumps(arrayFiles)
+    if "downloadButton" in request.POST:  # for event logs
+        if "log_list" not in request.POST:
+            return HttpResponse('')
+        filename = request.POST["log_list"]
+        file_dir = os.path.join("media\\eventlog", filename)
+        try:
+            wrapper = FileWrapper(open(file_dir, 'rb'))
+            response = HttpResponse(wrapper, content_type='application/force-download')
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_dir)
+            return response
+        except Exception as e:
+            return None
+    return render(request, 'ProjectApp/Import.html', context)
 
 def file_upload_view(request):
-    if request.method == 'POST':
+    '''Gets called when clicking Upload EventLog on Import page'''
+    '''saves the uploaded file in media-eventlog'''
+    if request.method == 'POST'and request.FILES['file']:
         if os.path.exists("media\\eventlog"):
             print("removing old file")
             shutil.rmtree("media\\eventlog")
-
-        my_file = request.FILES.get('file')
+        my_file = request.FILES['file']
         my_file.name='our_file.'+ my_file.name[-3:]
         Doc.objects.create(upload=my_file)
-        return HttpResponse('')
+        return attrType(request)
     return JsonResponse({'post':'false'})
 
 def attrType(request):
+    '''Gets called when clicking Upload EventLog on Import page'''
+    '''Opens the attribute type page and gets the attributes in the file'''
     arrayAttr = log_utils.get_log_attributes()
     print(arrayAttr)
     #add attribute names to UseCase.html
@@ -197,11 +222,5 @@ def decisionTree(request):
 
     # update log(NOT NECESSARY; LOG UNCHANGED)
     # log_utils.update_log(log)
-
+    
     return JsonResponse({'post':'false'})
-
-def outputTree(request):
-    try:
-        return FileResponse(open('test_tree.pdf', 'rb'), content_type='application/pdf')
-    except FileNotFoundError:
-        raise Http404()

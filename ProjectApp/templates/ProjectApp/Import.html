@@ -1,33 +1,35 @@
 {% extends 'main.html' %}
 
 {% block content %} 
-<div style='position: absolute; top: 35%; left: 48%; right: 25%; text-align: center;'>
-    <h1>Import XES or CSV file:</h1>
-    <form action="upload/" method="POST" class="dropzone" id="my-dropzone" style='border: dashed;'>
-        {% csrf_token %}
-        <div class="fallback">
-            <input name="file" type="file" multiple />
-        </div>
-    </form>
-    <h5>!!!DISCLAIMER!!!</h5>
-    <h6></h6>
-    <h7> XES FORMAT REQUIRES event attributes named: 
-        "Activity", "time:timestamp" and (only for adding attribute T1) "lifecycle:transition"</h7>
-    <h8></h8>
-    <h9> CSV FORMAT REQUIRES column attributes named: 
-        "case:concept:name", "Activity", "time:timestamp" and (only for adding attribute T1) "lifecycle:transition"</h9>
-    <h10></h10>
 
+<div style='position: absolute; top: 20%; left: 45%; right: 20%; text-align: center;'>
+    <h3 style='font-size: 1.75rem; color:#00529F;'>Event Logs</h3>
 </div>
-<script>
-    Dropzone.autoDiscover = false;
-    const myDropzone = new Dropzone("#my-dropzone", {
-        url:"upload/",
-        maxFiles:1,
-        acceptedFiles: '.xes, .csv',
-        success:function(){
-            location.href="AttrType/"
-        }
-    })
-</script>
+<div style='position: absolute; top: 35%; left: 30%; right: 45%; text-align:left ;'>
+    <form action='upload/' method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>Event Log: <input accept= '.csv, .xes ' style=' font-size: 16px; margin-top: 2px; border:1px solid; border-color: black; width: 350px; ' type="file" name="file"> </p>
+        
+        <p>
+            <button style='font-size: 16px; width: 150px; height: 45px; border-color: #007bff; background-color: #007bff; border-radius: 3px; color: white;' type="submit">Upload EventLog</button>
+        </p>
+    </form>
+</div>
+
+<div style='position: absolute; top: 38%; left: 65%; right: 5%; text-align: center;'>
+
+    <form name="choice" action="" method="POST">
+        {% csrf_token %}
+        <select style='width: 300px; height: 250px; font-size: 16px;' name="log_list" size="10">
+            {% for title in fileNames %}
+            <option value="{{title}}">{{title}}</option>
+            {% endfor %}
+        </select>
+
+        <input style='margin-top: 10px; font-size: 16px; width: 150px; height: 45px; background-color: #17a2b8; border-color: #17a2b8; border-radius: 3px; color: white;' type="submit"
+               value="Download" name="downloadButton" id='downloadButton' />
+    </form>
+    
+</div>
+
 {% endblock %}
