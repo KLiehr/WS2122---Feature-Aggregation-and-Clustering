@@ -16,19 +16,23 @@ resource_attr = 'Resource'
 timestamp_attr = 'time:timestamp' # needed even for creating log file
 lifecycle_transition_attr = ''
 
+# currently set log
+cur_log = ''
 
 def getPathOfLogFile():
     '''returns path to log file '''
+    # check if a log file is set
+    if cur_log == '':
+        print('Error: Called getPathLogFile but !!!No Log File Set!!!')
+        return 'NoLogFileSet'
     # get log location dir
     dir_name_here = os.path.dirname(__file__)
     folder_of_log = os.path.dirname(dir_name_here)
     path_for_adding_attr = os.path.join(folder_of_log, 'media', 'eventlog')
 
     # add filename
-    if isXES():
-        our_filePath = os.path.join(path_for_adding_attr, 'our_file.xes')
-    else:
-        our_filePath = os.path.join(path_for_adding_attr, 'our_file.csv')
+    our_filePath = os.path.join(path_for_adding_attr, cur_log)
+    
 
     return our_filePath
 
@@ -47,16 +51,28 @@ def getPathOfLogDir():
 
 
 def isXES():
-    '''IMPORTANT: We assume the file to be either csv and xes and for exactly one file, named our_file to be there
+    '''IMPORTANT: We assume the file to be either csv and xes, named our_file to be there
      returns true if our file is an XES file
      else return false '''
     # there should only ever be one file, so just take first element of dir's list
     list_of_files = os.listdir(getPathOfLogDir())
 
-    if list_of_files[0] == 'our_file.xes':
+    # check if a log file is set
+    if cur_log == '':
+        print('Error: Called isXes but !!!No Log File Set!!!')
+        return 'NoLogFileSet'
+    
+    if len(cur_log) < 4:
+        print('Filename to short!!!: ' + cur_log)
+        return 'Filename to short!!!'
+
+    if cur_log[-4:] == '.xes':
         return True
-    else:
+    elif cur_log[-4] == '.csv':
         return False 
+    else: # TODO Throw an error of some sort
+        print('File currently set: ' + cur_log + ' Does not end with either .xes or .csv!!!')
+        return False
 
 
 
@@ -82,16 +98,16 @@ def get_log():
     return log
 
 
-def update_log(log):
+def update_log(log, new_file_name):
     '''updates actual log file with a given event log'''
     # update actual XES file else csv
     if isXES():
-        xes_exporter.apply(log, getPathOfLogFile())
+        xes_exporter.apply(log, os.path.join(getPathOfLogDir(), new_file_name))
     else:
         tmp_df = log_converter.apply(log, variant=log_converter.Variants.TO_DATA_FRAME)
-        tmp_df.to_csv(getPathOfLogFile())
+        tmp_df.to_csv(os.path.join(getPathOfLogDir(), new_file_name))
 
-    print("Updated log file!")
+    print("Updated log file named: " + new_file_name)
 
 
 
@@ -109,6 +125,12 @@ def get_df_of_log(log):
 # gets event attributes by columns
 def get_log_attributes():
     '''Returns event attributes of the given log'''
+
+    # check if a log file is set
+    if cur_log == '':
+        print('Error: Called get_log_attributes but !!!No Log File Set!!!')
+        return 'NoLogFileSet'
+        
     if isXES():
         variant = xes_importer.Variants.ITERPARSE
         log = xes_importer.apply(getPathOfLogFile(), variant=variant)

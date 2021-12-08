@@ -35,7 +35,7 @@ def userguide(request):
     except FileNotFoundError:
         raise Http404()
 
-SetEventLog=''
+# SetEventLog=''
 
 def importCSVXES(request):
     '''Gets files names and opens Import page'''
@@ -53,20 +53,29 @@ def importCSVXES(request):
             return response
         except Exception as e:
             return None
-    
+    # set new log as current one
     elif "setButton" in request.POST:
         if "log_list" not in request.POST:
             return HttpResponse('')
 
         filename = request.POST["log_list"]
-        SetEventLog= filename
+        # SetEventLog= filename
+        log_utils.cur_log = filename
 
-        print('Event Log In Use:', SetEventLog)
+        # call to set the attributes: TODO maybe save attributes once new log is chosen?
+        
 
+        print('Event Log In Use:', log_utils.cur_log)
+
+        return attrType(request)
+    # delete a log
     elif "deleteButton" in request.POST:
         if "log_list" not in request.POST:
             return HttpResponse('')
         filename = request.POST["log_list"]
+        # reset cur_log var if its value gets deleted
+        if filename == log_utils.cur_log:
+            log_utils.cur_log = ''
         file_dir = os.path.join("media\\eventlog", filename)
 
         os.remove(file_dir)
@@ -81,21 +90,23 @@ def importCSVXES(request):
 
     return render(request, 'ProjectApp/Import.html', context)
 
+# upload event log files TODO check if csv or xes
 def file_upload_view(request):
-    '''Gets called when clicking Upload EventLog on Import page'''
-    '''saves the uploaded file in media-eventlog'''
+    '''Gets called when clicking Upload EventLog on Import page
+    saves the uploaded file in media-eventlog'''
     if request.method == 'POST'and request.FILES['file']:
-        if os.path.exists("media\\eventlog"):
-            print("removing old file")
-            shutil.rmtree("media\\eventlog")
+        # if os.path.exists("media\\eventlog"): COMMENTED OUT CAUSE WE NOW HAVE DELETE BUTTON
+        #     print("removing old file")
+        #    shutil.rmtree("media\\eventlog")
         my_file = request.FILES['file']
         Doc.objects.create(upload=my_file)
-        return attrType(request)
+        # return attrType(request) NOT THE RIGHT PLACE!? DO at 'set'-button
+        # return render(request, 'ProjectApp/Import.html')
     return JsonResponse({'post':'false'})
 
 def attrType(request):
-    '''Gets called when clicking Upload EventLog on Import page'''
-    '''Opens the attribute type page and gets the attributes in the file'''
+    '''Gets called when clicking Upload EventLog on Import page
+    Opens the attribute type page and gets the attributes in the file'''
     arrayAttr = log_utils.get_log_attributes()
     print(arrayAttr)
     #add attribute names to UseCase.html
@@ -149,19 +160,19 @@ def updateeventlog(request):
         log = add_Attr.callAllAttr(log, AttributesToDerive, ExtraAttributes)
 
         # update log
-        log_utils.update_log(log)
+        log_utils.update_log(log, 'augmented')
 
     return JsonResponse({'post':'false'})
 
 def download(request):
-    if os.path.exists('media\\eventlog\\' + SetEventLog):
-        file = open('media\\eventlog\\' + SetEventLog, 'rb') #Open the specified file
+    if os.path.exists('media\\eventlog\\' + log_utils.cur_log):
+        file = open('media\\eventlog\\' + log_utils.cur_log, 'rb') #Open the specified file
         response = HttpResponse(file)   #Give file handle to HttpResponse object
         response['Content-Type'] = 'application/octet-stream' #Set the header to tell the browser that this is a file
         response['Content-Disposition'] = 'attachment;filename= SetEventLog' #This is a simple description of the file. Note that the writing is the fixed one
         return response
-    if os.path.exists('media\\eventlog\\' + SetEventLog):
-        file = open('media\\eventlog\\' + SetEventLog, 'rb') #Open the specified file 
+    if os.path.exists('media\\eventlog\\' + log_utils.cur_log):
+        file = open('media\\eventlog\\' + log_utils.cur_log, 'rb') #Open the specified file 
         response = HttpResponse(file)   #Give file handle to HttpResponse object
         response['Content-Type'] = 'application/octet-stream' #Set the header to tell the browser that this is a file
         response['Content-Disposition'] = 'attachment;filename=SetEventLog' #This is a simple description of the file. Note that the writing is the fixed one
@@ -189,7 +200,7 @@ def filtereventlog(request):
         log = apply_filters.callAllFilters(log, filters, extra_input)
 
         # update log
-        log_utils.update_log(log)
+        log_utils.update_log(log, 'filtered')
 
         # print(log_utils.get_log_attributes(log))
 
@@ -199,14 +210,14 @@ def filtereventlog(request):
     return JsonResponse({'post':'false'})
 
 def downloadFilters(request):
-    if os.path.exists('media\\eventlog\\' + SetEventLog):
-        file = open('media\\eventlog\\' + SetEventLog, 'rb') #Open the specified file
+    if os.path.exists('media\\eventlog\\' + log_utils.cur_log):
+        file = open('media\\eventlog\\' + log_utils.cur_log, 'rb') #Open the specified file
         response = HttpResponse(file)   #Give file handle to HttpResponse object
         response['Content-Type'] = 'application/octet-stream' #Set the header to tell the browser that this is a file
         response['Content-Disposition'] = 'attachment;filename=SetEventLog' #This is a simple description of the file. Note that the writing is the fixed one
         return response
-    if os.path.exists('media\\eventlog\\' + SetEventLog):
-        file = open('media\\eventlog\\' + SetEventLog, 'rb') #Open the specified file 
+    if os.path.exists('media\\eventlog\\' + log_utils.cur_log):
+        file = open('media\\eventlog\\' + log_utils.cur_log, 'rb') #Open the specified file 
         response = HttpResponse(file)   #Give file handle to HttpResponse object
         response['Content-Type'] = 'application/octet-stream' #Set the header to tell the browser that this is a file
         response['Content-Disposition'] = 'attachment;filename=SetEventLog' #This is a simple description of the file. Note that the writing is the fixed one
