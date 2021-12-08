@@ -20,14 +20,19 @@
 
     <form name="choice" action="" method="POST">
         {% csrf_token %}
-        <select style='width: 300px; height: 250px; font-size: 16px;' name="log_list" size="10">
+        <select style='width: 350px; height: 250px; font-size: 16px;' name="log_list" size="10">
             {% for title in fileNames %}
             <option value="{{title}}">{{title}}</option>
             {% endfor %}
         </select>
 
-        <input style='margin-top: 10px; font-size: 16px; width: 150px; height: 45px; background-color: #17a2b8; border-color: #17a2b8; border-radius: 3px; color: white;' type="submit"
-               value="Download" name="downloadButton" id='downloadButton' />
+        <input style='margin-top: 10px; font-size: 16px; width: 50px; height: 45px; background-color: #28a745; border-color: #28a745; border-radius: 3px; color: white;' type="submit"
+        value="Set" name="setButton" id='setButton' />
+        <input style='margin-top: 10px; margin-right: 70px; font-size: 16px; width: 80px; height: 45px; background-color: #dc3545; border-color: #dc3545; border-radius: 3px; color: white;' type="submit"
+        value="Delete" name="deleteButton" id='deleteButton' />
+        <input style='margin-top: 10px; font-size: 16px; width: 120px; height: 45px; background-color: #17a2b8; border-color: #17a2b8; border-radius: 3px; color: white;' type="submit"
+        value="Download" name="downloadButton" id='downloadButton' />
+        
     </form>
     
 </div>

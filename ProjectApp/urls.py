@@ -16,6 +16,6 @@ urlpatterns=[
     path('Filters/download/', views.downloadFilters,name='downloadFilters'),
     path('UseCase/', views.useCase, name="useCase"),
     path('UseCase/DecisionTree/', views.decisionTree, name='decisionTree'),
-    # path('UseCase/Clustering/', views.decisionTree, name='decisionTree'),
-    # path('UseCase/ProcessModel/', views.decisionTree, name='decisionTree'),
+    path('UseCase/DecisionTree/Clustering/', views.clustering, name='clustering'),
+    path('UseCase/DecisionTree/Clustering/ProcessModel/', views.processModel, name='processModel'),
 ]

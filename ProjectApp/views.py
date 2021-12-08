@@ -19,6 +19,11 @@ import pandas as pd
 import pm4py
 import json
 
+from os import listdir
+from os.path import isfile, join
+from wsgiref.util import FileWrapper
+from os import walk
+
 # Create your views here.
 
 def home(request):
@@ -30,19 +35,13 @@ def userguide(request):
     except FileNotFoundError:
         raise Http404()
 
+SetEventLog=''
 
 def importCSVXES(request):
-    '''opens Import page and gets file names'''
-    from os import walk
-    #arrayFiles = next(walk('media\\eventlog'), (None, None, []))[2]
-    from os import listdir
-    from os.path import isfile, join
-    from wsgiref.util import FileWrapper
-    arrayFiles = [f for f in listdir("media\\eventlog") if isfile(join("media\\eventlog", f))]
-    print(arrayFiles)
-    context={}
-    context['fileNames']=arrayFiles #json.dumps(arrayFiles)
-    if "downloadButton" in request.POST:  # for event logs
+    '''Gets files names and opens Import page'''
+    
+    #when clicking download button downloads the choosen file
+    if "downloadButton" in request.POST:
         if "log_list" not in request.POST:
             return HttpResponse('')
         filename = request.POST["log_list"]
@@ -54,6 +53,32 @@ def importCSVXES(request):
             return response
         except Exception as e:
             return None
+    
+    elif "setButton" in request.POST:
+        if "log_list" not in request.POST:
+            return HttpResponse('')
+
+        filename = request.POST["log_list"]
+        SetEventLog= filename
+
+        print('Event Log In Use:', SetEventLog)
+
+    elif "deleteButton" in request.POST:
+        if "log_list" not in request.POST:
+            return HttpResponse('')
+        filename = request.POST["log_list"]
+        file_dir = os.path.join("media\\eventlog", filename)
+
+        os.remove(file_dir)
+    
+    #gets files names
+    arrayFiles = []
+    if os.path.exists("media\\eventlog"):
+        arrayFiles = [f for f in listdir("media\\eventlog") if isfile(join("media\\eventlog", f))]
+    print(arrayFiles)
+    context={}
+    context['fileNames']=arrayFiles
+
     return render(request, 'ProjectApp/Import.html', context)
 
 def file_upload_view(request):
@@ -64,7 +89,6 @@ def file_upload_view(request):
             print("removing old file")
             shutil.rmtree("media\\eventlog")
         my_file = request.FILES['file']
-        my_file.name='our_file.'+ my_file.name[-3:]
         Doc.objects.create(upload=my_file)
         return attrType(request)
     return JsonResponse({'post':'false'})
@@ -130,17 +154,17 @@ def updateeventlog(request):
     return JsonResponse({'post':'false'})
 
 def download(request):
-    if os.path.exists('media\eventlog\our_file.csv'):
-        file = open('media\eventlog\our_file.csv', 'rb') #Open the specified file
+    if os.path.exists('media\\eventlog\\' + SetEventLog):
+        file = open('media\\eventlog\\' + SetEventLog, 'rb') #Open the specified file
         response = HttpResponse(file)   #Give file handle to HttpResponse object
         response['Content-Type'] = 'application/octet-stream' #Set the header to tell the browser that this is a file
-        response['Content-Disposition'] = 'attachment;filename="our_file.csv"' #This is a simple description of the file. Note that the writing is the fixed one
+        response['Content-Disposition'] = 'attachment;filename= SetEventLog' #This is a simple description of the file. Note that the writing is the fixed one
         return response
-    if os.path.exists('media\eventlog\our_file.xes'):
-        file = open('media\eventlog\our_file.xes', 'rb') #Open the specified file 
+    if os.path.exists('media\\eventlog\\' + SetEventLog):
+        file = open('media\\eventlog\\' + SetEventLog, 'rb') #Open the specified file 
         response = HttpResponse(file)   #Give file handle to HttpResponse object
         response['Content-Type'] = 'application/octet-stream' #Set the header to tell the browser that this is a file
-        response['Content-Disposition'] = 'attachment;filename="our_file.xes"' #This is a simple description of the file. Note that the writing is the fixed one
+        response['Content-Disposition'] = 'attachment;filename=SetEventLog' #This is a simple description of the file. Note that the writing is the fixed one
         return response
     return HttpResponse('No File')
 
@@ -175,17 +199,17 @@ def filtereventlog(request):
     return JsonResponse({'post':'false'})
 
 def downloadFilters(request):
-    if os.path.exists('media\eventlog\our_file.csv'):
-        file = open('media\eventlog\our_file.csv', 'rb') #Open the specified file
+    if os.path.exists('media\\eventlog\\' + SetEventLog):
+        file = open('media\\eventlog\\' + SetEventLog, 'rb') #Open the specified file
         response = HttpResponse(file)   #Give file handle to HttpResponse object
         response['Content-Type'] = 'application/octet-stream' #Set the header to tell the browser that this is a file
-        response['Content-Disposition'] = 'attachment;filename="our_file.csv"' #This is a simple description of the file. Note that the writing is the fixed one
+        response['Content-Disposition'] = 'attachment;filename=SetEventLog' #This is a simple description of the file. Note that the writing is the fixed one
         return response
-    if os.path.exists('media\eventlog\our_file.xes'):
-        file = open('media\eventlog\our_file.xes', 'rb') #Open the specified file 
+    if os.path.exists('media\\eventlog\\' + SetEventLog):
+        file = open('media\\eventlog\\' + SetEventLog, 'rb') #Open the specified file 
         response = HttpResponse(file)   #Give file handle to HttpResponse object
         response['Content-Type'] = 'application/octet-stream' #Set the header to tell the browser that this is a file
-        response['Content-Disposition'] = 'attachment;filename="our_file.xes"' #This is a simple description of the file. Note that the writing is the fixed one
+        response['Content-Disposition'] = 'attachment;filename=SetEventLog' #This is a simple description of the file. Note that the writing is the fixed one
         return response
     return HttpResponse('No File')
 
@@ -224,3 +248,9 @@ def decisionTree(request):
     # log_utils.update_log(log)
     
     return JsonResponse({'post':'false'})
+
+def clustering(request):
+    return render(request, 'ProjectApp/UseCase/DecisionTree/Clustering.html')
+
+def processModel(request):
+    return render(request, 'ProjectApp/UseCase/DecisionTree/Clustering/ProcessModel.html')
