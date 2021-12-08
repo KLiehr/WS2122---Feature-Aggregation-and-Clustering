@@ -8,6 +8,7 @@ from pm4py.objects.log.util import dataframe_utils
 from pm4py.objects.conversion.log import converter as log_converter, variants
 from pm4py.util import constants
 from xml.etree.ElementTree import ElementTree as ET
+import datetime
 
 # global variables for designating activity, resource, timestamp etc. with their default values
 case_id_attr = '' # needed for creating csv's log
@@ -98,20 +99,24 @@ def get_log():
     return log
 
 
-def update_log(log, new_file_name):
+def create_log(log, action_name):
     '''updates actual log file with a given event log'''
     # update actual XES file else csv
-    if isXES():
-        xes_exporter.apply(log, os.path.join(getPathOfLogDir(), new_file_name))
-    else:
-        tmp_df = log_converter.apply(log, variant=log_converter.Variants.TO_DATA_FRAME)
-        tmp_df.to_csv(os.path.join(getPathOfLogDir(), new_file_name))
+    # !!! FOR NOW ALWAYS CREATE XES !!!
+    new_file_name = timeStamped(action_name) + '.xes'
+    # if isXES():
+    xes_exporter.apply(log, os.path.join(getPathOfLogDir(), new_file_name))
+    # else:
+    #    tmp_df = log_converter.apply(log, variant=log_converter.Variants.TO_DATA_FRAME)
+    #    tmp_df.to_csv(os.path.join(getPathOfLogDir(), new_file_name))
 
     print("Updated log file named: " + new_file_name)
 
 
 
-
+def timeStamped(fname, fmt='%Y-%m-%d-%H-%M-%S-{fname}'):
+        '''This creates a timestamped filename so we don't overwrite our good work'''
+        return datetime.datetime.now().strftime(fmt).format(fname=fname)
 
 
 def get_df_of_log(log):

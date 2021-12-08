@@ -90,7 +90,7 @@ def importCSVXES(request):
 
     return render(request, 'ProjectApp/Import.html', context)
 
-# upload event log files TODO check if csv or xes
+# upload event log files TODO check if csv or xes, TODO return to import page rather than /upload!!!!!!!!
 def file_upload_view(request):
     '''Gets called when clicking Upload EventLog on Import page
     saves the uploaded file in media-eventlog'''
@@ -101,7 +101,6 @@ def file_upload_view(request):
         my_file = request.FILES['file']
         Doc.objects.create(upload=my_file)
         # return attrType(request) NOT THE RIGHT PLACE!? DO at 'set'-button
-        # return render(request, 'ProjectApp/Import.html')
     return JsonResponse({'post':'false'})
 
 def attrType(request):
@@ -160,7 +159,7 @@ def updateeventlog(request):
         log = add_Attr.callAllAttr(log, AttributesToDerive, ExtraAttributes)
 
         # update log
-        log_utils.update_log(log, 'augmented')
+        log_utils.create_log(log, 'augmented')
 
     return JsonResponse({'post':'false'})
 
@@ -200,7 +199,7 @@ def filtereventlog(request):
         log = apply_filters.callAllFilters(log, filters, extra_input)
 
         # update log
-        log_utils.update_log(log, 'filtered')
+        log_utils.create_log(log, 'filtered')
 
         # print(log_utils.get_log_attributes(log))
 
@@ -208,6 +207,7 @@ def filtereventlog(request):
         # log = use_case_analysis.analyze_log(log, 'Resource', ['Activity','case:concept:name'])
 
     return JsonResponse({'post':'false'})
+
 
 def downloadFilters(request):
     if os.path.exists('media\\eventlog\\' + log_utils.cur_log):
