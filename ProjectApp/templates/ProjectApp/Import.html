@@ -6,12 +6,12 @@
     <h3 style='font-size: 1.75rem; color:#00529F;'>Event Logs</h3>
 </div>
 <div style='position: absolute; top: 35%; left: 30%; right: 45%; text-align:left ;'>
-    <form action='upload/' method="post" enctype="multipart/form-data">
+    <form action='' method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <p>Event Log: <input accept= '.csv, .xes ' style=' font-size: 16px; margin-top: 2px; border:1px solid; border-color: black; width: 350px; ' type="file" name="file"> </p>
         
         <p>
-            <button style='font-size: 16px; width: 150px; height: 45px; border-color: #007bff; background-color: #007bff; border-radius: 3px; color: white;' type="submit">Upload EventLog</button>
+            <input value='Upload EventLog' name='uploadButton' id='uploadButton' style='font-size: 16px; width: 150px; height: 45px; border-color: #007bff; background-color: #007bff; border-radius: 3px; color: white;' type='submit'/>
         </p>
     </form>
 </div>

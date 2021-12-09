@@ -42,44 +42,52 @@ def importCSVXES(request):
     
     #when clicking download button downloads the choosen file
     if "downloadButton" in request.POST:
-        if "log_list" not in request.POST:
-            return HttpResponse('')
-        filename = request.POST["log_list"]
-        file_dir = os.path.join("media\\eventlog", filename)
-        try:
-            wrapper = FileWrapper(open(file_dir, 'rb'))
-            response = HttpResponse(wrapper, content_type='application/force-download')
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_dir)
-            return response
-        except Exception as e:
-            return None
+        if "log_list" in request.POST:
+            filename = request.POST["log_list"]
+            file_dir = os.path.join("media\\eventlog", filename)
+            try:
+                wrapper = FileWrapper(open(file_dir, 'rb'))
+                response = HttpResponse(wrapper, content_type='application/force-download')
+                response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_dir)
+                return response
+            except Exception as e:
+                return None
+
     # set new log as current one
     elif "setButton" in request.POST:
-        if "log_list" not in request.POST:
-            return HttpResponse('')
+        if "log_list" in request.POST:
 
-        filename = request.POST["log_list"]
-        # SetEventLog= filename
-        log_utils.cur_log = filename
+            filename = request.POST["log_list"]
+            # SetEventLog= filename
+            log_utils.cur_log = filename
 
-        # call to set the attributes: TODO maybe save attributes once new log is chosen?
-        
+            # call to set the attributes: TODO maybe save attributes once new log is chosen?
+            print('Event Log In Use:', log_utils.cur_log)
 
-        print('Event Log In Use:', log_utils.cur_log)
+            return attrType(request)
 
-        return attrType(request)
     # delete a log
     elif "deleteButton" in request.POST:
-        if "log_list" not in request.POST:
-            return HttpResponse('')
-        filename = request.POST["log_list"]
-        # reset cur_log var if its value gets deleted
-        if filename == log_utils.cur_log:
-            log_utils.cur_log = ''
-        file_dir = os.path.join("media\\eventlog", filename)
+        if "log_list" in request.POST:
+            filename = request.POST["log_list"]
+            # reset cur_log var if its value gets deleted
+            if filename == log_utils.cur_log:
+                log_utils.cur_log = ''
+            file_dir = os.path.join("media\\eventlog", filename)
 
-        os.remove(file_dir)
+            os.remove(file_dir)
     
+    #saves the file imported by the user in the eventlog folder
+    elif "uploadButton" in request.POST:
+        print('olé')
+        try:
+            if request.FILES['file']:
+                print('buba')
+                my_file = request.FILES['file']
+                Doc.objects.create(upload=my_file)
+        except Exception as e:
+            None
+
     #gets files names
     arrayFiles = []
     if os.path.exists("media\\eventlog"):
@@ -89,19 +97,6 @@ def importCSVXES(request):
     context['fileNames']=arrayFiles
 
     return render(request, 'ProjectApp/Import.html', context)
-
-# upload event log files TODO check if csv or xes, TODO return to import page rather than /upload!!!!!!!!
-def file_upload_view(request):
-    '''Gets called when clicking Upload EventLog on Import page
-    saves the uploaded file in media-eventlog'''
-    if request.method == 'POST'and request.FILES['file']:
-        # if os.path.exists("media\\eventlog"): COMMENTED OUT CAUSE WE NOW HAVE DELETE BUTTON
-        #     print("removing old file")
-        #    shutil.rmtree("media\\eventlog")
-        my_file = request.FILES['file']
-        Doc.objects.create(upload=my_file)
-        # return attrType(request) NOT THE RIGHT PLACE!? DO at 'set'-button
-    return JsonResponse({'post':'false'})
 
 def attrType(request):
     '''Gets called when clicking Upload EventLog on Import page
@@ -163,21 +158,6 @@ def updateeventlog(request):
 
     return JsonResponse({'post':'false'})
 
-def download(request):
-    if os.path.exists('media\\eventlog\\' + log_utils.cur_log):
-        file = open('media\\eventlog\\' + log_utils.cur_log, 'rb') #Open the specified file
-        response = HttpResponse(file)   #Give file handle to HttpResponse object
-        response['Content-Type'] = 'application/octet-stream' #Set the header to tell the browser that this is a file
-        response['Content-Disposition'] = 'attachment;filename= SetEventLog' #This is a simple description of the file. Note that the writing is the fixed one
-        return response
-    if os.path.exists('media\\eventlog\\' + log_utils.cur_log):
-        file = open('media\\eventlog\\' + log_utils.cur_log, 'rb') #Open the specified file 
-        response = HttpResponse(file)   #Give file handle to HttpResponse object
-        response['Content-Type'] = 'application/octet-stream' #Set the header to tell the browser that this is a file
-        response['Content-Disposition'] = 'attachment;filename=SetEventLog' #This is a simple description of the file. Note that the writing is the fixed one
-        return response
-    return HttpResponse('No File')
-
 
 def filters(request):
     return render(request, 'ProjectApp/Filters.html')
@@ -207,23 +187,6 @@ def filtereventlog(request):
         # log = use_case_analysis.analyze_log(log, 'Resource', ['Activity','case:concept:name'])
 
     return JsonResponse({'post':'false'})
-
-
-def downloadFilters(request):
-    if os.path.exists('media\\eventlog\\' + log_utils.cur_log):
-        file = open('media\\eventlog\\' + log_utils.cur_log, 'rb') #Open the specified file
-        response = HttpResponse(file)   #Give file handle to HttpResponse object
-        response['Content-Type'] = 'application/octet-stream' #Set the header to tell the browser that this is a file
-        response['Content-Disposition'] = 'attachment;filename=SetEventLog' #This is a simple description of the file. Note that the writing is the fixed one
-        return response
-    if os.path.exists('media\\eventlog\\' + log_utils.cur_log):
-        file = open('media\\eventlog\\' + log_utils.cur_log, 'rb') #Open the specified file 
-        response = HttpResponse(file)   #Give file handle to HttpResponse object
-        response['Content-Type'] = 'application/octet-stream' #Set the header to tell the browser that this is a file
-        response['Content-Disposition'] = 'attachment;filename=SetEventLog' #This is a simple description of the file. Note that the writing is the fixed one
-        return response
-    return HttpResponse('No File')
-
 
 
 def useCase(request):
@@ -258,10 +221,10 @@ def decisionTree(request):
     # update log(NOT NECESSARY; LOG UNCHANGED)
     # log_utils.update_log(log)
     
-    return JsonResponse({'post':'false'})
+    return render(request, 'ProjectApp/DecisionTree.html')
 
 def clustering(request):
-    return render(request, 'ProjectApp/UseCase/DecisionTree/Clustering.html')
+    return render(request, 'ProjectApp/Clustering.html')
 
 def processModel(request):
-    return render(request, 'ProjectApp/UseCase/DecisionTree/Clustering/ProcessModel.html')
+    return render(request, 'ProjectApp/ProcessModel.html')
