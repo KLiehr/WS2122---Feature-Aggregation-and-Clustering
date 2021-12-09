@@ -211,17 +211,19 @@ def decisionTree(request):
         print('Dependent Attribute:' + dependent_attr)
         print('Independent Attributes:' + independent_attr)
 
-    # get log
-    log = log_utils.get_log()
+        # get log
+        log = log_utils.get_log()
 
-    # call function to apply all filters
-    print('Creating a Decision/Regression tree!')
-    log = use_case_analysis.analyze_log(log, dependent_attr, independent_attr.split(','))
+        # call function to apply all filters
+        print('Creating a Decision/Regression tree!')
+        log = use_case_analysis.analyze_log(log, dependent_attr, independent_attr.split(','))
+    else:
+        print('Called tree without variables')
 
     # update log(NOT NECESSARY; LOG UNCHANGED)
     # log_utils.update_log(log)
     
-    return render(request, 'ProjectApp/DecisionTree.html')
+    return render(request, 'ProjectApp/DecisionTree.html') 
 
 def clustering(request):
     return render(request, 'ProjectApp/Clustering.html')
