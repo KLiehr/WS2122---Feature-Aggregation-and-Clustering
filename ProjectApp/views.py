@@ -1,4 +1,5 @@
 from math import log10
+from re import sub
 from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
@@ -233,6 +234,9 @@ def clustering(request):
 
 def processModel(request):
     '''Gets called by Process Model button and creates pictures of process model for sublogs'''
+
+    clean_sublog_folder()
+
     tree_visual = False
     sublog_nr = 0
     for sublog in log_utils.last_sublogs:
@@ -243,4 +247,12 @@ def processModel(request):
             sublog_nr += 1
             net, initial_marking, final_marking = cluster_log.get_petri_net(sublog)
             cluster_log.visualize_petri_net(net, initial_marking, final_marking, sublog_nr)
+            print('Create sublog number: ')
+            print(sublog_nr)
     return render(request, 'ProjectApp/ProcessModel.html')
+
+
+def clean_sublog_folder():
+    '''Deletes and recreates sublog images folder'''
+    shutil.rmtree(log_utils.get_sublog_image_path())
+    os.makedirs(os.path.join(log_utils.get_image_path(), 'sublog images'))
