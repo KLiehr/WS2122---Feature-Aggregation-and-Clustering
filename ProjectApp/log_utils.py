@@ -20,6 +20,12 @@ lifecycle_transition_attr = ''
 # currently set log
 cur_log = ''
 
+# Latest prediction from a decision tree # TODO replace global variable with better solution
+last_pred = []
+
+# Latest created sublogs # TODO replace global variable with better solution
+last_sublogs = []
+
 def getPathOfLogFile():
     '''returns path to log file '''
     # check if a log file is set
@@ -155,4 +161,14 @@ def isNumerical(log_df, col_name):
         except ValueError:
             return False
     return True
+
+
+
+
+
+def get_log_of_df(df):
+    '''Given a dataframe(pandas) return converted log'''
+    parameters = {log_converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY: case_id_attr}
+    log = log_converter.apply(df, parameters=parameters, variant=log_converter.Variants.TO_EVENT_LOG)
+    return log
 

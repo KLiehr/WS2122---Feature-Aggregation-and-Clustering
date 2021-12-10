@@ -12,6 +12,7 @@ from . import log_utils
 from .add_Attributes import add_Attr
 from . import apply_filters
 from . import use_case_analysis
+from . import cluster_log
 
 import sys
 
@@ -216,7 +217,7 @@ def decisionTree(request):
 
         # call function to apply all filters
         print('Creating a Decision/Regression tree!')
-        log = use_case_analysis.analyze_log(log, dependent_attr, independent_attr.split(','))
+        log_utils.last_pred = use_case_analysis.analyze_log(log, dependent_attr, independent_attr.split(','))
     else:
         print('Called tree without variables')
 
@@ -226,7 +227,12 @@ def decisionTree(request):
     return render(request, 'ProjectApp/DecisionTree.html') 
 
 def clustering(request):
+    '''Called upon clicking on clustering button, sets last_sublogs variable, which is a list of'''
+    log_utils.last_sublogs = cluster_log.split_log(log_utils.get_log(), log_utils.last_pred)
     return render(request, 'ProjectApp/Clustering.html')
 
 def processModel(request):
+    for sublog in log_utils.last_sublogs:
+        tree_of_sublog = cluster_log.get_process_tree(sublog)
+        cluster_log.visualize_process_tree(tree_of_sublog)
     return render(request, 'ProjectApp/ProcessModel.html')

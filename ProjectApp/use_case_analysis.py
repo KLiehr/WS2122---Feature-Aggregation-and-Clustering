@@ -19,7 +19,7 @@ import graphviz
 
 
 def analyze_log(log, dep_var, ind_vars):
-    '''Given a log, an independant attribute and a list of dependant ones, create a decision tree'''
+    '''Given a log, an independant attribute and a list of dependant ones, create a decision tree, return prediction'''
     print("Dependant attribute: " + dep_var)
     print("Independant attributes: " + str(ind_vars))
 
@@ -62,8 +62,8 @@ def analyze_log(log, dep_var, ind_vars):
     graph = graphviz.Source(dot_data) 
     graph.render('test_tree', view=True) 
 
-    
-    return log
+    prediction = tree_clf.apply(one_hot_data)
+    return prediction
 
 
 
