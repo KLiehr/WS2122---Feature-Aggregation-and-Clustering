@@ -64,6 +64,16 @@ def get_image_path():
     return path_for_adding_image
 
 
+def get_sublog_image_path():
+    ''' returns directory of sublog image files'''
+    # get dir location of images
+    dir_name_here = os.path.dirname(__file__)
+    folder_of_log = os.path.dirname(dir_name_here)
+    path_for_sublog_images = os.path.join(folder_of_log, 'media', 'images', 'sublog images')
+
+    return path_for_sublog_images
+
+
 def isXES():
     '''IMPORTANT: We assume the file to be either csv and xes, named our_file to be there
      returns true if our file is an XES file

@@ -71,7 +71,7 @@ def analyze_log(log, dep_var, ind_vars):
 
     # png_graph = graphviz.Source(dot_data, filename= log_utils.cur_log + '-tree_png', directory= log_utils.get_image_path(), format='png')
     png_graph = graphviz.Source(dot_data, filename= 'decisionTree', directory= log_utils.get_image_path(), format='png')
-    png_graph.render(view=True)
+    png_graph.render(view=False)
 
     # get array of leaf values for all events in order
     prediction = tree_clf.apply(one_hot_data)

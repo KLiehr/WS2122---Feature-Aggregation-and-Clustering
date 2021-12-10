@@ -4,6 +4,7 @@ from pm4py.algo.discovery.inductive import algorithm as inductive_miner
 import pandas as pd
 from pm4py.visualization.process_tree import visualizer as pt_visualizer
 from pm4py.visualization.petri_net import visualizer as pn_visualizer
+import os
 
 #prediction = tree_clf.apply(X_value)
 def split_log(log, prediction):
@@ -68,9 +69,11 @@ def get_process_tree(log):
     return tree
 
 
-def visualize_petri_net(net, initial_marking, final_marking):
+def visualize_petri_net(net, initial_marking, final_marking, leaf_nr):
     gviz = pn_visualizer.apply(net, initial_marking, final_marking)
     pn_visualizer.view(gviz)
+    path_sublogs = os.path.join(log_utils.get_sublog_image_path(), ('Sublog' + str(leaf_nr)))
+    pn_visualizer.save(gviz, path_sublogs)
 
 def visualize_process_tree(tree):
     

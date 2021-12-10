@@ -234,11 +234,13 @@ def clustering(request):
 def processModel(request):
     '''Gets called by Process Model button and creates pictures of process model for sublogs'''
     tree_visual = False
+    sublog_nr = 0
     for sublog in log_utils.last_sublogs:
         if tree_visual:
             tree_of_sublog = cluster_log.get_process_tree(sublog)
             cluster_log.visualize_process_tree(tree_of_sublog)
         else:
+            sublog_nr += 1
             net, initial_marking, final_marking = cluster_log.get_petri_net(sublog)
-            cluster_log.visualize_petri_net(net, initial_marking, final_marking)
+            cluster_log.visualize_petri_net(net, initial_marking, final_marking, sublog_nr)
     return render(request, 'ProjectApp/ProcessModel.html')
