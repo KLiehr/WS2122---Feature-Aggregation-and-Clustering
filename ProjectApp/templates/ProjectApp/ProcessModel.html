@@ -2,19 +2,22 @@
 
 {% block content %} 
 
-<div style='position: absolute; top: 25%; left: 46%; right: 20%; text-align: center;'>
-    <img src='/media/images/processModel.png'>
-
+<div style='border: 1px solid black; height: 280px; position: absolute; top: 25%; left: 46%; right: 20%; text-align: center;'>
+    <img style=' height: 280px; width:280px ;' src='/media/images/processModel.png'>
 </div>
 
-<div>
-    <!-- <button type='button' onclick='DownloadProcessModel()' style='margin-top:10%; margin-left: 7%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
+<div style='position: absolute; top: 77%; left: 40%; right: 55%; text-align: center;'>
+    <button type='button' onclick="location.href='/UseCase/'" style='margin-top:10%; margin-left: 7%; width: 250px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
+        Back to Use Case
+    </button>
+</div>
+
+<div style='position: absolute; top: 76%; left: 65%; right: 25%; text-align: center;'>
+    <button type='button' onclick="document.getElementById('imgPM').click()" style='margin-top:10%; margin-left: 7%; width: 250px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
         Download
-    </button> -->
+    </button>
+    <a href="/media/images/processModel.png" id='imgPM' download hidden></a>
 </div>
-
-
-
 
 <script>
     document.getElementById('sideMenu').style.display = "none";

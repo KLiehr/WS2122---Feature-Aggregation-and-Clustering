@@ -2,22 +2,29 @@
 
 {% block content %} 
 
-<div style='position: absolute; top: 25%; left: 46%; right: 20%; text-align: center;'>
-    <img src='/media/images/decisionTree.png'>
-
+<div style='border: 1px solid black; height: 280px; position: absolute; top: 25%; left: 46%; right: 20%; text-align: center;'>
+    <img style=' height: 280px; width:280px ;'  src='/media/images/decisionTree.png'>
 </div>
 
-<div>
+<div style='position: absolute; top: 71%; left: 20%; right: 45%; text-align: center;'>
+    <button type='button' onclick="location.href='/UseCase/'" style='margin-top:10%; margin-left: 7%; width: 250px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
+        Back to Use Case
+    </button>
+</div>
+
+<div style='position: absolute; top: 76%; left: 53%; right: 35%; text-align: center;'>
+    <button type='button' onclick="document.getElementById('imgDT').click()" style='margin-top:10%; margin-left: 7%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
+        Download
+    </button>
+    <a href='/media/images/decisionTree.png' id='imgDT' download hidden></a>
+</div>
+
+<div style='position: absolute; top: 74%; left: 75%; right: 5%; text-align: center;'>
     <button type='button' onclick="location.href='Clustering/'" style='margin-top:10%; margin-left: 7%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
         Clustering
     </button>
 
-    <!-- <button type='button' onclick='DownloadDecisionTree()' style='margin-top:10%; margin-left: 7%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
-        Download
-    </button>   -->
 </div>
-
-
 
 
 <script>
