@@ -249,7 +249,21 @@ def processModel(request):
             cluster_log.visualize_petri_net(net, initial_marking, final_marking, sublog_nr)
             print('Create sublog number: ')
             print(sublog_nr)
-    return render(request, 'ProjectApp/ProcessModel.html')
+
+    #gets files names
+    arrayFiles = []
+    if os.path.exists("media\\images\\sublog images"):
+        arrayFiles = [f for f in listdir("media\\images\\sublog images") if isfile(join("media\\images\\sublog images", f))]
+    print(arrayFiles)
+    context={}
+    context['fileNames']=json.dumps(arrayFiles)
+
+    if os.path.exists("media\\processModels.zip"):
+        os.remove("media\\processModels.zip")
+    
+    shutil.make_archive('media\processModels','zip','media\\images\\sublog images')
+
+    return render(request, 'ProjectApp/ProcessModel.html', context)
 
 
 def clean_sublog_folder():
