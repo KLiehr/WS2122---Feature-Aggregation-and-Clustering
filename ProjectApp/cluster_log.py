@@ -17,13 +17,13 @@ def split_log(log, prediction):
 
     print('The case id: ' + log_utils.case_id_attr)
     print('The predicted leaves: ')
-    print(list(np.unique(prediction)))
+    print(prediction)
 
     sublogs = []
 
     # for every trace with more than 1 event: change the prediction for every event in the trace to be uniform based on majority
     for i in list(log_df[log_utils.case_id_attr].unique()):
-        print('Compute majority leaf of event: ' + i)
+        print('Compute majority leaf of trace: ' + i)
         trace = log_df[log_df[log_utils.case_id_attr] == i]
         if len(trace) > 1:
 
