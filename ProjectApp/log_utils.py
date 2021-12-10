@@ -54,7 +54,14 @@ def getPathOfLogDir():
     return path_for_adding_attr
 
 
+def get_image_path():
+    ''' returns directory of image files'''
+    # get dir location of images
+    dir_name_here = os.path.dirname(__file__)
+    folder_of_log = os.path.dirname(dir_name_here)
+    path_for_adding_image = os.path.join(folder_of_log, 'media', 'images')
 
+    return path_for_adding_image
 
 
 def isXES():
