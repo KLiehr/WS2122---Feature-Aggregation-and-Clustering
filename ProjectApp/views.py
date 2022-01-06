@@ -156,7 +156,10 @@ def updateeventlog(request):
         log = add_Attr.callAllAttr(log, AttributesToDerive, ExtraAttributes)
 
         # update log
-        log_utils.create_log(log, 'augmented')
+        log_utils.create_log_without_time(log, 'Augmented with ' + AttributesToDerive)
+
+        # with timestamps as names, OLD VERSION
+        # log_utils.create_log(log, 'augmented')
 
     return JsonResponse({'post':'false'})
 
@@ -180,8 +183,11 @@ def filtereventlog(request):
         print('calling apply_filters')
         log = apply_filters.callAllFilters(log, filters, extra_input)
 
-        # update log
-        log_utils.create_log(log, 'filtered')
+        log_utils.create_log_without_time(log, 'Filtered by ' + filters)
+
+
+        # update log OLD VERSION WITH TIMESTAMPS
+        # log_utils.create_log(log, 'filtered')
 
         # print(log_utils.get_log_attributes(log))
 

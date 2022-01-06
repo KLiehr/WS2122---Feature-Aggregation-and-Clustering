@@ -137,6 +137,21 @@ def create_log(log, action_name):
 
 
 
+def create_log_without_time(log, action_name):
+    '''updates actual log file with a given event log !!without timestamping!! but current log name'''
+    # update actual XES file else csv
+    # !!! FOR NOW ALWAYS CREATE XES !!!
+    new_file_name = action_name + '.xes'
+    # if isXES():
+    xes_exporter.apply(log, os.path.join(getPathOfLogDir(), new_file_name))
+    # else:
+    #    tmp_df = log_converter.apply(log, variant=log_converter.Variants.TO_DATA_FRAME)
+    #    tmp_df.to_csv(os.path.join(getPathOfLogDir(), new_file_name))
+
+    print("Updated log file named: " + new_file_name)
+
+
+
 def timeStamped(fname, fmt='%Y-%m-%d-%H-%M-%S-{fname}'):
         '''This creates a timestamped filename so we don't overwrite our good work'''
         return datetime.datetime.now().strftime(fmt).format(fname=fname)
