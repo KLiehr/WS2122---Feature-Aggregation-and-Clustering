@@ -35,3 +35,4 @@ test_tree
 test_tree.pdf
 *.png
 media/images/decisionTree
+*.pyc
