@@ -44,7 +44,6 @@ def userguide(request):
     except FileNotFoundError:
         raise Http404()
 
-# SetEventLog=''
 
 def importCSVXES(request):
     '''Gets files names and opens Import page'''
@@ -64,8 +63,7 @@ def importCSVXES(request):
 
     # set new log as current one
     elif "setButton" in request.POST:
-        if "log_list" in request.POST:
-
+        if "log_list" in request.POST and (request.POST["log_list"][-3:]=='xes' or request.POST["log_list"][-3:]=='csv'):
             filename = request.POST["log_list"]
             # SetEventLog= filename
             log_utils.cur_log = filename
@@ -207,7 +205,6 @@ def filtereventlog(request):
 def useCase(request):
     '''Gets called upon visiting UseCase, returns the attributes of the log per json'''
     
-
     all_log_attr = log_utils.get_log_attributes()
 
     #add attribute names to UseCase.html
@@ -216,6 +213,9 @@ def useCase(request):
     return render(request, 'ProjectApp/UseCase.html', context)
 
 
+
+
+UseCaseName=''
 @csrf_exempt
 def decisionTree(request):
     '''Gets called when clicking Decision Tree on UseCase page'''
@@ -232,16 +232,33 @@ def decisionTree(request):
         # call function to apply all filters
         print('Creating a Decision/Regression tree!')
         log_utils.last_pred = use_case_analysis.analyze_log(log, dependent_attr, independent_attr.split(','))
+
+        global UseCaseName
+        # move decision tree image to eventlog and rename it
+        UseCaseName=log_utils.cur_log +'_'+ dependent_attr +'_'+ independent_attr[0:3]
+        for i in range(len(independent_attr)):
+            if independent_attr[i]==',':
+                UseCaseName = UseCaseName + '_' + independent_attr[i+1:i+4]
+
+        if os.path.exists("media\\eventlog\\decTree_"+UseCaseName+'.png'):
+            os.remove("media\\eventlog\\decTree_"+UseCaseName+'.png')
+        shutil.copy("media\\images\\decTree.png","media\\eventlog\\decTree_"+UseCaseName+'.png')
+        
     else:
         print('Called tree without variables')
 
     # update log(NOT NECESSARY; LOG UNCHANGED)
     # log_utils.update_log(log)
     
-    return render(request, 'ProjectApp/DecisionTree.html') 
+    return render(request, 'ProjectApp/DecisionTree.html')
+
+
+
 
 def clustering(request):
     '''Called upon clicking on clustering button, sets last_sublogs variable, which is a list of'''
+
+    #clustering
     log_utils.last_sublogs = cluster_log.split_log(log_utils.get_log(), log_utils.last_pred)
 
     # creating/clearing folder for sublog xes files
@@ -257,16 +274,31 @@ def clustering(request):
         xes_exporter.apply(sublog, os.path.join(log_utils.get_sublog_xes_path(), 'sublog_nr' + str(sublog_nr) + '.xes'))
         sublog_nr += 1
 
-
+    global UseCaseName
+    # Delete previous clusters.zip if it is the same
+    if os.path.exists("media\\eventlog\\clusters_"+UseCaseName+'.zip'):
+            os.remove("media\\eventlog\\clusters_"+UseCaseName+'.zip')
+    
+    #creates new clusters xes zip in eventlog folder
+    shutil.make_archive('media\\eventlog\\clusters_'+UseCaseName,'zip','media\\images\\sublog xes files')
 
     return render(request, 'ProjectApp/Clustering.html')
+
+
+
+
 
 def processModel(request):
     '''Gets called by Process Model button and creates pictures of process model for sublogs'''
 
-    clean_sublog_folder()
+    #Deletes previous sublog images folder
+    if os.path.exists(log_utils.get_sublog_image_path()):
+        shutil.rmtree(log_utils.get_sublog_image_path())
 
+    #Creates new sublog images folder
+    os.makedirs(os.path.join(log_utils.get_image_path(), 'sublog images'))
 
+    #process model
     tree_visual = False
     sublog_nr = 0
     for sublog in log_utils.last_sublogs:
@@ -280,7 +312,7 @@ def processModel(request):
             print('Create sublog number: ')
             print(sublog_nr)
 
-    #gets files names
+    #gets files names from sublog images
     arrayFiles = []
     if os.path.exists("media\\images\\sublog images"):
         arrayFiles = [f for f in listdir("media\\images\\sublog images") if isfile(join("media\\images\\sublog images", f))]
@@ -288,15 +320,12 @@ def processModel(request):
     context={}
     context['fileNames']=json.dumps(arrayFiles)
 
-    if os.path.exists("media\\processModels.zip"):
-        os.remove("media\\processModels.zip")
+    global UseCaseName
+    # Delete previous clusters.zip if it is the same
+    if os.path.exists("media\\eventlog\\processModels_"+UseCaseName+'.zip'):
+            os.remove("media\\eventlog\\processModels_"+UseCaseName+'.zip')
     
-    shutil.make_archive('media\processModels','zip','media\\images\\sublog images')
+    #creates new clusters xes zip in eventlog folder
+    shutil.make_archive('media\\eventlog\\processModels_'+UseCaseName,'zip','media\\images\\sublog images')
 
     return render(request, 'ProjectApp/ProcessModel.html', context)
-
-
-def clean_sublog_folder():
-    '''Deletes and recreates sublog images folder'''
-    shutil.rmtree(log_utils.get_sublog_image_path())
-    os.makedirs(os.path.join(log_utils.get_image_path(), 'sublog images'))
