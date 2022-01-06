@@ -81,7 +81,6 @@ def importCSVXES(request):
     
     #saves the file imported by the user in the eventlog folder
     elif "uploadButton" in request.POST:
-        print('olé')
         try:
             if request.FILES['file']:
                 print('buba')
