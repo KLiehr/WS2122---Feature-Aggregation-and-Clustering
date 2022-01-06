@@ -88,7 +88,12 @@
         body: data
         })
         .then((res) => { return res.text(); })
-        .then((txt) => { location.href='DecisionTree/'});
+
+        .then((txt) => { console.log(txt); });
+
+        if(dependent.length>0 && independent.length>0){
+            location.href='DecisionTree/'
+        }        
     }
 
     

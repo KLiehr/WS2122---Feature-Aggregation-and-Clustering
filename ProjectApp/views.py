@@ -219,8 +219,8 @@ def decisionTree(request):
         # call function to apply all filters
         print('Creating a Decision/Regression tree!')
         log_utils.last_pred = use_case_analysis.analyze_log(log, dependent_attr, independent_attr.split(','))
-    else:
-        print('Called tree without variables')
+
+        shutil.move('media\\images\\decisionTree.png','media\\eventlog\\decisionTree.png')
 
     # update log(NOT NECESSARY; LOG UNCHANGED)
     # log_utils.update_log(log)
@@ -258,10 +258,10 @@ def processModel(request):
     context={}
     context['fileNames']=json.dumps(arrayFiles)
 
-    if os.path.exists("media\\processModels.zip"):
-        os.remove("media\\processModels.zip")
+    if os.path.exists("media\\eventlog\\processModels.zip"):
+        os.remove("media\\eventlog\\processModels.zip")
     
-    shutil.make_archive('media\processModels','zip','media\\images\\sublog images')
+    shutil.make_archive('media\\eventlog\\processModels','zip','media\\images\\sublog images')
 
     return render(request, 'ProjectApp/ProcessModel.html', context)
 
