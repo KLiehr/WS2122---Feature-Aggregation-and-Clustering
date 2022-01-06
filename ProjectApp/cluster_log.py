@@ -71,7 +71,7 @@ def get_process_tree(log):
 
 def visualize_petri_net(net, initial_marking, final_marking, leaf_nr):
     gviz = pn_visualizer.apply(net, initial_marking, final_marking)
-    pn_visualizer.view(gviz)
+    # pn_visualizer.view(gviz)
     path_sublogs = os.path.join(log_utils.get_sublog_image_path(), ('Sublog' + str(leaf_nr)+'.png'))
     pn_visualizer.save(gviz, path_sublogs)
 

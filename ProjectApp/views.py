@@ -1,4 +1,7 @@
 from math import log10
+import pm4py
+from pm4py.objects.log.importer.xes import importer as xes_importer
+from pm4py.objects.log.exporter.xes import exporter as xes_exporter
 from re import sub
 from django.http.response import JsonResponse
 from django.shortcuts import render
@@ -9,6 +12,10 @@ from django.views.decorators.csrf import csrf_exempt
 import shutil
 import os
 from . import log_utils
+
+from pm4py.objects.log.util import dataframe_utils
+from pm4py.objects.conversion.log import converter as log_converter, variants
+from pm4py.util import constants
 
 from .add_Attributes import add_Attr
 from . import apply_filters
@@ -236,12 +243,29 @@ def decisionTree(request):
 def clustering(request):
     '''Called upon clicking on clustering button, sets last_sublogs variable, which is a list of'''
     log_utils.last_sublogs = cluster_log.split_log(log_utils.get_log(), log_utils.last_pred)
+
+    # creating/clearing folder for sublog xes files
+    try:
+        os.mkdir(log_utils.get_sublog_xes_path())
+    except FileExistsError:
+        shutil.rmtree(log_utils.get_sublog_xes_path())
+        os.makedirs(log_utils.get_sublog_xes_path())
+    
+    # saving the xes files
+    sublog_nr = 0
+    for sublog in log_utils.last_sublogs:
+        xes_exporter.apply(sublog, os.path.join(log_utils.get_sublog_xes_path(), 'sublog_nr' + str(sublog_nr) + '.xes'))
+        sublog_nr += 1
+
+
+
     return render(request, 'ProjectApp/Clustering.html')
 
 def processModel(request):
     '''Gets called by Process Model button and creates pictures of process model for sublogs'''
 
     clean_sublog_folder()
+
 
     tree_visual = False
     sublog_nr = 0
