@@ -4,6 +4,7 @@ from . import views
 urlpatterns=[
     path('', views.home, name="home"),
     path('UserGuide/', views.userguide, name='userguide'),
+    path('ProgrammerGuide/', views.programmerguide, name='programmerguide'),
     path('Import/', views.importCSVXES, name="import"),
     path('Import/AttrType/', views.attrType, name='attrType'),
     path('Import/SaveAttrNames/', views.saveAttrNames, name='saveAttrNames'),

@@ -40,7 +40,13 @@ def home(request):
 
 def userguide(request):
     try:
-        return FileResponse(open('Requirements_Specification- Feature Aggregation in Process Mining.pdf', 'rb'), content_type='application/pdf')
+        return FileResponse(open('User_Manual.pdf', 'rb'), content_type='application/pdf')
+    except FileNotFoundError:
+        raise Http404()
+
+def programmerguide(request):
+    try:
+        return FileResponse(open('Programmer_s_Guide_to_adding_attributes_or_filters.pdf', 'rb'), content_type='application/pdf')
     except FileNotFoundError:
         raise Http404()
 
