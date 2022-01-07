@@ -36,3 +36,5 @@ test_tree.pdf
 *.png
 media/images/decisionTree
 *.pyc
+*.zip
+media/images/decTree
