@@ -52,7 +52,7 @@ def importCSVXES(request):
     if "downloadButton" in request.POST:
         if "log_list" in request.POST:
             filename = request.POST["log_list"]
-            file_dir = os.path.join("media\\eventlog", filename)
+            file_dir = os.path.join("media", "eventlog", filename)
             try:
                 wrapper = FileWrapper(open(file_dir, 'rb'))
                 response = HttpResponse(wrapper, content_type='application/force-download')
@@ -83,7 +83,7 @@ def importCSVXES(request):
             # reset cur_log var if its value gets deleted
             if filename == log_utils.cur_log:
                 log_utils.cur_log = ''
-            file_dir = os.path.join("media\\eventlog", filename)
+            file_dir = os.path.join('media', 'eventlog', filename)
 
             os.remove(file_dir)
     
@@ -100,8 +100,8 @@ def importCSVXES(request):
 
     #gets files names
     arrayFiles = []
-    if os.path.exists("media\\eventlog"):
-        arrayFiles = [f for f in listdir("media\\eventlog") if isfile(join("media\\eventlog", f))]
+    if os.path.exists(os.path.join('media',  'eventlog')):
+        arrayFiles = [f for f in listdir(os.path.join('media', 'eventlog')) if isfile(join(os.path.join('media', 'eventlog'), f))]
     print(arrayFiles)
     context={}
     context['fileNames']=arrayFiles
@@ -243,10 +243,10 @@ def decisionTree(request):
             if independent_attr[i]==',':
                 UseCaseName = UseCaseName + '_' + independent_attr[i+1:i+4]
 
-        if os.path.exists("media\\eventlog\\decTree_"+UseCaseName+'.png'):
-            os.remove("media\\eventlog\\decTree_"+UseCaseName+'.png')
-        shutil.copy("media\\images\\decTree.png","media\\eventlog\\decTree_"+UseCaseName+'.png')
-        
+        if os.path.exists(os.path.join('media', 'eventlog', 'decTree_'+UseCaseName+'.png')):
+            os.remove(os.path.join('media', 'eventlog', 'decTree_'+UseCaseName+'.png'))
+        shutil.copy(os.path.join('media', 'images','decTree.png'), os.path.join('media', 'eventlog','decTree_'+UseCaseName+'.png'))
+    
     else:
         print('Called tree without variables')
 
@@ -278,12 +278,12 @@ def clustering(request):
         sublog_nr += 1
 
     global UseCaseName
-    # Delete previous clusters.zip if it is the same
-    if os.path.exists("media\\eventlog\\clusters_"+UseCaseName+'.zip'):
-            os.remove("media\\eventlog\\clusters_"+UseCaseName+'.zip')
+    # Delete previous clusters.zip if it is the same 
+    if os.path.exists(os.path.join('media', 'eventlog', 'clusters_'+UseCaseName+'.zip')):
+            os.remove(os.path.join('media', 'eventlog', 'clusters_'+UseCaseName+'.zip'))
     
     #creates new clusters xes zip in eventlog folder
-    shutil.make_archive('media\\eventlog\\clusters_'+UseCaseName,'zip','media\\images\\sublog xes files')
+    shutil.make_archive(os.path.join('media', 'eventlog', 'clusters_'+UseCaseName),'zip', os.path.join('media', 'images', 'sublog xes files'))
 
     return render(request, 'ProjectApp/Clustering.html')
 
@@ -317,18 +317,18 @@ def processModel(request):
 
     #gets files names from sublog images
     arrayFiles = []
-    if os.path.exists("media\\images\\sublog images"):
-        arrayFiles = [f for f in listdir("media\\images\\sublog images") if isfile(join("media\\images\\sublog images", f))]
+    if os.path.exists(os.path.join('media', 'images', 'sublog images')):
+        arrayFiles = [f for f in listdir(os.path.join('media', 'images', 'sublog images')) if isfile(join(os.path.join('media', 'images', 'sublog images'), f))]
     print(arrayFiles)
     context={}
     context['fileNames']=json.dumps(arrayFiles)
 
     global UseCaseName
     # Delete previous clusters.zip if it is the same
-    if os.path.exists("media\\eventlog\\processModels_"+UseCaseName+'.zip'):
-            os.remove("media\\eventlog\\processModels_"+UseCaseName+'.zip')
+    if os.path.exists(os.path.join('media', 'eventlog', 'processModels_'+UseCaseName+'.zip')):
+            os.remove(os.path.join('media', 'eventlog', 'processModels_'+UseCaseName+'.zip'))
     
     #creates new clusters xes zip in eventlog folder
-    shutil.make_archive('media\\eventlog\\processModels_'+UseCaseName,'zip','media\\images\\sublog images')
+    shutil.make_archive(os.path.join('media', 'eventlog', 'processModels_'+UseCaseName),'zip',os.path.join('media', 'images', 'sublog images'))
 
     return render(request, 'ProjectApp/ProcessModel.html', context)
