@@ -73,6 +73,9 @@ def importCSVXES(request):
 
             return attrType(request)
 
+        else:
+            print('Tried to set a non log object as log, request rejected!!!')
+
     # delete a log
     elif "deleteButton" in request.POST:
         if "log_list" in request.POST:
@@ -161,7 +164,7 @@ def updateeventlog(request):
         log = add_Attr.callAllAttr(log, AttributesToDerive, ExtraAttributes)
 
         # update log
-        log_utils.create_log_without_time(log, 'Augmented with ' + AttributesToDerive)
+        log_utils.create_log_without_time(log, 'Added ' + AttributesToDerive + ' to ')
 
         # with timestamps as names, OLD VERSION
         # log_utils.create_log(log, 'augmented')
@@ -188,7 +191,7 @@ def filtereventlog(request):
         print('calling apply_filters')
         log = apply_filters.callAllFilters(log, filters, extra_input)
 
-        log_utils.create_log_without_time(log, 'Filtered by ' + filters)
+        log_utils.create_log_without_time(log, 'Applied ' + filters + ' to ')
 
 
         # update log OLD VERSION WITH TIMESTAMPS

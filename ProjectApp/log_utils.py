@@ -150,7 +150,7 @@ def create_log_without_time(log, action_name):
     '''updates actual log file with a given event log !!without timestamping!! but current log name'''
     # update actual XES file else csv
     # !!! FOR NOW ALWAYS CREATE XES !!!
-    new_file_name = action_name + '.xes'
+    new_file_name = action_name + cur_log
     # if isXES():
     xes_exporter.apply(log, os.path.join(getPathOfLogDir(), new_file_name))
     # else:
