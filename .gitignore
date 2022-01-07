@@ -16,7 +16,7 @@ ProjectApp/migrations/__pycache__/__init__.cpython-310.pyc
 *.pyc
 *.csv
 *.sqlite3
-*.pdf
+
 db.sqlite3
 db.sqlite3
 FeatureAggregation/__pycache__/__init__.cpython-310.pyc
