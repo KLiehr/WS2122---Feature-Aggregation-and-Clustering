@@ -79,7 +79,11 @@ def callAllAttr(log, chosen_attr, extra_info):
     # returns augmented log
     return log
         
-# DEPRECATED
+
+        
+# !!!DEPRECATED EVERYTHING BELOW THIS COMMENT !!! DO NOT USE!!!
+
+
 # gets a string with the attributes chosen for augmentation, example:  "T1,R2,C2" as well as optionally extra info as String such as [D2:Resource,D3:Activity]
 # then calls all individual attribute adding functions, updating the xes file in the end
 def callAllAttr_old(chosen_attr, extra_info):
