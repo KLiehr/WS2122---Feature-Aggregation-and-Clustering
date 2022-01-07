@@ -59,8 +59,14 @@ def analyze_log(log, dep_var, ind_vars):
         tree_clf.fit(one_hot_data, target_column)
         print('Trained a regression tree!')
     
+
+    # get variables for class names of tree
+    target_class_names= list(log_df[dep_var].unique())
+    print(target_class_names)
+
+
     # visualize tree
-    dot_data = tree.export_graphviz(tree_clf, out_file=None, feature_names= one_hot_data.columns) 
+    dot_data = tree.export_graphviz(tree_clf, out_file=None, feature_names= one_hot_data.columns, class_names= target_class_names) 
     
     
     #graph = graphviz.Source(dot_data) 
