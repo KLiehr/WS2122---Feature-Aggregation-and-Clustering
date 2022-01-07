@@ -24,7 +24,10 @@ sys.path.append(parent)
   
 # now we can import the module in the parent
 # directory.
-import log_utils
+try: 
+    import log_utils
+except ModuleNotFoundError:
+    from . import log_utils
 
 
 
