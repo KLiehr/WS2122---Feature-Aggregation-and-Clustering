@@ -96,7 +96,7 @@ def apply_F3(log):
 
 def apply_F4(log):
     '''given a event log, apply filter F4: Only keep events marked as 'Complete', return filtered log'''
-    if not log_utils.lifecycle_transition_attr:
+    if not log_utils.lifecycle_transition_attr == 'NO LIFECYCLE ATTRIBUTE IN LOG':
         for i, trace in enumerate(log):
             filtered_trace =  pm4py.filter_trace(lambda t: t[log_utils.lifecycle_transition_attr] == 'complete' or t[log_utils.lifecycle_transition_attr] == 'Complete', trace)
             log[i] = filtered_trace
@@ -108,7 +108,7 @@ log_utils.lifecycle_transition_attr
 
 def apply_F5(log):
     '''given a event log, apply filter F5: Only keep events marked as 'Start', return filtered log'''
-    if not log_utils.lifecycle_transition_attr:    
+    if not log_utils.lifecycle_transition_attr == 'NO LIFECYCLE ATTRIBUTE IN LOG':    
         for i, trace in enumerate(log):
             filtered_trace =  pm4py.filter_trace(lambda t: t[log_utils.lifecycle_transition_attr] == 'start' or t[log_utils.lifecycle_transition_attr] == 'Start', trace)
             log[i] = filtered_trace
