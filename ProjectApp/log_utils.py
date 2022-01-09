@@ -17,6 +17,10 @@ resource_attr = 'Resource'
 timestamp_attr = 'time:timestamp' # needed even for creating log file
 lifecycle_transition_attr = ''
 
+
+# names in correct order of target variable values of last created tree
+target_name_list = []
+
 # currently set log
 cur_log = ''
 

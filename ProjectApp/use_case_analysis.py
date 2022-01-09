@@ -64,6 +64,8 @@ def analyze_log(log, dep_var, ind_vars):
     target_class_names= list(log_df[dep_var].unique())
     print(target_class_names)
 
+    log_utils.target_name_list = target_class_names
+
 
     # visualize tree
     dot_data = tree.export_graphviz(tree_clf, out_file=None, feature_names= one_hot_data.columns, class_names= target_class_names) 
