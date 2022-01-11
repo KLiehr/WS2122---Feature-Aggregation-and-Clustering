@@ -7,6 +7,8 @@ from ProjectApp import log_utils
 # given an event log(sorted by timestamps!!!), add attribute ActivityCounter(C1) and then return it
 # Definition: C1 gives the number of time an event activity has occured prior to the event in the trace 
 def add_C1(log):
+    '''given an event log(sorted by timestamps!!!), add attribute ActivityCounter(C1) and then return it
+        Definition: C1 gives the number of time an event activity has occured prior to the event in the trace '''
 
     for trace in log:
         for event in trace:
