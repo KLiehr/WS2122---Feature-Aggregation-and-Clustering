@@ -241,7 +241,12 @@ def decisionTree(request):
 
         # call function to apply all filters
         print('Creating a Decision/Regression tree!')
-        log_utils.last_pred = use_case_analysis.analyze_log(log, dependent_attr, independent_attr.split(','))
+
+        try:
+            log_utils.last_pred = use_case_analysis.analyze_log(log, dependent_attr, independent_attr.split(','))
+        except TypeError:
+            print('Chose a datetime attribute as either dependent or independent, this is not allowed!!!')
+            print('Tree creation aborted!!!')
 
         global UseCaseName
         # move decision tree image to eventlog and rename it
