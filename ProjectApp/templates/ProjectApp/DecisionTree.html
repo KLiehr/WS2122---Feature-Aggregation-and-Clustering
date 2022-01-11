@@ -2,18 +2,22 @@
 
 {% block content %} 
 
-<div style='border: 1px solid black; height: 350px; width: 800px; position: absolute; top: 25%; left: 20%; right: 20%; text-align: center;'>
+<div style='border: 1px solid black; height: 350px; width: 800px; position: absolute; top: 20%; left: 20%; right: 20%; text-align: center;'>
     <img style=' height: 350px; width:650px ;'  src='/media/images/decTree.png'>
 </div>
 
-<div style='position: absolute; top: 83%; left: 10%; right: 65%; text-align: center;'>
+<div id='DTTarget' style='font-size: small; position: absolute; top: 83%; left: 18%; right: 15%; text-align: center;'>
+
+</div>
+
+<div style='position: absolute; top: 84%; left: 10%; right: 65%; text-align: center;'>
     <button type='button' onclick="location.href='/UseCase/'" style='margin-top:10%; margin-left: 7%; width: 250px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
         Back to Use Case
     </button>
 </div>
 
 
-<div style='position: absolute; top: 85%; left: 73%; right: 10%; text-align: center;'>
+<div style='position: absolute; top: 86%; left: 73%; right: 10%; text-align: center;'>
     <button type='button' onclick="location.href='Clustering/'" style='margin-top:10%; margin-left: 7%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
         Clustering
     </button>
@@ -23,5 +27,16 @@
 
 <script>
     document.getElementById('sideMenu').style.display = "none";
+
+    // gets the list of target names from the decision tree
+    var targetNameList = {{targetNameList|safe}};
+    stringTarget='Value= ['
+    targetNameList.forEach(function(target){
+            stringTarget += target + ', '
+        });
+    stringTarget=stringTarget.substring(0,stringTarget.length-2)
+    stringTarget=stringTarget+']'
+    document.getElementById('DTTarget').innerHTML = stringTarget;
+
 </script>
 {% endblock %}

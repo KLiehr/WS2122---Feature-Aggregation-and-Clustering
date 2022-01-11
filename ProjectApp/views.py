@@ -95,10 +95,8 @@ def importCSVXES(request):
     
     #saves the file imported by the user in the eventlog folder
     elif "uploadButton" in request.POST:
-        print('olé')
         try:
             if request.FILES['file']:
-                print('buba')
                 my_file = request.FILES['file']
                 Doc.objects.create(upload=my_file)
         except Exception as e:
@@ -179,7 +177,10 @@ def updateeventlog(request):
 
 
 def filters(request):
-    return render(request, 'ProjectApp/Filters.html')
+    #add lifecycle attribute to Filters.html
+    context={}
+    context['lifeCycleAttr']=json.dumps(log_utils.lifecycle_transition_attr)
+    return render(request, 'ProjectApp/Filters.html', context)
 
 # gets called after Filter event log button is clicked, gets a request with a string for chosen filters and extra Input
 @csrf_exempt
@@ -258,8 +259,11 @@ def decisionTree(request):
 
     # update log(NOT NECESSARY; LOG UNCHANGED)
     # log_utils.update_log(log)
-    
-    return render(request, 'ProjectApp/DecisionTree.html')
+
+    #add target names to DecisionTree.html
+    context={}
+    context['targetNameList']=json.dumps(log_utils.target_name_list)
+    return render(request, 'ProjectApp/DecisionTree.html', context)
 
 
 

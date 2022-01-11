@@ -22,6 +22,14 @@
 </div>  
 
 <script>
+    var lifeCycleAttr = {{lifeCycleAttr|safe}};
+
+    if (lifeCycleAttr=='NO LIFECYCLE ATTRIBUTE IN LOG'){
+        document.getElementById('filter4').style.display = "none";
+        document.getElementById('filter5').style.display = "none";
+    }
+
+
 
     var filter1 = 0
     var filter2 = 0

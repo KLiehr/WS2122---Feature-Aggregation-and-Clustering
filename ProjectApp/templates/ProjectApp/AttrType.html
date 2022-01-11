@@ -61,13 +61,13 @@
     });
     document.getElementById('caseID').innerHTML = strCaseID;
 
-    var strActivity = "<a id='noActivity' onclick='selectActivity(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>NO ACTIVITY ATTRIBUTE IN LOG</a>"
+    var strActivity = ''
     attributesNames.forEach(function(attr){
         strActivity += "<a id='activity"+attr + "' onclick='selectActivity(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
     });
     document.getElementById('activity').innerHTML = strActivity;
 
-    var strResource = "<a id='noResource' onclick='selectResource(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'> NO RESOURCE ATTRIBUTE IN LOG</a>"
+    var strResource = ''
     attributesNames.forEach(function(attr){
         strResource += "<a id='resource"+attr + "' onclick='selectResource(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
     });
@@ -103,7 +103,7 @@
 
     var activity=''
     function selectActivity(clicked_id){
-        strActivity = "<a id='noActivity' onclick='selectActivity(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>NO ACTIVITY ATTRIBUTE IN LOG</a>"
+        strActivity = ''
         attributesNames.forEach(function(attr){
             strActivity += "<a id='activity"+attr + "' onclick='selectActivity(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
         });
@@ -117,7 +117,7 @@
 
     var resource=''
     function selectResource(clicked_id){
-        strResource = "<a id='noResource' onclick='selectResource(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'> NO RESOURCE ATTRIBUTE IN LOG</a>"
+        strResource = ''
         attributesNames.forEach(function(attr){
             strResource += "<a id='resource"+attr + "' onclick='selectResource(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
         });
