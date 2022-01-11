@@ -155,8 +155,10 @@ def create_log_without_time(log, action_name):
     # update actual XES file else csv
     # !!! FOR NOW ALWAYS CREATE XES !!!
     new_file_name = action_name + cur_log
-    # if isXES():
-    xes_exporter.apply(log, os.path.join(getPathOfLogDir(), new_file_name))
+    if isXES():
+        xes_exporter.apply(log, os.path.join(getPathOfLogDir(), new_file_name))
+    else:
+        xes_exporter.apply(log, os.path.join(getPathOfLogDir(), new_file_name + '.xes'))
     # else:
     #    tmp_df = log_converter.apply(log, variant=log_converter.Variants.TO_DATA_FRAME)
     #    tmp_df.to_csv(os.path.join(getPathOfLogDir(), new_file_name))
