@@ -16,7 +16,7 @@ def add_T1(log):
                 if not there or no Start event, compute timedifference between previous event'''
 
     # if a lifecycle transition attribute has not been designated, just substract time of current minus previous
-    if not log_utils.lifecycle_transition_attr:
+    if not log_utils.lifecycle_transition_attr == 'NO LIFECYCLE ATTRIBUTE IN LOG':
         for trace in log:
             pre_time = 0
             for event in trace:
