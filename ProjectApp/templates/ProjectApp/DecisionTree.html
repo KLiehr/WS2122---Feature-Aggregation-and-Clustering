@@ -2,7 +2,7 @@
 
 {% block content %} 
 
-<div style='border: 1px solid black; height: 350px; width: 800px; position: absolute; top: 20%; left: 20%; right: 20%; text-align: center;'>
+<div id='imgtreebox' style='border: 1px solid black; height: 350px; width: 800px; position: absolute; top: 20%; left: 20%; right: 20%; text-align: center;'>
     <img style=' height: 350px; width:650px ;'  src='/media/images/decTree.png'>
 </div>
 
@@ -17,7 +17,7 @@
 </div>
 
 
-<div style='position: absolute; top: 86%; left: 73%; right: 10%; text-align: center;'>
+<div id='clusterbutton' style='position: absolute; top: 86%; left: 73%; right: 10%; text-align: center;'>
     <button type='button' onclick="location.href='Clustering/'" style='margin-top:10%; margin-left: 7%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
         Clustering
     </button>
@@ -37,6 +37,14 @@
     stringTarget=stringTarget.substring(0,stringTarget.length-2)
     stringTarget=stringTarget+']'
     document.getElementById('DTTarget').innerHTML = stringTarget;
+
+    if (targetNameList.length==0){
+        document.getElementById('imgtreebox').style.display = "none";
+        document.getElementById('clusterbutton').style.display = "none";
+        document.getElementById('DTTarget').innerHTML = 'Could not create a Decision Tree. Please do not chose a datetime attribute as either dependent or independent attribute.';
+        document.getElementById('DTTarget').style = 'font-size: 20px ; position: absolute; top: 35%; left: 18%; right: 15%; text-align: center;';
+
+    }
 
 </script>
 {% endblock %}
