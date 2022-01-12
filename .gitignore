@@ -39,3 +39,4 @@ media/images/decisionTree
 *.zip
 media/images/decTree
 media/images/decTree
+*.pyc
