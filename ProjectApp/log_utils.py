@@ -108,7 +108,7 @@ def isXES():
 
     if cur_log[-4:] == '.xes':
         return True
-    elif cur_log[-4] == '.csv':
+    elif cur_log[-4:] == '.csv':
         return False 
     else: # TODO Throw an error of some sort
         print('File currently set: ' + cur_log + ' Does not end with either .xes or .csv!!!')
@@ -176,7 +176,7 @@ def timeStamped(fname, fmt='%Y-%m-%d-%H-%M-%S-{fname}'):
 
 
 def get_df_of_log(log):
-    '''Given a log return converted dataframe(pandas)'''
+    '''Given a log(pm4py object!) return converted dataframe(pandas)'''
     parameters = {log_converter.Variants.TO_DATA_FRAME.value.Parameters.DEEP_COPY: True}
     df = log_converter.apply(log, parameters=parameters, variant=log_converter.Variants.TO_DATA_FRAME)
 
@@ -191,7 +191,7 @@ def get_log_attributes():
     if cur_log == '':
         print('Error: Called get_log_attributes but !!!No Log File Set!!!')
         return 'NoLogFileSet'
-        
+    # get df of FILE(not log)   
     if isXES():
         variant = xes_importer.Variants.ITERPARSE
         log = xes_importer.apply(getPathOfLogFile(), variant=variant)
@@ -202,6 +202,43 @@ def get_log_attributes():
     return list(log_df.columns)
 
     # return list(log[0][0].keys())
+
+
+# gets event attributes by columns
+def get_numerical_attributes():
+    '''Returns NUMERICAL event attributes of the given log'''
+
+    # check if a log file is set
+    if cur_log == '':
+        print('Error: Called get_log_attributes but !!!No Log File Set!!!')
+        return 'NoLogFileSet'
+
+    # get df of log FILE 
+    if isXES():
+        variant = xes_importer.Variants.ITERPARSE
+        log = xes_importer.apply(getPathOfLogFile(), variant=variant)
+        log_df = get_df_of_log(log)
+    else:
+        log_df = pd.read_csv(getPathOfLogFile(), sep=',')
+
+    all_attrs = list(log_df.columns)
+
+    num_attrs = []
+
+    # check for each attribute by casting to float all values, whether or not it's numerical
+    for attr in all_attrs:
+        try:
+            if isNumerical(log_df, attr):
+                num_attrs.append(attr)
+        except TypeError: # for timestamp columns
+            pass
+    
+    
+    # return to float castable attributes
+    return num_attrs
+
+
+
 
 def isNumerical(log_df, col_name):
     '''Given a pandas dataframe of a log and a column name, check for float castability'''

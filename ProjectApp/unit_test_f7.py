@@ -56,6 +56,9 @@ class TestMethod_F7(unittest.TestCase):
                 self.assertEqual(resource_value, event[resource_attr])
 
             trace_nr += 1
+            
+
+  
 
         return True
 
