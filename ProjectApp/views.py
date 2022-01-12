@@ -135,8 +135,8 @@ def saveAttrNames(request):
         log_utils.resource_attr = str(request.POST.get('resource'))
         log_utils.timestamp_attr = str(request.POST.get('timestamp'))
         log_utils.lifecycle_transition_attr = str(request.POST.get('lifecycle'))
-        # log_utils. = str(request.POST.get('startTime'))
-        # log_utils. = str(request.POST.get('endTime'))
+        log_utils.start_time_attr = str(request.POST.get('startTime'))
+        log_utils.end_time_attr = str(request.POST.get('endTime'))
 
 
         print('CaseID Attribute:' + log_utils.case_id_attr)
@@ -144,8 +144,8 @@ def saveAttrNames(request):
         print('Resource Attributes:' + log_utils.resource_attr)
         print('Timestamp Attributes:' + log_utils.timestamp_attr)
         print('Lifecycle Attributes:' + log_utils.lifecycle_transition_attr)
-        print('Start Time Attributes:' + str(request.POST.get('startTime')))
-        print('End Time Attributes:' + str(request.POST.get('endTime')))
+        print('Start Time Attributes:' + log_utils.start_time_attr)
+        print('End Time Attributes:' + log_utils.end_time_attr)
 
     return JsonResponse({'post':'false'})
 
