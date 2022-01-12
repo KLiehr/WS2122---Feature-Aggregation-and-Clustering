@@ -8,7 +8,7 @@
 <div style='position: absolute; top: 35%; left: 30%; right: 45%; text-align:left ;'>
     <form action='' method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <p>Event Log: <input accept= '.csv, .xes ' style=' font-size: 16px; margin-top: 2px; border:1px solid; border-color: black; width: 350px; ' type="file" name="file"> </p>
+        <p>Event Log: <input accept= '.csv, .xes' style=' font-size: 16px; margin-top: 2px; border:1px solid; border-color: black; width: 350px; ' type="file" name="file"> </p>
         
         <p>
             <input value='Upload EventLog' name='uploadButton' id='uploadButton' style='font-size: 16px; width: 150px; height: 45px; border-color: #007bff; background-color: #007bff; border-radius: 3px; color: white;' type='submit'/>
@@ -20,9 +20,13 @@
 
     <form name="choice" action="" method="POST">
         {% csrf_token %}
-        <select style='width: 350px; height: 250px; font-size: 16px;' name="log_list" size="10">
+        <select style='overflow: scroll; width: 350px; height: 250px; font-size: 16px;' name="log_list" size="10">
             {% for title in fileNames %}
-            <option value="{{title}}">{{title}}</option>
+            {% if title == curLog %}
+            <option style='font-size: 18px; background-color: lightblue; color: white;' value="{{title}}">{{title}}</option>
+            {%else%}
+            <option style='font-size: 18px;' value="{{title}}">{{title}}</option>
+            {% endif %}
             {% endfor %}
         </select>
 
@@ -36,5 +40,11 @@
     </form>
     
 </div>
+
+{% if NoCSVXES %}
+<div style='font-size: 18px; border: 1px solid; background-color: grey; color: white ; position: absolute; top: 20%; left: 35%; right: 10%; text-align: center;'>
+Please upload a CSV or XES file
+</div>
+{% endif %}
 
 {% endblock %}

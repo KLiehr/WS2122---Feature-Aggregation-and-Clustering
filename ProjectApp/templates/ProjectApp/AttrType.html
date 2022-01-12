@@ -26,14 +26,6 @@
     
 </div>
 
-<div style='position: absolute; top: 135%; left: 10%; right: 55%; bottom: 5%; text-align: center;'>
-    <h2>Choose the Timestamp Attribute:</h2>
-    <div class="sidenav" id='timestamp' style='border: 1px solid black; width: 100%; height: 200px; text-align: center; overflow:auto'>
-
-    </div>
-    
-</div>
-
 <div style='position: absolute; top: 135%; left: 55%; right: 10%; bottom: 5%; text-align: center;'>
     <h2>Choose the Lifecycle Attribute:</h2>
     <div class="sidenav" id='lifecycle' style='border: 1px solid black; width: 100%; height: 200px; text-align: center; overflow:auto'>
@@ -42,7 +34,31 @@
     
 </div>
 
-<div style='position: absolute; top: 180%; left: 15%; right: 15%; text-align: center;'>
+<div style='position: absolute; top: 135%; left: 10%; right: 55%; bottom: 5%; text-align: center;'>
+    <h2>Choose the Timestamp Attribute:</h2>
+    <div class="sidenav" id='timestamp' style='border: 1px solid black; width: 100%; height: 200px; text-align: center; overflow:auto'>
+
+    </div>
+    
+</div>
+
+<div style='position: absolute; top: 190%; left: 10%; right: 55%; bottom: 80%; text-align: center;'>
+    <h2>Choose the Start Time Attribute:</h2>
+    <div class="sidenav" id='startTime' style='border: 1px solid black; width: 100%; height: 200px; text-align: center; overflow:auto'>
+
+    </div>
+    
+</div>
+
+<div style='position: absolute; top: 190%; left: 55%; right: 10%; bottom: 80%; text-align: center;'>
+    <h2>Choose the End Time Attribute:</h2>
+    <div class="sidenav" id='endTime' style='border: 1px solid black; width: 100%; height: 200px; text-align: center; overflow:auto'>
+
+    </div>
+    
+</div>
+
+<div style='position: absolute; top: 230%; left: 15%; right: 15%; text-align: center;'>
 
     <button id="saveButton" type='button' onclick='SaveAttrNames()' style='visibility:hidden; margin-top:10%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
         Save
@@ -85,6 +101,18 @@
     });
     document.getElementById('lifecycle').innerHTML = strLifecycle;
 
+    var strStartTime = "<a id='noStartTime' onclick='selectStartTime(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>NO START TIME ATTRIBUTE IN LOG</a>"
+    attributesNames.forEach(function(attr){
+        strStartTime += "<a id='startTime"+attr + "' onclick='selectStartTime(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('startTime').innerHTML = strStartTime;
+
+    var strEndTime = "<a id='noEndTime' onclick='selectEndTime(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>NO END TIME ATTRIBUTE IN LOG</a>"
+    attributesNames.forEach(function(attr){
+        strEndTime += "<a id='endTime"+attr + "' onclick='selectEndTime(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('endTime').innerHTML = strEndTime;
+
 
     //creates a string with the chosen attribute
     var caseID=''
@@ -96,7 +124,7 @@
         document.getElementById('caseID').innerHTML = strCaseID;
         caseID=document.getElementById(clicked_id).innerText
         document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
-        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0){
+        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0 && startTime.length!=0 && endTime.length!=0){
             document.getElementById('saveButton').style = 'visibility:visible; margin-top:10%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;';
         }
     }
@@ -110,7 +138,7 @@
         document.getElementById('activity').innerHTML = strActivity;
         activity=document.getElementById(clicked_id).innerText
         document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
-        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0){
+        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0 && startTime.length!=0 && endTime.length!=0){
             document.getElementById('saveButton').style = 'visibility:visible; margin-top:10%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;';
         }
     }
@@ -124,7 +152,7 @@
         document.getElementById('resource').innerHTML = strResource;
         resource=document.getElementById(clicked_id).innerText
         document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
-        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0){
+        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0 && startTime.length!=0 && endTime.length!=0){
             document.getElementById('saveButton').style = 'visibility:visible; margin-top:10%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;';
         }
     }
@@ -138,7 +166,7 @@
         document.getElementById('timestamp').innerHTML = strTimestamp;
         timestamp=document.getElementById(clicked_id).innerText
         document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
-        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0){
+        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0 && startTime.length!=0 && endTime.length!=0){
             document.getElementById('saveButton').style = 'visibility:visible; margin-top:10%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;';
         }
     }
@@ -152,7 +180,35 @@
         document.getElementById('lifecycle').innerHTML = strLifecycle;
         lifecycle=document.getElementById(clicked_id).innerText
         document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
-        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0){
+        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0 && startTime.length!=0 && endTime.length!=0){
+            document.getElementById('saveButton').style = 'visibility:visible; margin-top:10%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;';
+        }
+    }
+
+    var startTime=''
+    function selectStartTime(clicked_id){
+        strStartTime = "<a id='noStartTime' onclick='selectStartTime(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>NO START TIME ATTRIBUTE IN LOG</a>"
+        attributesNames.forEach(function(attr){
+            strStartTime += "<a id='startTime"+attr + "' onclick='selectStartTime(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+        });
+        document.getElementById('startTime').innerHTML = strStartTime;
+        startTime=document.getElementById(clicked_id).innerText
+        document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0 && startTime.length!=0 && endTime.length!=0){
+            document.getElementById('saveButton').style = 'visibility:visible; margin-top:10%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;';
+        }
+    }
+
+    var endTime=''
+    function selectEndTime(clicked_id){
+        strLifecycle = "<a id='noEndTime' onclick='selectEndTime(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>NO END TIME ATTRIBUTE IN LOG</a>"
+        attributesNames.forEach(function(attr){
+            strEndTime += "<a id='endTime"+attr + "' onclick='selectEndTime(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+        });
+        document.getElementById('endTime').innerHTML = strEndTime;
+        endTime=document.getElementById(clicked_id).innerText
+        document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+        if(caseID.length!=0 && activity.length!=0 && resource.length!=0 && timestamp.length!=0 && lifecycle.length!=0 && startTime.length!=0 && endTime.length!=0){
             document.getElementById('saveButton').style = 'visibility:visible; margin-top:10%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;';
         }
     }
@@ -167,6 +223,8 @@
         data.append('resource',resource)
         data.append('timestamp',timestamp)
         data.append('lifecycle',lifecycle)
+        data.append('startTime',startTime)
+        data.append('endTime',endTime)
 
         // AJAX UPLOAD TO SERVER
         fetch("SaveAttrNames/", {

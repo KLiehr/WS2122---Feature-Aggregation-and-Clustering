@@ -53,7 +53,8 @@ def programmerguide(request):
 
 def importCSVXES(request):
     '''Gets files names and opens Import page'''
-    
+    context={}
+
     #when clicking download button downloads the choosen file
     if "downloadButton" in request.POST:
         if "log_list" in request.POST:
@@ -91,14 +92,17 @@ def importCSVXES(request):
                 log_utils.cur_log = ''
             file_dir = os.path.join('media', 'eventlog', filename)
 
-            os.remove(file_dir)
+            if os.path.exists(file_dir):
+                os.remove(file_dir)
     
     #saves the file imported by the user in the eventlog folder
     elif "uploadButton" in request.POST:
         try:
-            if request.FILES['file']:
+            if request.FILES['file'] and (str(request.FILES['file'])[-3:]=='xes' or str(request.FILES['file'])[-3:]=='csv'):
                 my_file = request.FILES['file']
                 Doc.objects.create(upload=my_file)
+            else:
+                context['NoCSVXES']=True
         except Exception as e:
             None
 
@@ -106,9 +110,8 @@ def importCSVXES(request):
     arrayFiles = []
     if os.path.exists(os.path.join('media',  'eventlog')):
         arrayFiles = [f for f in listdir(os.path.join('media', 'eventlog')) if isfile(join(os.path.join('media', 'eventlog'), f))]
-    print(arrayFiles)
-    context={}
     context['fileNames']=arrayFiles
+    context['curLog']=log_utils.cur_log
 
     return render(request, 'ProjectApp/Import.html', context)
 
@@ -132,12 +135,17 @@ def saveAttrNames(request):
         log_utils.resource_attr = str(request.POST.get('resource'))
         log_utils.timestamp_attr = str(request.POST.get('timestamp'))
         log_utils.lifecycle_transition_attr = str(request.POST.get('lifecycle'))
+        # log_utils. = str(request.POST.get('startTime'))
+        # log_utils. = str(request.POST.get('endTime'))
+
 
         print('CaseID Attribute:' + log_utils.case_id_attr)
         print('Activity Attributes:' + log_utils.activity_attr)
         print('Resource Attributes:' + log_utils.resource_attr)
         print('Timestamp Attributes:' + log_utils.timestamp_attr)
         print('Lifecycle Attributes:' + log_utils.lifecycle_transition_attr)
+        print('Start Time Attributes:' + str(request.POST.get('startTime')))
+        print('End Time Attributes:' + str(request.POST.get('endTime')))
 
     return JsonResponse({'post':'false'})
 
