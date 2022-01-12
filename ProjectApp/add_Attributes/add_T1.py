@@ -12,11 +12,19 @@ from ProjectApp import log_utils
 # Definition T1: computes the activity time of an event through lifecycle:transition attribute, if not there or no Start event, compute timedifference between previous event
 def add_T1(log):
     '''given an event log(sorted by timestamps!!!), add ActivityTime(T1) attribute, return new log
-            Definition T1: computes the activity time of an event through lifecycle:transition attribute, 
-                if not there or no Start event, compute timedifference between previous event'''
+            Definition T1: If start and end time subtract else computes the activity time of an event through lifecycle:transition attribute, 
+                if not there( or no Start event), compute timedifference between previous event using timestamp attr'''
+
+    if not (log_utils.start_time_attr == 'NO START TIME ATTRIBUTE IN LOG' or log_utils.end_time_attr == 'NO END TIME ATTRIBUTE IN LOG'):
+        print('WE got both start and end time for computing T1!')
+        # go through all events, calculate activity time based on start and end time
+        for trace in log:
+            for event in trace:
+                event['ActivityTime(T1)'] = event[log_utils.end_time_attr] - event[log_utils.start_time_attr]
 
     # if a lifecycle transition attribute has not been designated, just substract time of current minus previous
-    if not log_utils.lifecycle_transition_attr == 'NO LIFECYCLE ATTRIBUTE IN LOG':
+    elif log_utils.lifecycle_transition_attr == 'NO LIFECYCLE ATTRIBUTE IN LOG':
+        print('Computing T1 with no lifecycle attr and without start and end times!')
         for trace in log:
             pre_time = 0
             for event in trace:
@@ -26,9 +34,7 @@ def add_T1(log):
                 else: 
                     event['ActivityTime(T1)'] = 0
                 pre_time = event[log_utils.timestamp_attr]
-
-
-
+                
     # if there is a lifecycle transition attribute
     else: 
         for trace in log:
@@ -67,6 +73,7 @@ def actTime(trace, event):
     # denotes if we are before the event
     before = True
 
+    # TODO If start and end times are given
 
     for ev in trace:
         # check for same activity as event but with transition = Start
