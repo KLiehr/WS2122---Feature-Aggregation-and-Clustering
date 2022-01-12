@@ -259,3 +259,25 @@ def get_log_of_df(df):
     log = log_converter.apply(df, parameters=parameters, variant=log_converter.Variants.TO_EVENT_LOG)
     return log
 
+
+
+def get_attr_values(chosen_attr):
+    '''Returns list of values for a given attribute'''
+
+    # check if a log file is set
+    if cur_log == '':
+        print('Error: Called get_log_attributes but !!!No Log File Set!!!')
+        return 'NoLogFileSet'
+
+    # get df of log FILE 
+    if isXES():
+        variant = xes_importer.Variants.ITERPARSE
+        log = xes_importer.apply(getPathOfLogFile(), variant=variant)
+        log_df = get_df_of_log(log)
+    else:
+        log_df = pd.read_csv(getPathOfLogFile(), sep=',')
+
+    # get different values existing in the log
+    attr_values = list(log_df[chosen_attr].unique())
+
+    return attr_values

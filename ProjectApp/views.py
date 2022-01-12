@@ -147,9 +147,6 @@ def saveAttrNames(request):
         print('Start Time Attributes:' + log_utils.start_time_attr)
         print('End Time Attributes:' + log_utils.end_time_attr)
 
-        print('Numerical attributes:')
-        print(log_utils.get_numerical_attributes())
-
     return JsonResponse({'post':'false'})
 
 
