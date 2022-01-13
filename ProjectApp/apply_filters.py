@@ -57,7 +57,7 @@ def callAllFilters(log, chosen_filters, extra_input):
             # find fitting extra_info for an abbreviation info_element in form: 'F6:Pete'
             for info_element in extra_info_list:
                 # split along : for access
-                abbr_data = str(info_element).split(':')
+                abbr_data = str(info_element).split('!')
                 if  abbr_data[0] == abbrv:
                     print("Calling " + abbrv + " with extra data: " + abbr_data[1])
                     log = getattr(sys.modules[__name__], name_of_method)(log, abbr_data[1])
