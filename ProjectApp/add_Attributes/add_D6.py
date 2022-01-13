@@ -10,7 +10,7 @@ def add_D6(log, attr):
             Definition D6: computes the sum of an attributes assigned values at event time(including itself), undefined is the placeholder'''
     for trace in log:
         for event in trace:  
-            event['sum' + attr + '(D6)'] = sumValue(trace, event, attr)
+            event['sum ' + attr + ' (D6)'] = sumValue(trace, event, attr)
 
 
     return log

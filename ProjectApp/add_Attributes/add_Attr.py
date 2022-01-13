@@ -67,7 +67,7 @@ def callAllAttr(log, chosen_attr, extra_info):
             # find fitting extra_info for an abbreviation
             for info_element in extra_info_list:
                 # split along : for access
-                abbr_data = str(info_element).split(':')
+                abbr_data = str(info_element).split('!')
                 if  abbr_data[0] == abbrv:
                     print("Calling " + abbrv + " with extra data: " + abbr_data[1])
                     log = getattr(getattr(sys.modules[__name__], name_of_method), name_of_method)(log, abbr_data[1])

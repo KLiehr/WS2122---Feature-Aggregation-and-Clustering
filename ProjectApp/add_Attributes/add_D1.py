@@ -10,7 +10,7 @@ def add_D1(log, attr):
         Definition D1: says which is the latest assigned value of a given attribute excluding the current event, NotAssigned is the placeholder'''
     for trace in log:
         for event in trace:  
-                event['Prev'+ attr +'Value(D1)'] = prevValue(trace, event, attr)
+                event['Prev '+ attr +' Value(D1)'] = prevValue(trace, event, attr)
 
     return log
 

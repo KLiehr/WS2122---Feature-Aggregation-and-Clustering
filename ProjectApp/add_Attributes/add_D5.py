@@ -10,7 +10,7 @@ def add_D5(log, attr):
          Definition D5: computes the min value at event time(including itself), undefined is the placeholder'''
     for trace in log:
         for event in trace:  
-            event['min' + attr + '(D5)'] = minValue(trace, event, attr)
+            event['min ' + attr + ' (D5)'] = minValue(trace, event, attr)
 
 
     return log

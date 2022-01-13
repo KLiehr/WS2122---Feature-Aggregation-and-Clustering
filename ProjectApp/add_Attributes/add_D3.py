@@ -11,7 +11,7 @@ def add_D3(log, attr):
 
     for trace in log:
         for event in trace:  
-            event['avg' + attr + '(D3)'] = avgValue(trace, event, attr)
+            event['avg ' + attr + ' (D3)'] = avgValue(trace, event, attr)
 
 
     return log
@@ -53,9 +53,9 @@ def avgValue(trace, event, attr):
                 res = attr_Value/num_of_occ
                 return res
             else:
-                return 'undefined'
+                return attr + ' not found'
 
-    return 'undefined'
+    return attr + ' not found'
 
 
 

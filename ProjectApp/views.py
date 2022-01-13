@@ -152,7 +152,8 @@ def saveAttrNames(request):
 
 def attributes(request):
     context={}
-    context['attributesNames']=json.dumps(log_utils.get_log_attributes())
+    # context['attributesNames']=json.dumps(log_utils.get_log_attributes())
+    context['attributesNames']=json.dumps(pm4py.get_attributes(log_utils.get_log()))
     context['numericalAttributesNames']=json.dumps(log_utils.get_numerical_attributes())
     return render(request, 'ProjectApp/Attributes.html', context)
 
@@ -170,9 +171,9 @@ def updateeventlog(request):
         # get log
         log = log_utils.get_log()
 
-        # print event attributes !!Just of first event!!
+        # print event attributes(only event level)
         print('Event attributes of log:')
-        print(log_utils.get_log_attributes())
+        print(pm4py.get_attributes(log))
 
         # call function to add all atributes 
         print('calling add_Attributes')
@@ -228,7 +229,7 @@ def filtereventlog(request):
 def useCase(request):
     '''Gets called upon visiting UseCase, returns the attributes of the log per json'''
     
-    all_log_attr = log_utils.get_log_attributes()
+    all_log_attr = pm4py.get_attributes(log_utils.get_log())
 
     #add attribute names to UseCase.html
     context={}

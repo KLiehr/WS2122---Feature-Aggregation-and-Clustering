@@ -12,9 +12,9 @@ def add_D2(log, attr):
         for event in trace:  
             # shortcut to save time, if attribute is assigned in given event
             if attr in event:
-                event['Cur'+ attr + 'Value(D2)'] = event[attr]
+                event['Cur '+ attr + ' Value(D2)'] = event[attr]
             else:
-                event['Cur'+ attr +'Value(D2)'] = curValue(trace, event, attr)
+                event['Cur '+ attr +' Value(D2)'] = curValue(trace, event, attr)
 
 
     return log

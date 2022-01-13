@@ -185,7 +185,7 @@ def get_df_of_log(log):
 
 # gets event attributes by columns
 def get_log_attributes():
-    '''Returns event attributes of the given log'''
+    '''Returns event AND TRACE level attributes of the given log'''
 
     # check if a log file is set
     if cur_log == '':
@@ -204,9 +204,9 @@ def get_log_attributes():
     # return list(log[0][0].keys())
 
 
-# gets event attributes by columns
+# gets event level attributes which can be cast to float
 def get_numerical_attributes():
-    '''Returns NUMERICAL event attributes of the given log'''
+    '''Returns NUMERICAL event level attributes of the given log'''
 
     # check if a log file is set
     if cur_log == '':
@@ -221,7 +221,7 @@ def get_numerical_attributes():
     else:
         log_df = pd.read_csv(getPathOfLogFile(), sep=',')
 
-    all_attrs = list(log_df.columns)
+    all_attrs = pm4py.get_attributes(get_log())
 
     num_attrs = []
 

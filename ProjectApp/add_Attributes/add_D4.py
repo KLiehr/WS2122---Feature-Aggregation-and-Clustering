@@ -10,7 +10,7 @@ def add_D4(log, attr):
             Definition D4: computes the max value at event time(including itself), undefined is the placeholder'''
     for trace in log:
         for event in trace:  
-            event['max' + attr + '(D4)'] = maxValue(trace, event, attr)
+            event['max ' + attr + ' (D4)'] = maxValue(trace, event, attr)
 
 
     return log

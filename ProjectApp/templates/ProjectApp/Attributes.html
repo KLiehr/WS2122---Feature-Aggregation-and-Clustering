@@ -340,32 +340,46 @@
         if (attributeD1.length!=0){
             listattributes.push("D1")
             console.log("Chosen attribute for D1"+ attributeD1)
-            listExtraInput.push('D1:' + attributeD1)
+            for (let i = 0; i < attributeD1.length; i++) {
+                //text += cars[i] + "<br>";
+                listExtraInput.push('D1!' + attributeD1[i])
+            } 
+            // listExtraInput.push('D1!' + attributeD1)
         }
         if (attributeD2.length!=0){
             listattributes.push("D2")
             console.log("Chosen attribute for D2"+ attributeD2)
-            listExtraInput.push('D2:' + attributeD2)
+            for (let i = 0; i < attributeD2.length; i++) {
+                listExtraInput.push('D2!' + attributeD2[i])
+            }
         }
         if (attributeD3.length!=0){
             listattributes.push("D3")
             console.log("Chosen attribute for D3"+ attributeD3)
-            listExtraInput.push('D3:' + attributeD3)
+            for (let i = 0; i < attributeD3.length; i++) {
+                listExtraInput.push('D3!' + attributeD3[i])
+            }
         }
         if (attributeD4.length!=0){
             listattributes.push("D4")
             console.log("Chosen attribute for D4"+ attributeD4)
-            listExtraInput.push('D4:' + attributeD4)
+            for (let i = 0; i < attributeD4.length; i++) {
+                listExtraInput.push('D4!' + attributeD4[i])
+            }
         }
         if (attributeD5.length!=0){
             listattributes.push("D5")
             console.log("Chosen attribute for D5"+ attributeD5)
-            listExtraInput.push('D5:' + attributeD5)
+            for (let i = 0; i < attributeD5.length; i++) {
+                listExtraInput.push('D5!' + attributeD5[i])
+            }
         }
         if (attributeD6.length!=0){
             listattributes.push("D6")
             console.log("Chosen attribute for D6"+ attributeD6)
-            listExtraInput.push('D6:' + attributeD6)
+            for (let i = 0; i < attributeD6.length; i++) {
+                listExtraInput.push('D6!' + attributeD6[i])
+            }
         }
         if (document.getElementById('control-flow1-text').style.display=='block'){
             listattributes.push("C1")
