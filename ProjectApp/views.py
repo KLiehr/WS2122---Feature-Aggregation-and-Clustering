@@ -151,7 +151,10 @@ def saveAttrNames(request):
 
 
 def attributes(request):
-    return render(request, 'ProjectApp/Attributes.html')
+    context={}
+    context['attributesNames']=json.dumps(log_utils.get_log_attributes())
+    context['numericalAttributesNames']=json.dumps(log_utils.get_numerical_attributes())
+    return render(request, 'ProjectApp/Attributes.html', context)
 
 # gets called after update event log button is clicked, gets a request with a string for derivable attributes and extraInfos
 @csrf_exempt
@@ -159,10 +162,10 @@ def updateeventlog(request):
     if request.method == 'POST':
         AttributesToDerive = str(request.POST.get('ListAtr'))
         ExtraAttributes = str(request.POST.get('ExtraAtr'))
-        UserAttrNames = str(request.POST.get('AttrNames'))
+        #UserAttrNames = str(request.POST.get('AttrNames'))
         print('Derive the following attributes: ' + AttributesToDerive)
         print('Extra Info: ' + ExtraAttributes)
-        print('Relevant attribute names: ' + UserAttrNames)
+        #print('Relevant attribute names: ' + UserAttrNames)
         
         # get log
         log = log_utils.get_log()
@@ -188,6 +191,8 @@ def filters(request):
     #add lifecycle attribute to Filters.html
     context={}
     context['lifeCycleAttr']=json.dumps(log_utils.lifecycle_transition_attr)
+    context['activities']=json.dumps(log_utils.get_attr_values(log_utils.activity_attr))
+    context['resources']=json.dumps(log_utils.get_attr_values(log_utils.resource_attr))
     return render(request, 'ProjectApp/Filters.html', context)
 
 # gets called after Filter event log button is clicked, gets a request with a string for chosen filters and extra Input

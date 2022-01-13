@@ -11,8 +11,21 @@
         <a id='filter3' onclick='check_filter3()' style='padding:0px 0px 20px 0px; text-align: center;'>Only keep last event of a case(F3)</a>
         <a id='filter4' onclick='check_filter4()' style='padding:0px 0px 20px 0px; text-align: center;'>Only keep ”Complete” events(F4)</a>
         <a id='filter5' onclick='check_filter5()' style='padding:0px 0px 20px 0px; text-align: center;'>Only keep ”Start” events(F5)</a>
-        <a id='filter6' onclick='check_filter6()' style='padding:0px 0px 20px 0px; text-align: center;'>Only keep events with a certain activity(F6)</a>
-        <a id='filter7' onclick='check_filter7()' style='padding:0px 0px 20px 0px; text-align: center;'>Only keep events with a certain resource(F7)</a>
+
+        <button id='filter6' style='padding:0px 0px 20px 0px; text-align: center;' class="dropdown-btn">Only keep events with a certain activity(F6)
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div id='activitiesF6' class="dropdown-container">
+            
+          </div>
+
+        <button id='filter7' style='padding:0px 0px 20px 0px; text-align: center;' class="dropdown-btn">Only keep events with a certain resource(F7)
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div id='resourcesF7' class="dropdown-container">
+            
+          </div>
+        
     </div>
 
     <button type='button' onclick='filterButton()' style='margin-top:10%; width: 380px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
@@ -23,13 +36,27 @@
 
 <script>
     var lifeCycleAttr = {{lifeCycleAttr|safe}};
+    var activities = {{activities|safe}};
+    var resources = {{resources|safe}};
 
     if (lifeCycleAttr=='NO LIFECYCLE ATTRIBUTE IN LOG'){
         document.getElementById('filter4').style.display = "none";
         document.getElementById('filter5').style.display = "none";
     }
 
+    // presents the activities for the user to choose in filter 6
+    var strActivities = ''
+    activities.forEach(function(attr){
+        strActivities += "<a id='filter6"+attr + "' onclick='check_filter6(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('activitiesF6').innerHTML = strActivities;
 
+    // presents the resources for the user to choose in filter 7
+    var strResources = ''
+    resources.forEach(function(attr){
+        strResources += "<a id='filter7"+attr + "' onclick='check_filter7(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('resourcesF7').innerHTML = strResources;
 
     var filter1 = 0
     var filter2 = 0
@@ -104,29 +131,36 @@
         }
     }
 
-    function check_filter6(){
-        if (filter6==0){
-            filter6 = 1
-            document.getElementById('filter6').style.color='white'
-            document.getElementById('filter6').style.backgroundColor='lightblue'
-        }
-        else {
-            filter6 = 0
-            document.getElementById('filter6').style.color='#818181'
-            document.getElementById('filter6').style.backgroundColor='white'
+    activityF6=''
+    function check_filter6(clicked_id){
+        if (document.getElementById(clicked_id).innerText!=activityF6){
+            document.getElementById('filter6'+activityF6).style='padding:0px 0px 20px 0px; text-align: center;'
+            document.getElementById('filter6').style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+
+            activityF6=document.getElementById(clicked_id).innerText
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+        }  
+        else{
+            activityF6=''
+            document.getElementById('filter6').style='padding:0px 0px 20px 0px; text-align: center;'
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center;'
+
         }
     }
 
-    function check_filter7(){
-        if (filter7==0){
-            filter7 = 1
-            document.getElementById('filter7').style.color='white'
-            document.getElementById('filter7').style.backgroundColor='lightblue'
-        }
-        else {
-            filter7 = 0
-            document.getElementById('filter7').style.color='#818181'
-            document.getElementById('filter7').style.backgroundColor='white'
+    resourceF7=''
+    function check_filter7(clicked_id){
+        if (document.getElementById(clicked_id).innerText!=resourceF7){
+            document.getElementById('filter7'+resourceF7).style='padding:0px 0px 20px 0px; text-align: center;'
+            document.getElementById('filter7').style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+
+            resourceF7=document.getElementById(clicked_id).innerText
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+        }  
+        else{
+            resourceF7=''
+            document.getElementById('filter7').style='padding:0px 0px 20px 0px; text-align: center;'
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center;'
         }
     }
 
@@ -159,18 +193,16 @@
             listFilters.push("F5")
         }
 
-        if (filter6==1){
+        if (activityF6!=''){
             listFilters.push("F6")
-            let additional_input = prompt("Filter F6 requires the name of an activity, which is to be filtered for");
-            console.log("Chosen activity for F6"+ additional_input)
-            listExtraInput.push('F6:' + additional_input)
+            console.log("Chosen activity for F6"+ activityF6)
+            listExtraInput.push('F6:' + activityF6)
         }
 
-        if (filter7==1){
+        if (resourceF7!=''){
             listFilters.push("F7")
-            let additional_input = prompt("Filter F7 requires the name of a resource, which is to be filtered for");
-            console.log("Chosen resource for F7"+ additional_input)
-            listExtraInput.push('F7:' + additional_input)
+            console.log("Chosen resource for F7"+ resourceF7)
+            listExtraInput.push('F7:' + resourceF7)
         }
 
 

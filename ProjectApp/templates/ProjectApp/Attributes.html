@@ -29,12 +29,42 @@
           </button>
           <div class="dropdown-container">
 
-            <a id='data-flow1' onclick='check_dropdown7()'>Last assigned value of a certain attribute prior to event(D1)</a>
-            <a id='data-flow2' onclick='check_dropdown8()'>Last assigned value of a certain attribute after event(D2)</a>
-            <a id='data-flow3' onclick='check_dropdown9()'>Average value of a certain attribute after current event(D3)</a>
-            <a id='data-flow4' onclick='check_dropdown10()'>Max value of a certain attribute after current event(D4)</a>
-            <a id='data-flow5' onclick='check_dropdown11()'>Min value of a certain attribute after current event(D5)</a>
-            <a id='data-flow6' onclick='check_dropdown12()'>Sum value of a certain attribute after current event(D6)</a>
+            <button id='data-flow1' style='padding:0px 0px 20px 0px; text-align: center;' class="dropdown-btn">Last assigned value of a certain attribute prior to event(D1)
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div id='attributesD1' class="dropdown-container">
+                
+              </div>
+            <button id='data-flow2' style='padding:0px 0px 20px 0px; text-align: center;' class="dropdown-btn">Last assigned value of a certain attribute after event(D2)
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div id='attributesD2' class="dropdown-container">
+                
+              </div>
+            <button id='data-flow3' style='padding:0px 0px 20px 0px; text-align: center;' class="dropdown-btn">Average value of a certain attribute after current event(D3)
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div id='attributesD3' class="dropdown-container">
+                
+              </div>
+            <button id='data-flow4' style='padding:0px 0px 20px 0px; text-align: center;' class="dropdown-btn">Max value of a certain attribute after current event(D4)
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div id='attributesD4' class="dropdown-container">
+                
+              </div>
+            <button id='data-flow5' style='padding:0px 0px 20px 0px; text-align: center;' class="dropdown-btn">Min value of a certain attribute after current event(D5)
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div id='attributesD5' class="dropdown-container">
+                
+              </div>
+            <button id='data-flow6' style='padding:0px 0px 20px 0px; text-align: center;' class="dropdown-btn">Sum value of a certain attribute after current event(D6)
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div id='attributesD6' class="dropdown-container">
+                
+              </div>
           </div>
     
         <button class="dropdown-btn">Control-Flow
@@ -52,7 +82,7 @@
 
 <div style='position: absolute; top: 27%; left: 65%; right: 5%; text-align: center;'>
     <h1>Attributes to derive:</h1>
-    <div style='border: 1px solid black; width: 380px; height: 200px; overflow:auto;'>
+    <div id='boxAttributes' style='border: 1px solid black; width: 380px; height: 200px; overflow:auto;'>
 
         <p id='time1-text' style='display:none'>Activity duration of completed activities(T1)</p>
         <p id='time2-text' style='display:none'>Time since start of case(T2)</p>
@@ -60,12 +90,6 @@
         <p id='time4-text' style='display:none'>Case duration(T4)</p>
         <p id='workload1-text' style='display:none'>Workload of event resource left after event(R1)</p>
         <p id='workload2-text' style='display:none'>Total Workload left after event(R2)</p>
-        <p id='data-flow6-text' style='display:none'>Sum value of a certain attribute after current event(D6)</p>
-        <p id='data-flow5-text' style='display:none'>Min value of a certain attribute after current event(D5)</p>
-        <p id='data-flow4-text' style='display:none'>Max value of a certain attribute after current event(D4)</p>
-        <p id='data-flow3-text' style='display:none'>Average value of a certain attribute after current event(D3)</p>
-        <p id='data-flow2-text' style='display:none'>Last assigned value of a certain attribute after current event(D2)</p>
-        <p id='data-flow1-text' style='display:none'>Last assigned value of a certain attribute prior to event(D1)</p>
         <p id='control-flow1-text' style='display:none'>Number of times a certain activity is executed before an event(C1)</p>
         <p id='control-flow2-text' style='display:none'>Next activity after event(C2)</p>
         <p id='control-flow3-text' style='display:none'>Activity prior to event(C3)</p>
@@ -77,12 +101,57 @@
 </div>
 
 <script>
-     function check_dropdown1(){
+    var attributesNames = {{attributesNames|safe}};
+    var numericalAttributesNames = {{numericalAttributesNames|safe}};
+
+    // presents the attributes for the user to choose in D1
+    var strD1 = ''
+    attributesNames.forEach(function(attr){
+        strD1 += "<a id='attributeD1"+attr + "' onclick='check_dropdown7(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('attributesD1').innerHTML = strD1;
+
+    // presents the attributes for the user to choose in D2
+    var strD2 = ''
+    attributesNames.forEach(function(attr){
+        strD2 += "<a id='attributeD2"+attr + "' onclick='check_dropdown8(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('attributesD2').innerHTML = strD2;
+
+    // presents the attributes for the user to choose in D3
+    var strD3 = ''
+    numericalAttributesNames.forEach(function(attr){
+        strD3 += "<a id='attributeD3"+attr + "' onclick='check_dropdown9(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('attributesD3').innerHTML = strD3;
+
+    // presents the attributes for the user to choose in D4
+    var strD4 = ''
+    numericalAttributesNames.forEach(function(attr){
+        strD4 += "<a id='attributeD4"+attr + "' onclick='check_dropdown10(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('attributesD4').innerHTML = strD4;
+
+    // presents the attributes for the user to choose in D5
+    var strD5 = ''
+    numericalAttributesNames.forEach(function(attr){
+        strD5 += "<a id='attributeD5"+attr + "' onclick='check_dropdown11(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('attributesD5').innerHTML = strD5;
+
+    // presents the attributes for the user to choose in D6
+    var strD6 = ''
+    numericalAttributesNames.forEach(function(attr){
+        strD6 += "<a id='attributeD6"+attr + "' onclick='check_dropdown12(this.id)' style='padding:0px 0px 20px 0px; text-align: center;'>" + attr + "</a>";
+    });
+    document.getElementById('attributesD6').innerHTML = strD6;
+
+    
+    function check_dropdown1(){
         var variavel_text = document.getElementById('time1-text')
         if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
         else {variavel_text.style.display='none';}
     }
-
     function check_dropdown2(){
         var variavel_text = document.getElementById('time2-text')
         if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
@@ -108,36 +177,103 @@
         if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
         else {variavel_text.style.display='none';}
     }
-    function check_dropdown7(){
-        var variavel_text = document.getElementById('data-flow1-text')
-        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
-        else {variavel_text.style.display='none';}
+
+    var attributeD1=[]
+    function check_dropdown7(clicked_id){
+        var attr = document.getElementById(clicked_id).innerText
+        var index = attributeD1.indexOf(attr)
+        if(index>-1){
+            document.getElementById('data-flow1-text-'+attr).remove()
+            attributeD1.splice(index,1);
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center;'
+        }
+        else{
+            document.getElementById('boxAttributes').innerHTML += "<p id='data-flow1-text-"+attr+"' >Last assigned value of "+attr+" attribute prior to event(D1)</p>"
+            attributeD1.push(document.getElementById(clicked_id).innerText)
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+        }
     }
-    function check_dropdown8(){
-        var variavel_text = document.getElementById('data-flow2-text')
-        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
-        else {variavel_text.style.display='none';}
+    
+    var attributeD2=[]
+    function check_dropdown8(clicked_id){
+        var attr = document.getElementById(clicked_id).innerText
+        var index = attributeD2.indexOf(attr)
+        if(index>-1){
+            document.getElementById('data-flow2-text-'+attr).remove()
+            attributeD2.splice(index,1);
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center;'
+        }
+        else{
+            document.getElementById('boxAttributes').innerHTML += "<p id='data-flow2-text-"+attr+"' >Last assigned value of "+attr+" attribute after current event(D2)</p>"
+            attributeD2.push(document.getElementById(clicked_id).innerText)
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+        }
     }
-    function check_dropdown9(){
-        var variavel_text = document.getElementById('data-flow3-text')
-        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
-        else {variavel_text.style.display='none';}
+
+    var attributeD3=[]
+    function check_dropdown9(clicked_id){
+        var attr = document.getElementById(clicked_id).innerText
+        var index = attributeD3.indexOf(attr)
+        if(index>-1){
+            document.getElementById('data-flow3-text-'+attr).remove()
+            attributeD3.splice(index,1);
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center;'
+        }
+        else{
+            document.getElementById('boxAttributes').innerHTML += "<p id='data-flow3-text-"+attr+"' >Average value of "+attr+" attribute after current event(D3)</p>"
+            attributeD3.push(document.getElementById(clicked_id).innerText)
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+        }
     }
-    function check_dropdown10(){
-        var variavel_text = document.getElementById('data-flow4-text')
-        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
-        else {variavel_text.style.display='none';}
+    
+    var attributeD4=[]
+    function check_dropdown10(clicked_id){
+        var attr = document.getElementById(clicked_id).innerText
+        var index = attributeD4.indexOf(attr)
+        if(index>-1){
+            document.getElementById('data-flow4-text-'+attr).remove()
+            attributeD4.splice(index,1);
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center;'
+        }
+        else{
+            document.getElementById('boxAttributes').innerHTML += "<p id='data-flow4-text-"+attr+"' >Max value of "+attr+" attribute after current event(D4)</p>"
+            attributeD4.push(document.getElementById(clicked_id).innerText)
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+        }
     }
-    function check_dropdown11(){
-        var variavel_text = document.getElementById('data-flow5-text')
-        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
-        else {variavel_text.style.display='none';}
+
+    var attributeD5=[]
+    function check_dropdown11(clicked_id){
+        var attr = document.getElementById(clicked_id).innerText
+        var index = attributeD5.indexOf(attr)
+        if(index>-1){
+            document.getElementById('data-flow5-text-'+attr).remove()
+            attributeD5.splice(index,1);
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center;'
+        }
+        else{
+            document.getElementById('boxAttributes').innerHTML += "<p id='data-flow5-text-"+attr+"' >Min value of "+attr+" attribute after current event(D4)</p>"
+            attributeD5.push(document.getElementById(clicked_id).innerText)
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+        }
     }
-    function check_dropdown12(){
-        var variavel_text = document.getElementById('data-flow6-text')
-        if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
-        else {variavel_text.style.display='none';}
+
+    var attributeD6=[]
+    function check_dropdown12(clicked_id){
+        var attr = document.getElementById(clicked_id).innerText
+        var index = attributeD6.indexOf(attr)
+        if(index>-1){
+            document.getElementById('data-flow6-text-'+attr).remove()
+            attributeD6.splice(index,1);
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center;'
+        }
+        else{
+            document.getElementById('boxAttributes').innerHTML += "<p id='data-flow6-text-"+attr+"' >Sum value of "+attr+" attribute after current event(D4)</p>"
+            attributeD6.push(document.getElementById(clicked_id).innerText)
+            document.getElementById(clicked_id).style='padding:0px 0px 20px 0px; text-align: center; background-color:lightblue; color:white'
+        }
     }
+
     function check_dropdown13(){
         var variavel_text = document.getElementById('control-flow1-text')
         if (variavel_text.style.display=='none'){variavel_text.style.display='block';}
@@ -201,41 +337,35 @@
         if (document.getElementById('workload2-text').style.display=='block'){
             listattributes.push("R2")
         }
-        if (document.getElementById('data-flow1-text').style.display=='block'){
+        if (attributeD1.length!=0){
             listattributes.push("D1")
-            let additional_input = prompt("Attribute D1 requires an event attribute as input such as: Resource?");
-            console.log("Chosen attribute for D1"+ additional_input)
-            listExtraInput.push('D1:' + additional_input)
+            console.log("Chosen attribute for D1"+ attributeD1)
+            listExtraInput.push('D1:' + attributeD1)
         }
-        if (document.getElementById('data-flow2-text').style.display=='block'){
+        if (attributeD2.length!=0){
             listattributes.push("D2")
-            let additional_input = prompt("Attribute D2 requires an event attribute as input such as: Resource?");
-            console.log("Chosen attribute for D2"+ additional_input)
-            listExtraInput.push('D2:' + additional_input)
+            console.log("Chosen attribute for D2"+ attributeD2)
+            listExtraInput.push('D2:' + attributeD2)
         }
-        if (document.getElementById('data-flow3-text').style.display=='block'){
+        if (attributeD3.length!=0){
             listattributes.push("D3")
-            let additional_input = prompt("Attribute D3 requires an event attribute as input such as: Resource?");
-            console.log("Chosen attribute for D3"+ additional_input)
-            listExtraInput.push('D3:' + additional_input)
+            console.log("Chosen attribute for D3"+ attributeD3)
+            listExtraInput.push('D3:' + attributeD3)
         }
-        if (document.getElementById('data-flow4-text').style.display=='block'){
+        if (attributeD4.length!=0){
             listattributes.push("D4")
-            let additional_input = prompt("Attribute D4 requires an event attribute as input such as: Resource?");
-            console.log("Chosen attribute for D4"+ additional_input)
-            listExtraInput.push('D4:' + additional_input)
+            console.log("Chosen attribute for D4"+ attributeD4)
+            listExtraInput.push('D4:' + attributeD4)
         }
-        if (document.getElementById('data-flow5-text').style.display=='block'){
-            listattributes.push("D6")
-            let additional_input = prompt("Attribute D5 requires an event attribute as input such as: Resource?");
-            console.log("Chosen attribute for D5"+ additional_input)
-            listExtraInput.push('D5:' + additional_input)
+        if (attributeD5.length!=0){
+            listattributes.push("D5")
+            console.log("Chosen attribute for D5"+ attributeD5)
+            listExtraInput.push('D5:' + attributeD5)
         }
-        if (document.getElementById('data-flow6-text').style.display=='block'){
+        if (attributeD6.length!=0){
             listattributes.push("D6")
-            let additional_input = prompt("Attribute D6 requires an event attribute as input such as: Resource?");
-            console.log("Chosen attribute for D6"+ additional_input)
-            listExtraInput.push('D6:' + additional_input)
+            console.log("Chosen attribute for D6"+ attributeD6)
+            listExtraInput.push('D6:' + attributeD6)
         }
         if (document.getElementById('control-flow1-text').style.display=='block'){
             listattributes.push("C1")
