@@ -42,7 +42,7 @@
     if (targetNameList.length==0){
         document.getElementById('imgtreebox').style.display = "none";
         document.getElementById('clusterbutton').style.display = "none";
-        document.getElementById('DTTarget').innerHTML = 'Could not create a Decision Tree. Please do not chose a datetime attribute as either dependent or independent attribute.';
+        document.getElementById('DTTarget').innerHTML = 'Could not create a Decision Tree. Please do not choose a datetime attribute or those with special input such as NaN, infinity or too large for float32 as either dependent or independent attribute.';
         document.getElementById('DTTarget').style = 'font-size: 20px ; position: absolute; top: 35%; left: 18%; right: 15%; text-align: center;';
 
     }
