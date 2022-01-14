@@ -41,7 +41,7 @@ def add_T1(log):
             for event in trace:  
                 # check if transition is there(should be a given, since it has been designated) and if so whether its complete
                 if log_utils.lifecycle_transition_attr in event:
-                    if event[log_utils.lifecycle_transition_attr] == 'Complete' or event[log_utils.lifecycle_transition_attr] == 'complete':
+                    if event[log_utils.lifecycle_transition_attr] == 'Complete' or event[log_utils.lifecycle_transition_attr] == 'complete' or event[log_utils.lifecycle_transition_attr] == 'COMPLETE':
                         event['ActivityTime(T1)'] = actTime(trace, event)
                 # should never be reached, as a lifecycle attribute has been designated
                 else:
@@ -79,7 +79,7 @@ def actTime(trace, event):
         # check for same activity as event but with transition = Start
         if before:
             if ev[log_utils.activity_attr] == event[log_utils.activity_attr]:
-                if ev[log_utils.lifecycle_transition_attr] == 'Start' or ev[log_utils.lifecycle_transition_attr] == 'start':
+                if ev[log_utils.lifecycle_transition_attr] == 'Start' or ev[log_utils.lifecycle_transition_attr] == 'start' or ev[log_utils.lifecycle_transition_attr] == 'START':
                     act_start = ev[log_utils.timestamp_attr]
 
         # update before
@@ -103,8 +103,8 @@ def actTime(trace, event):
             if before:
                 previous_time = ev[log_utils.timestamp_attr]
 
-        act_dur = event[log_utils.timestamp_attr] - previous_time
         if previous_time != 0:
+            act_dur = event[log_utils.timestamp_attr] - previous_time
             return act_dur
         # if event without corresponding start event was the trace's first event, return 0
         else:
