@@ -32,9 +32,16 @@
 </div>
 
 <script>
-
+    var curLog ={{curLog|safe}};
     // gets the list of attributes from the current event log
     var attributesNames = {{attributesNames|safe}};
+
+    //alert if there is log log setted
+    if (curLog==''){
+        alert('You have no Event Log setted, please go back to Import page!')
+        location.href='/Import/'
+    }
+
     // presents the attributes for the user to choose the dependent and independent attributes
     var strDependent = ''
     attributesNames.forEach(function(attr){

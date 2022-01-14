@@ -153,8 +153,13 @@ def saveAttrNames(request):
 def attributes(request):
     context={}
     # context['attributesNames']=json.dumps(log_utils.get_log_attributes())
-    context['attributesNames']=json.dumps(pm4py.get_attributes(log_utils.get_log()))
-    context['numericalAttributesNames']=json.dumps(log_utils.get_numerical_attributes())
+    if log_utils.cur_log!='':
+        context['attributesNames']=json.dumps(pm4py.get_attributes(log_utils.get_log()))
+        context['numericalAttributesNames']=json.dumps(log_utils.get_numerical_attributes())
+    else:
+        context['attributesNames']=[]
+        context['numericalAttributesNames']=[]
+    context['curLog']=json.dumps(log_utils.cur_log)
     return render(request, 'ProjectApp/Attributes.html', context)
 
 # gets called after update event log button is clicked, gets a request with a string for derivable attributes and extraInfos
@@ -194,6 +199,7 @@ def filters(request):
     context['lifeCycleAttr']=json.dumps(log_utils.lifecycle_transition_attr)
     context['activities']=json.dumps(log_utils.get_attr_values(log_utils.activity_attr))
     context['resources']=json.dumps(log_utils.get_attr_values(log_utils.resource_attr))
+    context['curLog']=json.dumps(log_utils.cur_log)
     return render(request, 'ProjectApp/Filters.html', context)
 
 # gets called after Filter event log button is clicked, gets a request with a string for chosen filters and extra Input
@@ -228,14 +234,15 @@ def filtereventlog(request):
 
 def useCase(request):
     '''Gets called upon visiting UseCase, returns the attributes of the log per json'''
-    
-    all_log_attr = pm4py.get_attributes(log_utils.get_log())
 
     #add attribute names to UseCase.html
     context={}
-    context['attributesNames']=json.dumps(all_log_attr)
+    if log_utils.cur_log!='':
+        context['attributesNames']=json.dumps(pm4py.get_attributes(log_utils.get_log()))   
+    else:
+        context['attributesNames']=[]
+    context['curLog']=json.dumps(log_utils.cur_log)
     return render(request, 'ProjectApp/UseCase.html', context)
-
 
 
 

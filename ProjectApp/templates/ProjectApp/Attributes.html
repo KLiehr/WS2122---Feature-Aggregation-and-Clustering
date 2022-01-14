@@ -101,8 +101,15 @@
 </div>
 
 <script>
+    var curLog = {{curLog|safe}};
     var attributesNames = {{attributesNames|safe}};
     var numericalAttributesNames = {{numericalAttributesNames|safe}};
+
+    //alert if there is log log setted
+    if (curLog==''){
+        alert('You have no Event Log setted, please go back to Import page!')
+        location.href='/Import/'
+    }
 
     // presents the attributes for the user to choose in D1
     var strD1 = ''

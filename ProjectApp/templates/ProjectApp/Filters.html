@@ -35,10 +35,18 @@
 </div>  
 
 <script>
+    var curLog ={{curLog|safe}};
     var lifeCycleAttr = {{lifeCycleAttr|safe}};
     var activities = {{activities|safe}};
     var resources = {{resources|safe}};
 
+    //alert if there is log log setted
+    if (curLog==''){
+        alert('You have no Event Log setted, please go back to Import page!')
+        location.href='/Import/'
+    }
+
+    //If there is no LifeCycle attribute, filters 4 and 5 are not aplicable
     if (lifeCycleAttr=='NO LIFECYCLE ATTRIBUTE IN LOG'){
         document.getElementById('filter4').style.display = "none";
         document.getElementById('filter5').style.display = "none";
