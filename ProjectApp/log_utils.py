@@ -33,6 +33,15 @@ last_pred = []
 # Latest created sublogs # TODO replace global variable with better solution
 last_sublogs = []
 
+# logs event attrs
+log_ev_attrs = []
+
+# logs numerical event attrs
+num_log_ev_attrs = []
+
+# base log, do not change after set!!!
+base_log = []
+
 def getPathOfLogFile():
     '''returns path to log file '''
     # check if a log file is set
@@ -94,8 +103,7 @@ def isXES():
     '''IMPORTANT: We assume the file to be either csv and xes, named our_file to be there
      returns true if our file is an XES file
      else return false '''
-    # there should only ever be one file, so just take first element of dir's list
-    list_of_files = os.listdir(getPathOfLogDir())
+ 
 
     # check if a log file is set
     if cur_log == '':
@@ -183,7 +191,7 @@ def get_df_of_log(log):
     return df
 
 
-# gets event attributes by columns
+# gets event attributes and TRACE ATTRS by columns
 def get_log_attributes():
     '''Returns event AND TRACE level attributes of the given log'''
 
@@ -201,7 +209,7 @@ def get_log_attributes():
 
     return list(log_df.columns)
 
-    # return list(log[0][0].keys())
+
 
 
 # gets event level attributes which can be cast to float
@@ -214,19 +222,12 @@ def get_numerical_attributes():
         return 'NoLogFileSet'
 
     # get df of log FILE 
-    if isXES():
-        variant = xes_importer.Variants.ITERPARSE
-        log = xes_importer.apply(getPathOfLogFile(), variant=variant)
-        log_df = get_df_of_log(log)
-    else:
-        log_df = pd.read_csv(getPathOfLogFile(), sep=',')
-
-    all_attrs = pm4py.get_attributes(get_log())
+    log_df = get_df_of_log(base_log)
 
     num_attrs = []
 
     # check for each attribute by casting to float all values, whether or not it's numerical
-    for attr in all_attrs:
+    for attr in log_ev_attrs:
         try:
             if isNumerical(log_df, attr):
                 num_attrs.append(attr)
@@ -269,13 +270,8 @@ def get_attr_values(chosen_attr):
         print('Error: Called get_log_attributes but !!!No Log File Set!!!')
         return 'NoLogFileSet'
 
-    # get df of log FILE 
-    if isXES():
-        variant = xes_importer.Variants.ITERPARSE
-        log = xes_importer.apply(getPathOfLogFile(), variant=variant)
-        log_df = get_df_of_log(log)
-    else:
-        log_df = pd.read_csv(getPathOfLogFile(), sep=',')
+    # get df of log FILE
+    log_df = get_df_of_log(base_log)
 
     # get different values existing in the log
     attr_values = list(log_df[chosen_attr].unique())

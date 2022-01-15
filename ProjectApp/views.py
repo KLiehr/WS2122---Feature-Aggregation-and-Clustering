@@ -1,3 +1,4 @@
+from distutils import log
 from math import log10
 import pm4py
 from pm4py.objects.log.importer.xes import importer as xes_importer
@@ -116,7 +117,7 @@ def importCSVXES(request):
     return render(request, 'ProjectApp/Import.html', context)
 
 def attrType(request):
-    '''Gets called when clicking Upload EventLog on Import page
+    '''Gets called when clicking Set EventLog on Import page
     Opens the attribute type page and gets the attributes in the file'''
     arrayAttr = log_utils.get_log_attributes()
     print(arrayAttr)
@@ -147,6 +148,20 @@ def saveAttrNames(request):
         print('Start Time Attributes:' + log_utils.start_time_attr)
         print('End Time Attributes:' + log_utils.end_time_attr)
 
+        # set some more globals
+        log_utils.base_log = log_utils.get_log()
+        print('Set base log!')
+        
+        log_utils.log_ev_attrs = pm4py.get_attributes(log_utils.base_log)
+        print('Set log event atttributes to: ')
+        print(log_utils.log_ev_attrs)
+
+        log_utils.num_log_ev_attrs = log_utils.get_numerical_attributes()
+        print('Set numerical log event atttributes to: ')
+        print(log_utils.num_log_ev_attrs)
+
+        print('SAVED SUCCESFULLY SET DATA FOR LOG')
+
     return JsonResponse({'post':'false'})
 
 
@@ -154,8 +169,8 @@ def attributes(request):
     context={}
     # context['attributesNames']=json.dumps(log_utils.get_log_attributes())
     if log_utils.cur_log!='':
-        context['attributesNames']=json.dumps(pm4py.get_attributes(log_utils.get_log()))
-        context['numericalAttributesNames']=json.dumps(log_utils.get_numerical_attributes())
+        context['attributesNames']=json.dumps(log_utils.log_ev_attrs)
+        context['numericalAttributesNames']=json.dumps(log_utils.num_log_ev_attrs)
     else:
         context['attributesNames']=[]
         context['numericalAttributesNames']=[]
@@ -173,12 +188,12 @@ def updateeventlog(request):
         print('Extra Info: ' + ExtraAttributes)
         #print('Relevant attribute names: ' + UserAttrNames)
         
-        # get log
+        # get new log, cause it will be worked on
         log = log_utils.get_log()
 
         # print event attributes(only event level)
         print('Event attributes of log:')
-        print(pm4py.get_attributes(log))
+        print(log_utils.log_ev_attrs)
 
         # call function to add all atributes 
         print('calling add_Attributes')
@@ -238,7 +253,7 @@ def useCase(request):
     #add attribute names to UseCase.html
     context={}
     if log_utils.cur_log!='':
-        context['attributesNames']=json.dumps(pm4py.get_attributes(log_utils.get_log()))   
+        context['attributesNames']=json.dumps(log_utils.log_ev_attrs)   
     else:
         context['attributesNames']=[]
     context['curLog']=json.dumps(log_utils.cur_log)
