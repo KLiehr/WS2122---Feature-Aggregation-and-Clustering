@@ -52,13 +52,13 @@ def split_log(log, prediction):
 
     return sublogs
 
-
+    
 
 
 
 def get_petri_net(log):
     '''Given a log, return a petri net'''
-    net, initial_marking, final_marking = inductive_miner.apply(log)
+    net, initial_marking, final_marking = inductive_miner.apply(log, parameters= {inductive_miner.Variants.IM.value.Parameters.ACTIVITY_KEY: log_utils.activity_attr}) 
 
     return net, initial_marking, final_marking
 
