@@ -1,5 +1,6 @@
 from distutils import log
 from math import log10
+from operator import truediv
 import pm4py
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.log.exporter.xes import exporter as xes_exporter
@@ -125,11 +126,12 @@ def attrType(request):
     context={}
     context['attributesNames']=json.dumps(arrayAttr)
     return render(request, 'ProjectApp/AttrType.html', context)
+    
+
 
 @csrf_exempt
 def saveAttrNames(request):
     '''Gets called when clicking Save on AttrType page'''
-
     if request.method == 'POST':
         log_utils.case_id_attr = str(request.POST.get('caseID'))
         log_utils.activity_attr = str(request.POST.get('activity'))
@@ -138,7 +140,6 @@ def saveAttrNames(request):
         log_utils.lifecycle_transition_attr = str(request.POST.get('lifecycle'))
         log_utils.start_time_attr = str(request.POST.get('startTime'))
         log_utils.end_time_attr = str(request.POST.get('endTime'))
-
 
         print('CaseID Attribute:' + log_utils.case_id_attr)
         print('Activity Attributes:' + log_utils.activity_attr)
@@ -163,6 +164,7 @@ def saveAttrNames(request):
         print('SAVED SUCCESFULLY SET DATA FOR LOG')
 
     return JsonResponse({'post':'false'})
+
 
 
 def attributes(request):

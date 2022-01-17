@@ -58,6 +58,10 @@
     
 </div>
 
+<div id='loading' style='position: absolute; top: 220%; left: 48%; right: 39%; display:none;'>
+    <img  style=' width: 57px; height: 60px; 'src='https://icon-library.com/images/loading-icon-transparent-background/loading-icon-transparent-background-12.jpg'>
+</div>
+
 <div style='position: absolute; top: 230%; left: 15%; right: 15%; text-align: center;'>
 
     <button id="saveButton" type='button' onclick='SaveAttrNames()' style='visibility:hidden; margin-top:10%; width: 220px; border-radius: 8px; padding: 14px 40px; font-size: 20px; background-color: #555555; color: white;'> 
@@ -216,6 +220,7 @@
 
 
     function SaveAttrNames(){
+        document.getElementById('loading').style.display='block'
 
         let data =new FormData();
         data.append('caseID',caseID)
@@ -232,9 +237,10 @@
         body: data
         })
         .then((res) => { return res.text(); })
-        .then((txt) => { console.log(txt); });
-        alert('Your Event Log Is Saved!!!')
-        location.href="/Import"
+        .then((txt) => { location.href="/Import";
+        alert('Your Event Log Is Saved!!!');});
+        
+        //console.log(txt);
     }
 
 

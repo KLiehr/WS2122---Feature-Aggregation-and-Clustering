@@ -80,6 +80,10 @@
     
 </div>
 
+<div id='loading' style='position: absolute; top: 50%; left: 57%; right: 30%; display:none;'>
+    <img  style=' width: 60px; height: 60px; 'src='https://icon-library.com/images/loading-icon-transparent-background/loading-icon-transparent-background-12.jpg'>
+</div>
+
 <div style='position: absolute; top: 27%; left: 65%; right: 5%; text-align: center;'>
     <h1>Attributes to derive:</h1>
     <div id='boxAttributes' style='border: 1px solid black; width: 380px; height: 200px; overflow:auto;'>
@@ -301,7 +305,9 @@
     // turns the chosen attributes into javascript list of their abbreviation ID(R1, T3, etc.)
     // IMPORTANT for functions with additional input, add after their list attribute push, see for example D1
     // finally does ajax upload
-    function updateButton() {    
+    function updateButton() {  
+        
+        document.getElementById('loading').style.display='block';
         
         const listattributes = []
         const listExtraInput = []
@@ -411,10 +417,10 @@
         body: data
         })
         .then((res) => { return res.text(); })
-        .then((txt) => { console.log(txt); });
-        alert('Your new event log is saved!')
+        .then((txt) => {document.getElementById('loading').style.display='none';
+                        alert('Your new event log is saved!'); });
+        
     }
-
 
     
 </script>
